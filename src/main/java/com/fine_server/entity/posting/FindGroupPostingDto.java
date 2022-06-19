@@ -1,8 +1,5 @@
 package com.fine_server.entity.posting;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 /**
@@ -11,9 +8,11 @@ import java.time.LocalDateTime;
  * LastModifiedPerson : hyunseung
  */
 
-@Getter
-@NoArgsConstructor
-public class FindAllPostingDto {
+public class FindGroupPostingDto {
+
+    /*
+        메모장 : 일단 내가 생각하는 그룹 포스팅에 필요한 것들을 넣어놨어. 확인해보고 변경할 게 있으면 변경하면 돼!
+     */
 
     private Long postingId;
     private Long memberId;
@@ -26,11 +25,9 @@ public class FindAllPostingDto {
 
     private Integer maxMember;
     private Boolean closingCheck;
-    private Boolean groupCheck;
 
-    public FindAllPostingDto(Long postingId, Long memberId, String title, String content, LocalDateTime endTime,
-                             LocalDateTime createdDate, LocalDateTime lastModifiedDate,
-                             Integer maxMember, Boolean closingCheck, Boolean groupCheck) {
+    public FindGroupPostingDto(Long postingId, Long memberId, String title, String content, LocalDateTime endTime,
+                               LocalDateTime createdDate, LocalDateTime lastModifiedDate, Integer maxMember, Boolean closingCheck) {
         this.postingId = postingId;
         this.memberId = memberId;
         this.title = title;
@@ -40,6 +37,5 @@ public class FindAllPostingDto {
         this.lastModifiedDate = lastModifiedDate;
         this.maxMember = maxMember;
         this.closingCheck = closingCheck;
-        this.groupCheck = groupCheck;
     }
 }
