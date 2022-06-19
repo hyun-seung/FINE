@@ -50,4 +50,12 @@ public class PostingService {
         }
         return postingDtos;
     }
+
+    // 포스팅 한 개 불러오기
+    @Transactional(readOnly = true)
+    public Posting findPosting(Long postingId) {
+        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
+        Posting posting = optionalPosting.get();
+        return posting;
+    }
 }
