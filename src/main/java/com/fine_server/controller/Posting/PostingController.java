@@ -1,6 +1,6 @@
-package com.fine_server.Controller.Posting;
+package com.fine_server.controller.Posting;
 
-import com.fine_server.Service.Posting.PostingService;
+import com.fine_server.service.Posting.PostingService;
 import com.fine_server.entity.Posting;
 import com.fine_server.entity.posting.FindAllPostingDto;
 import com.fine_server.entity.posting.PostingCreateDto;
@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -42,4 +43,22 @@ public class PostingController {
         Posting save = postingService.make(postingCreateDto, memberId);
         return save;
     }
+
+    /**
+     * written by eunhye
+     * date: 22.06.11
+     */
+
+    @GetMapping("/posting/group")
+    public List<FindAllPostingDto> getGroupPostings() {
+        List<FindAllPostingDto> postings = postingService.findGroupPostings();
+        return postings;
+    }
+
+    @GetMapping("/posting/{postingId}")
+    public Optional<Posting> getPosting(@PathVariable Long postingId) {
+        Optional<Posting> posting = postingService.findOne(postingId);
+        return posting;
+    }
+
 }

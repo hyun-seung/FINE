@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -38,6 +39,19 @@ public class Posting extends BaseEntity {
     private String content;
 
     private LocalDateTime endTime;
+
+    /**
+     * written by eunhye
+     * date: 22.06.11
+     */
+
+    @ColumnDefault("2")
+    private Integer maxMember;
+
+    @ColumnDefault("false")
+    private Boolean closing_check;
+    private Boolean group_check;
+
 
     // 포스팅 작성 시, member와의 관계 설정
     public void setMember(Member member) {

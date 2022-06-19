@@ -1,8 +1,8 @@
-package com.fine_server.Controller.mypage;
+package com.fine_server.controller.mypage;
 
-import com.fine_server.Service.mypage.MemberService;
-import com.fine_server.Controller.mypage.errors.ErrorResult;
-import com.fine_server.Controller.mypage.errors.UserException;
+import com.fine_server.controller.mypage.errors.UserException;
+import com.fine_server.service.mypage.MemberService;
+import com.fine_server.controller.mypage.errors.ErrorResult;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.mypage.MemberDto;
 import lombok.AllArgsConstructor;

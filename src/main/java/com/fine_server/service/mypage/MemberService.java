@@ -1,8 +1,8 @@
-package com.fine_server.Service.mypage;
+package com.fine_server.service.mypage;
 
 import com.fine_server.entity.Member;
 import com.fine_server.entity.mypage.MemberDto;
-import com.fine_server.Repository.MemberRepository;
+import com.fine_server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

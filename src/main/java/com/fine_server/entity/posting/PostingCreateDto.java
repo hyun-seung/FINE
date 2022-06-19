@@ -28,11 +28,24 @@ public class PostingCreateDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime endTime;
 
+    @NotBlank(message = "최대 인원을 설정해주세요")
+    private Integer maxMember;
+
+    private Boolean closingCheck;
+
+    /**
+     * written by eunhye
+     * date: 22.06.15
+     */
+
+
     public Posting toEntity(){
         return Posting.builder()
                 .title(title)
                 .content(content)
                 .endTime(endTime)
+                .maxMember(maxMember)
+                .closing_check(closingCheck)
                 .build();
     }
 }

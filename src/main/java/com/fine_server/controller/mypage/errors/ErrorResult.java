@@ -1,4 +1,4 @@
-package com.fine_server.Controller.mypage.errors;
+package com.fine_server.controller.mypage.errors;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

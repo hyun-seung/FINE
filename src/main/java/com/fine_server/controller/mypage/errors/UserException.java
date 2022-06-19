@@ -1,4 +1,4 @@
-package com.fine_server.Controller.mypage.errors;
+package com.fine_server.controller.mypage.errors;
 
 /**
  * written by dahae
