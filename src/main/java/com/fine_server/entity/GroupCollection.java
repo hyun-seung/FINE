@@ -15,7 +15,6 @@ import static lombok.AccessLevel.PROTECTED;
  * date: 22.06.16
  */
 
-
 @Entity
 @Getter
 @Builder
@@ -37,7 +36,5 @@ public class GroupCollection {
     @JoinColumn(name = "member_id")
     @JsonIgnore
     private Member member;
-
-
-
+    
 }

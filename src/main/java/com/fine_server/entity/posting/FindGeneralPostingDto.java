@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class FindAllPostingDto {
+public class FindGeneralPostingDto {
 
     private Long postingId;
-    private Long memberId;
+    private Long memeberId;
     private String title;
     private String content;
     private LocalDateTime endTime;
@@ -24,22 +24,17 @@ public class FindAllPostingDto {
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
-    private Integer maxMember;
     private Boolean closingCheck;
-    private Boolean groupCheck;
 
-    public FindAllPostingDto(Long postingId, Long memberId, String title, String content, LocalDateTime endTime,
-                             LocalDateTime createdDate, LocalDateTime lastModifiedDate,
-                             Integer maxMember, Boolean closingCheck, Boolean groupCheck) {
+    public FindGeneralPostingDto(Long postingId, Long memeberId, String title, String content, LocalDateTime endTime,
+                                 LocalDateTime createdDate, LocalDateTime lastModifiedDate, Boolean closingCheck) {
         this.postingId = postingId;
-        this.memberId = memberId;
+        this.memeberId = memeberId;
         this.title = title;
         this.content = content;
         this.endTime = endTime;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
-        this.maxMember = maxMember;
         this.closingCheck = closingCheck;
-        this.groupCheck = groupCheck;
     }
 }
