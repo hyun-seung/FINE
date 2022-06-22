@@ -1,9 +1,16 @@
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/finedb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+#    username: fine_db
+#    password:
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/finedb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: 1234
+    url: jdbc:mysql://fine.cwvwlhmmtlyg.us-east-1.rds.amazonaws.com:3306/fine_database?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: d4a1b2c3!
 
 #다해 : mysql 연결이 계속 실패해서 일단 있던 db 연결해 둔 것 삭제 X
 #spring:

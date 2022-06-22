@@ -7,6 +7,11 @@ import com.fine_server.entity.mypage.MemberDto;
 import com.fine_server.service.mypage.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -49,6 +54,15 @@ public class MyPageController {
             throw new UserException("사용자를 찾지 못하였습니다.");
         }
     }
+
+    @ResponseBody
+    @GetMapping("/mypage/mypost/{memberId}")
+    public ResponseEntity<Member> mypost(@PathVariable Long memberId, @PageableDefault(size = 5, sort = "lastModified",
+            direction = Sort.Direction.DESC) Pageable pageable, PagedResourcesAssembler<Plan> assembler){
+        Page<Plan> plans =  planService.getMyPublishedPlans(account, pageable);
+    }
+
+
 
     @ExceptionHandler
     public ResponseEntity<ErrorResult> userExHandler (UserException e) {
