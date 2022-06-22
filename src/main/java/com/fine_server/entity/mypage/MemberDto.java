@@ -27,5 +27,4 @@ public class MemberDto {
                 .nickname(nickname)
                 .build();
     }
-
 }
