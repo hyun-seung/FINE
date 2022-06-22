@@ -1,12 +1,15 @@
 package com.fine_server.controller.mypage;
 
 import com.fine_server.controller.mypage.errors.UserException;
+import com.fine_server.entity.Posting;
 import com.fine_server.service.mypage.MemberService;
 import com.fine_server.controller.mypage.errors.ErrorResult;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.mypage.MemberDto;
+import com.fine_server.service.mypage.MyPageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -19,6 +22,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -31,6 +35,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class MyPageController {
     private final MemberService memberService;
+    private final MyPageService myPageService;
 
     @PostMapping("/signUp")
     public ResponseEntity<Member> signUp(@RequestBody @Valid MemberDto memberDto, BindingResult bindingResult, Errors errors) {
@@ -58,6 +63,10 @@ public class MyPageController {
     @GetMapping("/mypage/mypost/{memberId}")
     public void mypost(@PathVariable Long memberId, @PageableDefault(size = 5, sort = "lastModified",
             direction = Sort.Direction.DESC) Pageable pageable, PagedResourcesAssembler<Plan> assembler){
+        List<Member> posts = myPageService.getMyPost(memberId, pageable);
+
+        PagedModel<EntityModel<PlanResponseDto>> entityModels =
+                assembler.toModel(plans, p -> PlanResource.modelOf(planService.createPlanResponse(p.getPlanManager(), p)));
     }
 
 

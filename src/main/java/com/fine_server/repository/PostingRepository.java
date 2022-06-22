@@ -1,9 +1,11 @@
 package com.fine_server.repository;
 
+import com.fine_server.entity.Member;
 import com.fine_server.entity.Posting;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * written by eunhye
@@ -19,4 +21,9 @@ public interface PostingRepository
 
     public List<Posting> findByGroupCheck(Boolean groupCheck);
 
+    /**
+     * add by.dahae
+     * date: 22.06.22
+     */
+    List<Member> findByMemberId(Long memberId);
 }
