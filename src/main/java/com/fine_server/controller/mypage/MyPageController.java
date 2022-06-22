@@ -7,7 +7,6 @@ import com.fine_server.entity.mypage.MemberDto;
 import com.fine_server.service.mypage.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -57,9 +56,8 @@ public class MyPageController {
 
     @ResponseBody
     @GetMapping("/mypage/mypost/{memberId}")
-    public ResponseEntity<Member> mypost(@PathVariable Long memberId, @PageableDefault(size = 5, sort = "lastModified",
+    public void mypost(@PathVariable Long memberId, @PageableDefault(size = 5, sort = "lastModified",
             direction = Sort.Direction.DESC) Pageable pageable, PagedResourcesAssembler<Plan> assembler){
-        Page<Plan> plans =  planService.getMyPublishedPlans(account, pageable);
     }
 
 
