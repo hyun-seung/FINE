@@ -9,11 +9,6 @@ import com.fine_server.entity.mypage.MemberDto;
 import com.fine_server.service.mypage.MyPageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -48,8 +43,19 @@ public class MyPageController {
         return new ResponseEntity(member,HttpStatus.OK);
     }
 
+    @PostMapping("/myPage/editProfile/{memberId}")
+    public ResponseEntity<Member> editProfile(@RequestBody @Valid MemberDto memberDto, @PathVariable Long memberId, BindingResult bindingResult, Errors errors) {
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+        Member member = memberService.editProfile(memberId,memberDto);
+
+        return new ResponseEntity(member,HttpStatus.OK);
+    }
+
     @ResponseBody
-    @GetMapping("/mypage/{memberId}")
+    @GetMapping("/myPage/{memberId}")
     public ResponseEntity<Member> profileTest(@PathVariable Long memberId){
         Optional<Member> findMember = memberService.findMember(memberId);
         if (!findMember.isEmpty()){
@@ -59,14 +65,15 @@ public class MyPageController {
         }
     }
 
+    /**
+     * add. 22.06.23
+     */
     @ResponseBody
-    @GetMapping("/mypage/mypost/{memberId}")
-    public void mypost(@PathVariable Long memberId, @PageableDefault(size = 5, sort = "lastModified",
-            direction = Sort.Direction.DESC) Pageable pageable, PagedResourcesAssembler<Plan> assembler){
-        List<Member> posts = myPageService.getMyPost(memberId, pageable);
+    @GetMapping("/myPage/myPost/{memberId}")
+    public ResponseEntity myPost(@PathVariable Long memberId){
+        List<Posting> posts = myPageService.getMyPost(memberId);
+        return ResponseEntity.ok(posts);
 
-        PagedModel<EntityModel<PlanResponseDto>> entityModels =
-                assembler.toModel(plans, p -> PlanResource.modelOf(planService.createPlanResponse(p.getPlanManager(), p)));
     }
 
 
