@@ -26,9 +26,20 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
 
-    // save account - test용
+    // save account for test
     public Member saveNewAccount(MemberDto memberDto) {
         memberRepository.save(memberDto.toEntity());
+        return memberDto.toEntity();
+    }
+
+    public Member editProfile(Long memberId, MemberDto memberDto) {
+        Optional<Member> findMember = memberRepository.findById(memberId);
+        Member member = findMember.get();
+
+        member.setIntro(memberDto.getIntro());
+        member.setNickname(memberDto.getNickname());
+        memberRepository.save(member);
+
         return memberDto.toEntity();
     }
 }

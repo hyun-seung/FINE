@@ -31,6 +31,7 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private String nickname;
     private String email;
+    private String intro; //자기소개
 
     @JsonIgnore
     private String password;
