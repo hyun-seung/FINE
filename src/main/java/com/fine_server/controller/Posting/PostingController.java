@@ -2,7 +2,6 @@ package com.fine_server.controller.Posting;
 
 import com.fine_server.Service.Posting.PostingService;
 import com.fine_server.entity.Posting;
-import com.fine_server.entity.posting.FindAllPostingDto;
 import com.fine_server.entity.posting.FindGeneralPostingDto;
 import com.fine_server.entity.posting.FindGroupPostingDto;
 import com.fine_server.entity.posting.PostingCreateDto;
@@ -22,7 +21,7 @@ import java.util.List;
 public class PostingController {
 
     /*
-        메모장 : 해당 글 수정 필요
+        메모장 : <생성>해당 글 수정, <생성>해당 글 마감 여부 변경
      */
 
     private final PostingService postingService;
@@ -32,13 +31,6 @@ public class PostingController {
     public Posting createPosting(@PathVariable Long memberId, @RequestBody PostingCreateDto postingCreateDto) {
         Posting save = postingService.make(postingCreateDto, memberId);
         return save;
-    }
-
-    // 전체(일반 + 단체) 글 조회
-    @GetMapping("/posting")
-    public List<FindAllPostingDto> getAllPostings() {
-        List<FindAllPostingDto> postings = postingService.findAllPostings();
-        return postings;
     }
 
     // 일반 글 목록 조회

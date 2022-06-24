@@ -18,7 +18,6 @@ public class FindGroupPostingDto {
     private Long memberId;
     private String title;
     private String content;
-    private LocalDateTime endTime;
 
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
@@ -26,13 +25,12 @@ public class FindGroupPostingDto {
     private Integer maxMember;
     private Boolean closingCheck;
 
-    public FindGroupPostingDto(Long postingId, Long memberId, String title, String content, LocalDateTime endTime,
+    public FindGroupPostingDto(Long postingId, Long memberId, String title, String content,
                                LocalDateTime createdDate, LocalDateTime lastModifiedDate, Integer maxMember, Boolean closingCheck) {
         this.postingId = postingId;
         this.memberId = memberId;
         this.title = title;
         this.content = content;
-        this.endTime = endTime;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
         this.maxMember = maxMember;

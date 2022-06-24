@@ -16,23 +16,26 @@ import java.time.LocalDateTime;
 public class FindGeneralPostingDto {
 
     private Long postingId;
-    private Long memeberId;
+
+    private String nickname;    // 작성자의 닉네임
+
     private String title;
     private String content;
-    private LocalDateTime endTime;
+    private int commentCount;
 
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
     private Boolean closingCheck;
 
-    public FindGeneralPostingDto(Long postingId, Long memeberId, String title, String content, LocalDateTime endTime,
+    public FindGeneralPostingDto(Long postingId, String nickname,
+                                 String title, String content, int commnetCount,
                                  LocalDateTime createdDate, LocalDateTime lastModifiedDate, Boolean closingCheck) {
         this.postingId = postingId;
-        this.memeberId = memeberId;
+        this.nickname = nickname;
         this.title = title;
         this.content = content;
-        this.endTime = endTime;
+        this.commentCount = commnetCount;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
         this.closingCheck = closingCheck;
