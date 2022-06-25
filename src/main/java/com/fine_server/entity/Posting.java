@@ -1,17 +1,12 @@
 package com.fine_server.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +14,13 @@ import static lombok.AccessLevel.PROTECTED;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.06.20
- * LastModifiedPerson : eunhye
+ * LastModifiedDate: 22.06.26
+ * LastModifiedPerson : hyunseung
  */
 
+@Builder
 @Entity
 @Getter
-@Builder
 @DynamicInsert
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
@@ -63,5 +58,17 @@ public class Posting extends BaseEntity {
     public void setMember(Member member) {
         this.member = member;
 //        member.getPostings().add(this);
+    }
+
+    public void updateText(String text) {
+        this.content = text;
+    }
+
+    public void changeClosingCheck() {
+        if(this.closing_check == false) {
+            this.closing_check = true;
+        } else {
+            this.closing_check = false;
+        }
     }
 }

@@ -1,15 +1,10 @@
 package com.fine_server.entity.posting;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fine_server.entity.Posting;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+
 
 /**
  * written by hyunseung , eunhye
