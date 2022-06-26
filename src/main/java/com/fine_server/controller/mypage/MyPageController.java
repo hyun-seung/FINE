@@ -65,6 +65,19 @@ public class MyPageController {
         }
     }
 
+
+    //친구 프로필 조회
+    @ResponseBody
+    @GetMapping("/profile/{memberId}")
+    public ResponseEntity<Member> profile(@PathVariable Long memberId){
+        Optional<Member> findMember = memberService.findMember(memberId);
+        if (!findMember.isEmpty()){
+            return new ResponseEntity(findMember, HttpStatus.OK);
+        }else{
+            throw new UserException("사용자를 찾지 못하였습니다.");
+        }
+    }
+
     /**
      * add. 22.06.23
      */
@@ -75,9 +88,7 @@ public class MyPageController {
         return ResponseEntity.ok(posts);
 
     }
-
-
-
+    
     @ExceptionHandler
     public ResponseEntity<ErrorResult> userExHandler (UserException e) {
         ErrorResult errorResult = new ErrorResult("사용자를 찾지 못하였습니다.",e.getMessage());

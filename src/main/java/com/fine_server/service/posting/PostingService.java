@@ -45,34 +45,20 @@ public class PostingService {
 
     // 해당 포스팅 불러오기
     @Transactional(readOnly = true)
-    public Optional<Posting> findPosting(Long postingId) {
+    public Posting findPosting(Long postingId) {
         Optional<Posting> posting = postingRepository.findById(postingId);
-        return posting;
-    }
-
-    // 포스팅 전체(일반, 그룹 모두) 불러오기
-    @Transactional(readOnly = true)
-    public List<FindAllPostingDto> findAllPostings() {
-        List<Posting> postings = postingRepository.findAll();
-        List<FindAllPostingDto> postingDtos = new ArrayList<>();
-        for(Posting posting : postings) {
-            FindAllPostingDto findAllPostingDto = new FindAllPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getEndTime(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check(), posting.getGroup_check()
-            );
-            postingDtos.add(findAllPostingDto);
-        }
-        return postingDtos;
+        return posting.get();
     }
 
     // 일반 포스팅 전체 불러오기
     @Transactional(readOnly = true)
     public List<FindGeneralPostingDto> findGeneralPostings() {
-        List<Posting> postings = postingRepository_detail.findGeneralPosting();
+        List<Posting> postings = postingRepository.findGeneralPosting();
         List<FindGeneralPostingDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindGeneralPostingDto findGeneralPostingDto = new FindGeneralPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getEndTime(),
+                    posting.getId(), posting.getMember().getNickname(),
+                    posting.getTitle(), posting.getContent(), posting.getComments().size(),
                     posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
             );
             postingDtos.add(findGeneralPostingDto);
@@ -83,11 +69,11 @@ public class PostingService {
     // 그룹 포스팅 전체 불러오기
     @Transactional(readOnly = true)
     public List<FindGroupPostingDto> findGroupPostings() {
-        List<Posting> postings = postingRepository_detail.findByGroupCheck(true);
+        List<Posting> postings = postingRepository.findGroupPosting();
         List<FindGroupPostingDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getEndTime(),
+                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(),
                     posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
             );
             postingDtos.add(findGroupPostingDto);
