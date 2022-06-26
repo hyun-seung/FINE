@@ -1,6 +1,7 @@
 package com.fine_server.controller.mypage;
 
 import com.fine_server.controller.mypage.errors.UserException;
+import com.fine_server.entity.Keyword;
 import com.fine_server.entity.Posting;
 import com.fine_server.entity.mypage.MemberResponseDto;
 import com.fine_server.service.mypage.KeywordService;
@@ -19,6 +20,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +49,7 @@ public class MyPageController {
     }
 
     /**
-     * add. 22.06.26
+     * edit. 22.06.26
      */
     @PostMapping("/myPage/editProfile/{memberId}")
     public ResponseEntity<Member> editProfile(@RequestBody @Valid MemberRequestDto memberRequestDto, @PathVariable Long memberId, BindingResult bindingResult, Errors errors) {
@@ -73,17 +75,34 @@ public class MyPageController {
         }
     }
 
-
-    //친구 프로필 조회
+    /**
+     * edit. 22.06.26
+     * 친구 프로필 조회
+     */
     @ResponseBody
     @GetMapping("/profile/{memberId}")
     public ResponseEntity<Member> profile(@PathVariable Long memberId){
         Optional<Member> findMember = memberService.findMember(memberId);
+
         if (!findMember.isEmpty()){
-            return new ResponseEntity(findMember, HttpStatus.OK);
+            MemberResponseDto memberResponseDto = getMemberResponseDto(findMember);
+            return new ResponseEntity(memberResponseDto, HttpStatus.OK);
         }else{
             throw new UserException("사용자를 찾지 못하였습니다.");
         }
+    }
+
+    private MemberResponseDto getMemberResponseDto(Optional<Member> findMember) {
+        Member member = findMember.get();
+        List<Keyword> keywordEntityList = keywordService.findByMemberId(member);
+        List<String> keywordList = new ArrayList<>();
+
+        for(Keyword keyword: keywordEntityList) {
+            keywordList.add(keyword.getKeyword());
+        }
+
+        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getIntro(),keywordList);
+        return memberResponseDto;
     }
 
     /**

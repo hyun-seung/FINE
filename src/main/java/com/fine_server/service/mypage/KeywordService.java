@@ -1,5 +1,6 @@
 package com.fine_server.service.mypage;
 
+import com.fine_server.entity.Keyword;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.mypage.KeywordDto;
 import com.fine_server.repository.KeywordRepository;
@@ -37,5 +38,9 @@ public class KeywordService {
         }
 
         return KeywordList;
+    }
+
+    public List<Keyword> findByMemberId(Member member) {
+        return keywordRepository.findAllByMember(member);
     }
 }
