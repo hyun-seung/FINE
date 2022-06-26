@@ -1,12 +1,11 @@
-package com.fine_server.Service.Posting;
+package com.fine_server.service.posting;
 
 import com.fine_server.entity.Member;
 import com.fine_server.entity.Posting;
-import com.fine_server.entity.posting.FindAllPostingDto;
-import com.fine_server.entity.posting.FindGeneralPostingDto;
-import com.fine_server.entity.posting.FindGroupPostingDto;
-import com.fine_server.entity.posting.PostingCreateDto;
+import com.fine_server.entity.Recruiting;
+import com.fine_server.entity.posting.*;
 import com.fine_server.repository.MemberRepository;
+import com.fine_server.repository.PostingRepository;
 import com.fine_server.repository.PostingRepository_Detail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,8 @@ import java.util.Optional;
 @Transactional
 public class PostingService {
 
-    private final PostingRepository_Detail postingRepository;
+    private final PostingRepository_Detail postingRepository_detail;
+    private final PostingRepository postingRepository;
     private final MemberRepository memberRepository;
 
     /*
@@ -45,8 +45,8 @@ public class PostingService {
 
     // 해당 포스팅 불러오기
     @Transactional(readOnly = true)
-    public Posting findPosting(Long postingId) {
-        Posting posting = postingRepository.findById(postingId);
+    public Optional<Posting> findPosting(Long postingId) {
+        Optional<Posting> posting = postingRepository.findById(postingId);
         return posting;
     }
 
@@ -68,7 +68,7 @@ public class PostingService {
     // 일반 포스팅 전체 불러오기
     @Transactional(readOnly = true)
     public List<FindGeneralPostingDto> findGeneralPostings() {
-        List<Posting> postings = postingRepository.findGeneralPosting();
+        List<Posting> postings = postingRepository_detail.findGeneralPosting();
         List<FindGeneralPostingDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindGeneralPostingDto findGeneralPostingDto = new FindGeneralPostingDto(
@@ -83,7 +83,7 @@ public class PostingService {
     // 그룹 포스팅 전체 불러오기
     @Transactional(readOnly = true)
     public List<FindGroupPostingDto> findGroupPostings() {
-        List<Posting> postings = postingRepository.findGroupPosting();
+        List<Posting> postings = postingRepository_detail.findByGroupCheck(true);
         List<FindGroupPostingDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
@@ -99,4 +99,12 @@ public class PostingService {
         postingRepository.deleteById(postingId);
         return postingId;
     }
+
+    //참여하기
+    @Transactional
+    public Recruiting groupJoin(RecruitingDto recruitingDto) {
+        //RecruitingRepositoryImpl.save(recruitingDto.toEntity()); 커스텀 구현 후 마무리
+        return recruitingDto.toEntity();
+    }
+
 }

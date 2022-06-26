@@ -51,4 +51,9 @@ public class PostingRepository_Detail {
             System.out.println("성공적으로 제거되었습니다.");
         }
     }
+
+    public List<Posting> findByGroupCheck(Boolean groupCheck) {
+        return em.createQuery("select p from Posting p where p.group_check = true", Posting.class)
+                .getResultList();
+    }
 }

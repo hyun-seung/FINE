@@ -1,15 +1,17 @@
 package com.fine_server.controller.Posting;
 
-import com.fine_server.Service.Posting.PostingService;
+import com.fine_server.entity.Member;
+import com.fine_server.entity.Recruiting;
+import com.fine_server.entity.posting.*;
+import com.fine_server.service.posting.PostingService;
 import com.fine_server.entity.Posting;
-import com.fine_server.entity.posting.FindAllPostingDto;
-import com.fine_server.entity.posting.FindGeneralPostingDto;
-import com.fine_server.entity.posting.FindGroupPostingDto;
-import com.fine_server.entity.posting.PostingCreateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * written by hyunseung , eunhye
@@ -57,8 +59,8 @@ public class PostingController {
 
     // 해당 글 조회 (개인 , 그룹 상관 없이)
     @GetMapping("/posting/{postingId}")
-    public Posting getPosting(@PathVariable Long postingId) {
-        Posting posting = postingService.findPosting(postingId);
+    public Optional<Posting> getPosting(@PathVariable Long postingId) {
+        Optional<Posting> posting = postingService.findPosting(postingId);
         return posting;
     }
 
@@ -68,4 +70,13 @@ public class PostingController {
         Long deletePostingId = postingService.deleteById(postingId);
         return deletePostingId;
     }
+
+    // 참여하기
+    @PostMapping("/posting/{postingId}/{memberId}")
+    public ResponseEntity<Recruiting> groupJoin(@PathVariable("memberId")RecruitingDto recruitingDto) {
+        Recruiting recruiting = postingService.groupJoin(recruitingDto);
+
+        return new ResponseEntity(recruiting, HttpStatus.OK);
+    }
+
 }

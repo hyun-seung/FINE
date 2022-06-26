@@ -1,10 +1,7 @@
 package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -17,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 
 @Entity
-@Getter
+@Getter @Setter  //이후 리팩토링
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)

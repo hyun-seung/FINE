@@ -20,13 +20,6 @@ import java.util.Optional;
  * date: 22.06.23
  * JPA 리포지토리 사용 필요로 상속 추가
  */
-public interface PostingRepository  extends JpaRepository<Posting, Long> {
+public interface PostingRepository extends JpaRepository<Posting, Long> {
 
-    //public List<Posting> findByGroupCheck(Boolean groupCheck);
-
-    /**
-     * add by.dahae
-     * date: 22.06.22
-     */
-    List<Posting> findByMemberId(Long memberId);
 }

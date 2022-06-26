@@ -64,6 +64,8 @@ public class Posting extends BaseEntity {
 
     private Integer maxMember;
 
+    private Integer member_count; //현재 멤버수
+
     // 포스팅 작성 시, member와의 관계 설정
     public void setMember(Member member) {
         this.member = member;
