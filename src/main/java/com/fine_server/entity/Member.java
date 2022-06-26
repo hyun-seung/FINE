@@ -7,6 +7,9 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import static lombok.AccessLevel.PROTECTED;
 
 /**
@@ -15,7 +18,6 @@ import static lombok.AccessLevel.PROTECTED;
  * 사용자 이미지처리는 보류
  */
 
-@Builder
 @Entity
 @Getter @Setter //이후 리팩토링 예정
 @DynamicInsert
@@ -45,5 +47,12 @@ public class Member extends BaseEntity{
     @ColumnDefault("1")
     private String level;//프로필 레벨
     private Long report; //신고 당한 횟수
+
+
+    @Builder
+    public Member(String nickname, String intro, List<String> keyword){
+        this.nickname = nickname;
+        this.intro = intro;
+    }
 
 }

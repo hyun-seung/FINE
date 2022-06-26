@@ -1,7 +1,7 @@
 package com.fine_server.service.mypage;
 
 import com.fine_server.entity.Member;
-import com.fine_server.entity.mypage.MemberDto;
+import com.fine_server.entity.mypage.MemberRequestDto;
 import com.fine_server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +27,12 @@ public class MemberService {
     }
 
     // save account for test
-    public Member saveNewAccount(MemberDto memberDto) {
+    public Member saveNewAccount(MemberRequestDto memberDto) {
         memberRepository.save(memberDto.toEntity());
         return memberDto.toEntity();
     }
 
-    public Member editProfile(Long memberId, MemberDto memberDto) {
+    public Member editProfile(Long memberId, MemberRequestDto memberDto) {
         Optional<Member> findMember = memberRepository.findById(memberId);
         Member member = findMember.get();
 
