@@ -41,21 +41,6 @@ public class PostingController {
     }
 
 
-    // 글 내용 수정
-    @PutMapping("/post/{postingId}/text")
-    public Posting updatePostingText(@PathVariable Long postingId, @RequestBody TextDto textDto) {
-        Posting update = postingService.updateText(postingId, textDto);
-        return update;
-    }
-
-    // 글 마감여부 변경
-    @PutMapping("/post/{postingId}/close")
-    public Posting changePostingClosingCheck(@PathVariable Long postingId) {
-        Posting update = postingService.changeClosingCheck(postingId);
-        return update;
-    }
-
-
     // 일반 글 목록 조회
     @GetMapping("/post/general")
     public List<FindGeneralPostingDto> getGenralPostings() {
@@ -85,10 +70,10 @@ public class PostingController {
     }
 
     // 참여하기
-    @PostMapping("/posting/{postingId}/{memberId}")
-    public ResponseEntity<Recruiting> groupJoin(@PathVariable("memberId")RecruitingDto recruitingDto) {
-        Recruiting recruiting = postingService.groupJoin(recruitingDto);
-
+    // DTO로 받으면 참여하기와 참여취소 둘다 한번에 처리가능하도록
+    @PostMapping("/post/{postingId}/{memberId}")
+    public ResponseEntity<Recruiting> groupJoin(@RequestBody RecruitingDto recruitingDto, @PathVariable Long postingId, @PathVariable Long memberId) {
+        Recruiting recruiting = postingService.groupJoin(postingId, memberId, recruitingDto);
         return new ResponseEntity(recruiting, HttpStatus.OK);
     }
 

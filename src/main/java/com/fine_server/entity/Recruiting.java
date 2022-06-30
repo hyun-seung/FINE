@@ -14,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 
 @Entity
-@Getter @Setter  //이후 리팩토링
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
@@ -25,10 +25,11 @@ public class Recruiting {
     @Column(name = "recruiting_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posting_id")
     @JsonIgnore
     private Posting posting;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -36,5 +37,15 @@ public class Recruiting {
     private Member member;
 
     private Boolean accept_check;
+
+
+    public void setPosting(Posting posting) {
+        this.posting = posting;
+        posting.getRecruitingList().add(this);
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
 }

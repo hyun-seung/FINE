@@ -6,7 +6,7 @@ import com.fine_server.entity.Recruiting;
 import com.fine_server.entity.posting.*;
 import com.fine_server.repository.MemberRepository;
 import com.fine_server.repository.PostingRepository;
-import com.fine_server.repository.PostingRepository_Detail;
+import com.fine_server.repository.RecruitingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +17,8 @@ import java.util.Optional;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.06.20
- * LastModifiedPerson : hyunseung
+ * LastModifiedDate: 22.06.29
+ * LastModifiedPerson : eunhye
  */
 
 @Service
@@ -26,16 +26,16 @@ import java.util.Optional;
 @Transactional
 public class PostingService {
 
-    private final PostingRepository_Detail postingRepository_detail;
     private final PostingRepository postingRepository;
     private final MemberRepository memberRepository;
+    private final RecruitingRepository recruitingRepository;
 
     /*
         메모장 : 해당 글의 마감여부만 변경해주는게 필요하다.
      */
 
     // 포스팅 만들기
-    public Posting make(PostingCreateDto postingCreateDto, Long memberId) {
+    public Posting make(Long memberId, PostingCreateDto postingCreateDto) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);
         Member member = optionalMember.get();
         Posting save = postingRepository.save(postingCreateDto.toEntity());
@@ -86,11 +86,17 @@ public class PostingService {
         return postingId;
     }
 
-    //참여하기
-    @Transactional
-    public Recruiting groupJoin(RecruitingDto recruitingDto) {
-        //RecruitingRepositoryImpl.save(recruitingDto.toEntity()); 커스텀 구현 후 마무리
-        return recruitingDto.toEntity();
+    //참여하기, 취소
+    public Recruiting groupJoin(Long postingId, Long memberId, RecruitingDto recruitingDto) {
+        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
+        Posting posting = optionalPosting.get();
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        Member member = optionalMember.get();
+
+        Recruiting save = recruitingRepository.save(recruitingDto.toEntity());
+        save.setPosting(posting);
+        save.setMember(member);
+        return save;
     }
 
 }

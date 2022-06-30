@@ -30,11 +30,16 @@ public class GroupCollection {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     @JsonIgnore
-    private Posting posting;
+    private Group group;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @JsonIgnore
     private Member member;
-    
+
+//
+//    public void setGroup(Group group) {
+//        this.group = group;
+//        group.getGroupCollectionList().add(this);
+//    }
 }

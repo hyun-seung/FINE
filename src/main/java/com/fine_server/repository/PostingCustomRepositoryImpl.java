@@ -23,7 +23,10 @@ public class PostingCustomRepositoryImpl implements PostingCustomRepository {
 
     @Override
     public List<Posting> findGroupPosting() {
-        return em.createQuery("select p from Posting p where p.group_check = false")
+        return em.createQuery("select p from Posting p where p.group_check = true")
                 .getResultList();
     }
+    //대기 완료 where문 수정해야함
+
+
 }

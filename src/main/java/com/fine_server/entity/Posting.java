@@ -14,8 +14,8 @@ import static lombok.AccessLevel.PROTECTED;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.06.26
- * LastModifiedPerson : hyunseung
+ * LastModifiedDate: 22.06.27
+ * LastModifiedPerson : eunhye
  */
 
 @Builder
@@ -52,9 +52,11 @@ public class Posting extends BaseEntity {
     private Integer maxMember;
 
     @OneToMany(mappedBy = "posting")
+    private List<Recruiting> recruitingList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "posting")
     private List<Comment> comments = new ArrayList<Comment>();
 
-    private Integer member_count; //현재 멤버수
 
     // 포스팅 작성 시, member와의 관계 설정
     public void setMember(Member member) {
@@ -62,15 +64,4 @@ public class Posting extends BaseEntity {
 //        member.getPostings().add(this);
     }
 
-    public void updateText(String text) {
-        this.content = text;
-    }
-
-    public void changeClosingCheck() {
-        if(this.closing_check == false) {
-            this.closing_check = true;
-        } else {
-            this.closing_check = false;
-        }
-    }
 }

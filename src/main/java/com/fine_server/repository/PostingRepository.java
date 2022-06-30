@@ -19,11 +19,5 @@ import java.util.Optional;
  */
 public interface PostingRepository  extends JpaRepository<Posting, Long>, PostingCustomRepository {
 
-    //public List<Posting> findByGroupCheck(Boolean groupCheck);
-
-    /**
-     * add by.dahae
-     * date: 22.06.22
-     */
     List<Posting> findByMemberId(Long memberId);
 }

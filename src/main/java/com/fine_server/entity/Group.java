@@ -5,20 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
 /**
  * written by eunhye
- * date: 22.06.16
+ * date: 22.06.26
  */
 
 
 @Entity
 @Getter
 @Builder
+@DynamicInsert
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 public class Group {
@@ -38,8 +43,12 @@ public class Group {
     @JsonIgnore
     private Member member;
 
-    //추후 수정
-    //private List<Member> group_member;
+    @Builder.Default
+    @OneToMany(mappedBy = "group")
+    @JsonIgnore
+    private List<GroupCollection> groupCollectionList = new ArrayList<>();
 
-
+    public void setPosting(Posting posting) {
+        this.posting = posting;
+    }
 }
