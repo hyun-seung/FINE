@@ -21,12 +21,27 @@ public class PostingCustomRepositoryImpl implements PostingCustomRepository {
                 .getResultList();
     }
 
+    // 그룹 전체
     @Override
     public List<Posting> findGroupPosting() {
         return em.createQuery("select p from Posting p where p.group_check = true")
                 .getResultList();
     }
-    //대기 완료 where문 수정해야함
+
+    // 모집 중 (closing X)
+    @Override
+    public List<Posting> findGroupClosingFPosting() {
+        return em.createQuery("select p from Posting p where p.group_check = true and p.closing_check = false")
+                .getResultList();
+    }
+
+
+    // 모집 완료 (closing O)
+    @Override
+    public List<Posting> findGroupClosingTPosting() {
+        return em.createQuery("select p from Posting p where p.group_check = true and p.closing_check = true")
+                .getResultList();
+    }
 
 
 }

@@ -10,4 +10,8 @@ public interface PostingCustomRepository {
 
     List<Posting> findGroupPosting();
 
+    List<Posting> findGroupClosingTPosting();
+
+    List<Posting> findGroupClosingFPosting();
+
 }

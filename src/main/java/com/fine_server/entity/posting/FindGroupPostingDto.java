@@ -4,31 +4,32 @@ import java.time.LocalDateTime;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.06.20
- * LastModifiedPerson : hyunseung
+ * LastModifiedDate: 22.06.30
+ * LastModifiedPerson : eunhye
  */
 
 public class FindGroupPostingDto {
 
-    /*
-        메모장 : 일단 내가 생각하는 그룹 포스팅에 필요한 것들을 넣어놨어. 확인해보고 변경할 게 있으면 변경하면 돼!
-     */
-
     private Long postingId;
+
     private Long memberId;
+    private String nickname;
+
     private String title;
     private String content;
 
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
+
     private Integer maxMember;
     private Boolean closingCheck;
 
-    public FindGroupPostingDto(Long postingId, Long memberId, String title, String content,
+    public FindGroupPostingDto(Long postingId, Long memberId, String nickname, String title, String content,
                                LocalDateTime createdDate, LocalDateTime lastModifiedDate, Integer maxMember, Boolean closingCheck) {
         this.postingId = postingId;
         this.memberId = memberId;
+        this.nickname = nickname;
         this.title = title;
         this.content = content;
         this.createdDate = createdDate;

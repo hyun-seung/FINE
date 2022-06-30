@@ -51,4 +51,8 @@ public class Group {
     public void setPosting(Posting posting) {
         this.posting = posting;
     }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 }

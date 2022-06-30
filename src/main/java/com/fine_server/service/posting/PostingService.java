@@ -30,9 +30,6 @@ public class PostingService {
     private final MemberRepository memberRepository;
     private final RecruitingRepository recruitingRepository;
 
-    /*
-        메모장 : 해당 글의 마감여부만 변경해주는게 필요하다.
-     */
 
     // 포스팅 만들기
     public Posting make(Long memberId, PostingCreateDto postingCreateDto) {
@@ -73,13 +70,45 @@ public class PostingService {
         List<FindGroupPostingDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(),
+                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
                     posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
             );
             postingDtos.add(findGroupPostingDto);
         }
         return postingDtos;
     }
+
+
+    // 그룹 포스팅 모집 중 불러오기
+    @Transactional(readOnly = true)
+    public List<FindGroupPostingDto> findGroupClosingFPostings() {
+        List<Posting> postings = postingRepository.findGroupClosingFPosting();
+        List<FindGroupPostingDto> postingDtos = new ArrayList<>();
+        for(Posting posting : postings) {
+            FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
+                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
+                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
+            );
+            postingDtos.add(findGroupPostingDto);
+        }
+        return postingDtos;
+    }
+
+    // 그룹 포스팅 모집 완료 불러오기
+    @Transactional(readOnly = true)
+    public List<FindGroupPostingDto> findGroupClosingTPostings() {
+        List<Posting> postings = postingRepository.findGroupClosingTPosting();
+        List<FindGroupPostingDto> postingDtos = new ArrayList<>();
+        for(Posting posting : postings) {
+            FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
+                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
+                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
+            );
+            postingDtos.add(findGroupPostingDto);
+        }
+        return postingDtos;
+    }
+
 
     public Long deleteById(Long postingId) {
         postingRepository.deleteById(postingId);

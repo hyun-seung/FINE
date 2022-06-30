@@ -55,6 +55,20 @@ public class PostingController {
         return postings;
     }
 
+    // 단체 글 진행 목록 조회
+    @GetMapping("/post/group/proceed")
+    public List<FindGroupPostingDto> getGroupProceedPostings() {
+        List<FindGroupPostingDto> postings = postingService.findGroupClosingFPostings();
+        return postings;
+    }
+
+    // 단체 글 마감 목록 조회
+    @GetMapping("/post/group/proceed")
+    public List<FindGroupPostingDto> getGroupClosingPostings() {
+        List<FindGroupPostingDto> postings = postingService.findGroupClosingTPostings();
+        return postings;
+    }
+
     // 해당 글 조회 (개인 , 그룹 상관 없이)
     @GetMapping("/post/{postingId}")
     public Posting getPosting(@PathVariable Long postingId) {
