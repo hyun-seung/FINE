@@ -1,35 +1,28 @@
 package com.fine_server.controller.Posting;
 
-import com.fine_server.entity.Member;
 import com.fine_server.entity.Recruiting;
 import com.fine_server.entity.posting.*;
-import com.fine_server.service.posting.PostingService;
-import com.fine_server.entity.Dto.TextDto;
 import com.fine_server.entity.Posting;
 import com.fine_server.entity.posting.FindGeneralPostingDto;
 import com.fine_server.entity.posting.FindGroupPostingDto;
 import com.fine_server.entity.posting.PostingCreateDto;
+import com.fine_server.service.posting.PostingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.06.26
- * LastModifiedPerson : hyunseung
+ * LastModifiedDate: 22.06.30
+ * LastModifiedPerson : eunhye
  */
 
 @RestController
 @RequiredArgsConstructor
 public class PostingController {
-
-    /*
-        메모장 : 글 조회 시 마감 여부에 따른 조회 순서, 조회 시 정렬 기준에 따른 출력값 변경
-     */
 
     private final PostingService postingService;
 
@@ -63,7 +56,7 @@ public class PostingController {
     }
 
     // 단체 글 마감 목록 조회
-    @GetMapping("/post/group/proceed")
+    @GetMapping("/post/group/close")
     public List<FindGroupPostingDto> getGroupClosingPostings() {
         List<FindGroupPostingDto> postings = postingService.findGroupClosingTPostings();
         return postings;

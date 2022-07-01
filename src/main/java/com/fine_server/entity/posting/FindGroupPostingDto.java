@@ -1,5 +1,8 @@
 package com.fine_server.entity.posting;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 /**
@@ -8,6 +11,8 @@ import java.time.LocalDateTime;
  * LastModifiedPerson : eunhye
  */
 
+@Getter
+@NoArgsConstructor
 public class FindGroupPostingDto {
 
     private Long postingId;
