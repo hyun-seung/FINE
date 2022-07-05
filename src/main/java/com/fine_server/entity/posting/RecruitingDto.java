@@ -16,9 +16,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RecruitingDto {
 
+    //entity 매개변수로 받아서 하면 컨트롤러에서 dto로 받을 필요 없음. 추후 리팩토링
+
 
     private Boolean accept_check;
-
 
     public Recruiting toEntity(){
 

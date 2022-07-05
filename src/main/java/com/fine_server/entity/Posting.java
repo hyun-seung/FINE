@@ -66,4 +66,8 @@ public class Posting extends BaseEntity {
 //        member.getPostings().add(this);
     }
 
+    public void updateClosingCheck(Boolean check) {
+        this.closing_check = check;
+    }
+
 }
