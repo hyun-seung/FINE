@@ -1,9 +1,8 @@
 package com.fine_server.controller.Posting;
 
-import com.fine_server.Service.Posting.BookmarkService;
+import com.fine_server.service.posting.BookmarkService;
 import com.fine_server.entity.Bookmark;
 import com.fine_server.entity.bookmark.BookmarkDto;
-import com.fine_server.repository.BookmarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

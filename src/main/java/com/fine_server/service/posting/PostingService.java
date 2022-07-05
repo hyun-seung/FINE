@@ -33,6 +33,8 @@ public class PostingService {
     private final RecruitingRepository recruitingRepository;
     private final GroupCollectionRepository groupCollectionRepository;
 
+    private final GroupService groupService;
+
 
     // 포스팅 만들기
     public Posting make(Long memberId, PostingCreateDto postingCreateDto) {
@@ -130,7 +132,7 @@ public class PostingService {
         save.setMember(member);
         return save;
     }
-    
+
     //참여하기 취소 (삭제)
     public Long deleteRecruiting(Long recruitingId) {
         recruitingRepository.deleteById(recruitingId);
@@ -147,6 +149,8 @@ public class PostingService {
         if(headCount(postingId)) {
             Optional<Posting> posting = postingRepository.findById(postingId);
             posting.get().updateClosingCheck(true);
+
+            groupService.makeGroup(postingId);
         }
         return save;
     }
@@ -160,7 +164,7 @@ public class PostingService {
 
         int count = 0;
         for(Recruiting recruiting : recruitingList) {
-            if(recruiting.getAccept_check()) {
+            if(recruiting.getAccept_check().equals(true)) {
                 count++;
             }
         }

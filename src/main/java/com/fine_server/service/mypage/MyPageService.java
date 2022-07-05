@@ -20,9 +20,16 @@ import java.util.List;
 @Slf4j
 public class MyPageService {
     private final PostingRepository postingRepository;
+    //private  final BookMarkRepository bookMarkRepository;
 
     public List<Posting> getMyPost(Long memberId) {
         List<Posting> memberPosts = postingRepository.findByMemberId(memberId);
         return memberPosts;
     }
+
+//    //findAllBookMark로 처리 예정
+//    public List<Posting> getMyBookMark(Long memberId) {
+//        //List<Posting> memberBookMarks = bookMarkRepository.findAllBookMark(memberId);
+//        //return memberBookMarks;
+//    }
 }

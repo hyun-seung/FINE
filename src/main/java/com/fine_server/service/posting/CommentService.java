@@ -1,4 +1,4 @@
-package com.fine_server.Service.Posting;
+package com.fine_server.service.posting;
 
 import com.fine_server.entity.Comment;
 import com.fine_server.entity.Member;
