@@ -32,13 +32,15 @@ public class GroupService {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
         Group group = groupRepository.save(new GroupCreateDto(posting, posting.getMember()).toEntity());// 그룹 생성
-        List<Recruiting> recruitingList = posting.getRecruitingList();
-        for(Recruiting temp : recruitingList) {
-            if(temp.getAccept_check().equals(true)) {
-                GroupCollection groupCollection = groupCollectionRepository.save(new GroupCollectionCreateDto(group, temp.getMember()).toEntity());
-                group.getGroupCollectionList().add(groupCollection);
-            }
+
+        List<Recruiting> tempList = postingRepository.findAcceptCheckT(postingId);
+        for(Recruiting temp : tempList) {
+            GroupCollection groupCollection = groupCollectionRepository.save(new GroupCollectionCreateDto(group, temp.getMember()).toEntity());
+            group.getGroupCollectionList().add(groupCollection);
         }
+
+        posting.updateClosingCheck(true);
+
         return group;
     }
 }

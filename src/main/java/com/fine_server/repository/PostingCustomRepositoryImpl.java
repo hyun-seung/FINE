@@ -1,6 +1,7 @@
 package com.fine_server.repository;
 
 import com.fine_server.entity.Posting;
+import com.fine_server.entity.Recruiting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,13 @@ public class PostingCustomRepositoryImpl implements PostingCustomRepository {
     @Override
     public List<Posting> findGroupClosingTPosting() {
         return em.createQuery("select p from Posting p where p.group_check = true and p.closing_check = true")
+                .getResultList();
+    }
+
+    @Override
+    public List<Recruiting> findAcceptCheckT(Long postingId) {
+        return em.createQuery("select r from Recruiting r where r.accept_check=true and r.posting.id = :postingId")
+                .setParameter("postingId", postingId)
                 .getResultList();
     }
 
