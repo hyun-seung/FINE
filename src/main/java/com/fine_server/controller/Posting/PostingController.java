@@ -76,13 +76,19 @@ public class PostingController {
         return deletePostingId;
     }
 
-    // 참여하기
-    // DTO로 받으면 참여하기와 참여취소 둘다 한번에 처리가능하도록
-    @PostMapping("/post/{postingId}/{memberId}")
+    // 참여하기 - memberId dto에 담아서 하는 걸로 리팩토링
+    @PostMapping("/post/{postingId}/{memberId}/join")
     public ResponseEntity<Recruiting> groupJoin(@RequestBody RecruitingDto recruitingDto, @PathVariable Long postingId, @PathVariable Long memberId) {
         Recruiting recruiting = postingService.groupJoin(postingId, memberId, recruitingDto);
         return new ResponseEntity(recruiting, HttpStatus.OK);
     }
+
+    // 참여하기 취소 (삭제)
+    @DeleteMapping("/post/{recruitingId}/delete")
+    public Long deleteRecruiting(@PathVariable Long recruitingId) {
+        return postingService.deleteRecruiting(recruitingId);
+    }
+
 
     // 신청 수락 (인원 체크 및 마감 여부 변경 포함)
     @PostMapping("/{postingId}/{recruitingId}/accept")

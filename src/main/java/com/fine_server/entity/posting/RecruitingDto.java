@@ -26,6 +26,7 @@ import javax.validation.constraints.NotBlank;
 public class RecruitingDto {
 
     //entity 매개변수로 받아서 하면 컨트롤러에서 dto로 받을 필요 없음. 추후 리팩토링
+    //member id나 posting id는 어떻게 entity build함? 외래키..
 
 
     private Boolean accept_check;
