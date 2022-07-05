@@ -48,4 +48,7 @@ public class Recruiting {
         this.member = member;
     }
 
+    public void updateAcceptCheck(Boolean check) {
+        this.accept_check = check;
+    }
 }

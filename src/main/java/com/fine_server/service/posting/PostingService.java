@@ -1,9 +1,11 @@
 package com.fine_server.service.posting;
 
+import com.fine_server.entity.GroupCollection;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.Posting;
 import com.fine_server.entity.Recruiting;
 import com.fine_server.entity.posting.*;
+import com.fine_server.repository.GroupCollectionRepository;
 import com.fine_server.repository.MemberRepository;
 import com.fine_server.repository.PostingRepository;
 import com.fine_server.repository.RecruitingRepository;
@@ -29,6 +31,7 @@ public class PostingService {
     private final PostingRepository postingRepository;
     private final MemberRepository memberRepository;
     private final RecruitingRepository recruitingRepository;
+    private final GroupCollectionRepository groupCollectionRepository;
 
 
     // 포스팅 만들기
@@ -126,6 +129,36 @@ public class PostingService {
         save.setPosting(posting);
         save.setMember(member);
         return save;
+    }
+
+    // 참여 수락 및 취소
+    public Recruiting joinAccept(Long postingId, Long recruitingId, RecruitingDto recruitingDto) {
+        Optional<Recruiting> recruiting = recruitingRepository.findById(recruitingId);
+        Recruiting save = recruiting.get();
+        save.updateAcceptCheck(recruitingDto.getAccept_check());
+
+        // 현재 수락 인원이 max면 포스팅 마감 결정
+        if(headCount(postingId)) {
+            Optional<Posting> posting = postingRepository.findById(postingId);
+            posting.get().updateClosingCheck(true);
+        }
+        return save;
+    }
+
+    // 현재 수락 인원 체크
+    public Boolean headCount(Long postingId) {
+        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
+        Posting posting = optionalPosting.get();
+
+        List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
+
+        int count = 0;
+        for(Recruiting recruiting : recruitingList) {
+            if(recruiting.getAccept_check()) {
+                count++;
+            }
+        }
+        return count == posting.getMaxMember();
     }
 
 }
