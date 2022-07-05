@@ -44,6 +44,7 @@ public class Comment {
     @JsonIgnore
     private Comment parent;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parent")
     @JsonIgnore
     private List<Comment> child = new ArrayList<Comment>();

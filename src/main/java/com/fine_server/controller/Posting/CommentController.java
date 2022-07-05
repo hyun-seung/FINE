@@ -1,6 +1,6 @@
 package com.fine_server.controller.Posting;
 
-import com.fine_server.Service.Posting.CommentService;
+import com.fine_server.service.posting.CommentService;
 import com.fine_server.entity.Comment;
 import com.fine_server.entity.comment.CommentDto;
 import lombok.RequiredArgsConstructor;

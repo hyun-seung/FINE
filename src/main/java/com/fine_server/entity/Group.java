@@ -26,6 +26,7 @@ import static lombok.AccessLevel.PROTECTED;
 @DynamicInsert
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
+@Table(name = "meeting")
 public class Group {
 
     @Id
