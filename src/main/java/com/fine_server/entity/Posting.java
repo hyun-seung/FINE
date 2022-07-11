@@ -1,17 +1,12 @@
 package com.fine_server.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +14,13 @@ import static lombok.AccessLevel.PROTECTED;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.06.20
+ * LastModifiedDate: 22.06.27
  * LastModifiedPerson : eunhye
  */
 
+@Builder
 @Entity
 @Getter
-@Builder
 @DynamicInsert
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
@@ -56,12 +51,23 @@ public class Posting extends BaseEntity {
 
     private Integer maxMember;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "posting")
+    private List<Recruiting> recruitingList = new ArrayList<>();
+
+    @Builder.Default
     @OneToMany(mappedBy = "posting")
     private List<Comment> comments = new ArrayList<Comment>();
+
 
     // 포스팅 작성 시, member와의 관계 설정
     public void setMember(Member member) {
         this.member = member;
 //        member.getPostings().add(this);
     }
+
+    public void updateClosingCheck(Boolean check) {
+        this.closing_check = check;
+    }
+
 }

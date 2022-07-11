@@ -1,10 +1,7 @@
 package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -28,16 +25,29 @@ public class Recruiting {
     @Column(name = "recruiting_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posting_id")
     @JsonIgnore
     private Posting posting;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @JsonIgnore
     private Member member;
 
-    private Boolean accept_check;
+    private Boolean accept_check;   // 대기 중(null), 수락(true), 거절(false)
 
+    public void setPosting(Posting posting) {
+        this.posting = posting;
+        posting.getRecruitingList().add(this);
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public void updateAcceptCheck(Boolean check) {
+        this.accept_check = check;
+    }
 }
