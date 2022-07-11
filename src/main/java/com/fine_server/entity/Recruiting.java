@@ -36,7 +36,8 @@ public class Recruiting {
     @JsonIgnore
     private Member member;
 
-    private Boolean accept_check;   // 대기 중(null), 수락(true), 거절(false)
+    @Column(nullable = false)
+    private Boolean accept_check;   // 수락(true), 대기 및 거절(false)
 
     public void setPosting(Posting posting) {
         this.posting = posting;
