@@ -41,14 +41,12 @@ public class PostingService {
         save.setMember(member);
         return save;
     }
-
     // 해당 포스팅 불러오기
     @Transactional(readOnly = true)
     public Posting findPosting(Long postingId) {
         Optional<Posting> posting = postingRepository.findById(postingId);
         return posting.get();
     }
-
     // 일반 포스팅 전체 불러오기
     @Transactional(readOnly = true)
     public List<FindGeneralPostingDto> findGeneralPostings() {
