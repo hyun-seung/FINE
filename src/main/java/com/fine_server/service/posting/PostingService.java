@@ -120,7 +120,7 @@ public class PostingService {
         return postingId;
     }
 
-    //참여하기, 취소 (DTO - accept check => null)
+    //참여하기
     public Recruiting groupJoin(Long postingId, Long memberId, RecruitingDto recruitingDto) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
@@ -131,6 +131,12 @@ public class PostingService {
         save.setPosting(posting);
         save.setMember(member);
         return save;
+    }
+
+    //참여하기 취소 (삭제)
+    public Long deleteRecruiting(Long recruitingId) {
+        recruitingRepository.deleteById(recruitingId);
+        return recruitingId;
     }
 
     // 참여 수락 및 취소
