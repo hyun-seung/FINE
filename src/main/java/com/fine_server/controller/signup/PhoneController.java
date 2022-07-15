@@ -9,6 +9,10 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * written by dahae
+ * date: 22.07.15
+ */
 @AllArgsConstructor
 @RestController
 public class PhoneController {

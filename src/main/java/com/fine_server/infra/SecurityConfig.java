@@ -6,7 +6,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-
+/**
+ * written by dahae
+ * date: 22.07.15
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
