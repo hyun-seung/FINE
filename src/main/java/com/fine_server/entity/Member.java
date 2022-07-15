@@ -18,6 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
  * 사용자 이미지처리는 보류
  */
 
+
 @Entity
 @Getter @Setter //이후 리팩토링 예정
 @DynamicInsert
@@ -31,12 +32,16 @@ public class Member extends BaseEntity{
     private Long id;
 
     @Column(nullable = false)
+    private String userID;
+    @JsonIgnore
+    @Column(nullable = false)
+    private String password;
+
     private String nickname;
     private String email;
     private String intro; //자기소개
 
-    @JsonIgnore
-    private String password;
+
     private String userIntroduction;
     private String userUniversity;//대학명
     private String userCollege;//단과대
@@ -50,7 +55,9 @@ public class Member extends BaseEntity{
 
 
     @Builder
-    public Member(String nickname, String intro, List<String> keyword){
+    public Member(String userID, String password,String nickname, String intro, List<String> keyword){
+        this.userID = userID;
+        this.password = password;
         this.nickname = nickname;
         this.intro = intro;
     }

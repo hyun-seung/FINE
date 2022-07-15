@@ -37,7 +37,7 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final KeywordService keywordService;
 
-    @PostMapping("/signUp")
+    @PostMapping("/signuptest")
     public ResponseEntity<Member> signUp(@RequestBody @Valid MemberRequestDto memberDto, BindingResult bindingResult, Errors errors) {
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
