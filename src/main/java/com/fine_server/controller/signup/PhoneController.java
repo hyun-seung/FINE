@@ -21,8 +21,9 @@ public class PhoneController {
     public PhoneController() {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
     }
+
     /**
-     * 단일 메시지 발송 예제
+     * 이후 서비스 번호로 수정
      */
     @PostMapping("/authMessage")
     public SingleMessageSentResponse sendOne() {
