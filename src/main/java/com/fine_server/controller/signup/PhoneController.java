@@ -24,8 +24,8 @@ public class PhoneController {
     public SingleMessageSentResponse sendOne() {
         Message message = new Message();
 
-        message.setFrom("01063001337");
-        message.setTo("01063001337");
+        message.setFrom("전송할 번호");
+        message.setTo("전송될 번호");
         message.setText("다음의 인증번호를 입력해주세요");
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
