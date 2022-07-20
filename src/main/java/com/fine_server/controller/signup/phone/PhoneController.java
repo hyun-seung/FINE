@@ -1,7 +1,7 @@
 package com.fine_server.controller.signup.phone;
 
 import com.fine_server.controller.mypage.errors.UserException;
-import com.fine_server.controller.signup.dto.PhoneDto;
+import com.fine_server.controller.signup.dto.PhoneRequestDto;
 import com.fine_server.controller.signup.dto.PhoneResponseDto;
 import com.fine_server.controller.signup.dto.TokenDto;
 import com.fine_server.entity.Member;
@@ -31,35 +31,34 @@ import java.util.UUID;
  * written by dahae
  * date: 22.07.20
  */
-//수정
-    //깃 이그노어 적용
+
 @Slf4j
 @AllArgsConstructor
 @Controller
 public class PhoneController {
     private PhoneService phoneService;
     private MemberRepository memberRepository;
-    private PhoneNum phoneNum;
+    private InfraData infraData;
     private final DefaultMessageService messageService;
 
     public PhoneController() {
-        this.messageService = NurigoApp.INSTANCE.initialize(phoneNum.getApiKey(), phoneNum.getApiSecretKey(), "https://api.coolsms.co.kr");
+        this.messageService = NurigoApp.INSTANCE.initialize(infraData.getApiKey(), infraData.getApiSecretKey(), "https://api.coolsms.co.kr");
     }
 
     @PostMapping("/authMessage/{memberId}")
-    public ResponseEntity<PhoneDto> sendOne(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid PhoneDto phoneDto, BindingResult bindingResult) {
+    public ResponseEntity<PhoneRequestDto> sendOne(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid PhoneRequestDto phoneRequestDto, BindingResult bindingResult) {
         Message message = new Message();
 
         HttpSession session = request.getSession();
         session.setAttribute("id", memberId);
         session.setAttribute("token", generateCheckToken());
 
-        message.setFrom(phoneNum.getPhoneNum());
-        message.setTo(phoneDto.getPhoneNumber());
+        message.setFrom(infraData.getPhoneNum());
+        message.setTo(phoneRequestDto.getPhoneNumber());
         message.setText("안녕하세요 FINE입니다.\n\n다음의 인증번호를 입력해주세요!!\n\n" + (String) session.getAttribute("token"));
 
         this.messageService.sendOne(new SingleMessageSendingRequest(message));
-        return new ResponseEntity(phoneDto, HttpStatus.OK);
+        return new ResponseEntity(phoneRequestDto, HttpStatus.OK);
     }
 
     public String generateCheckToken() {
@@ -78,7 +77,7 @@ public class PhoneController {
 
         PhoneResponseDto dto = phoneService.phoneVerification(request.getSession(), tokenDto.getToken());
 
-        if(dto == null){ //인증번호 맞지 않음
+        if(dto == null){
             throw new UserException("인증번호가 맞지 않습니다.");
         } else{
             request.getSession().invalidate();
@@ -87,6 +86,7 @@ public class PhoneController {
             Member member = fineMember.get();
 
             member.setUserPhoneNumber(dto.getPhoneNumber());
+            member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
             return ResponseEntity.ok().build();
         }
     }
