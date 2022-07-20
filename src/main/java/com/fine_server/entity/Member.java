@@ -55,7 +55,6 @@ public class Member extends BaseEntity{
     private String level;//프로필 레벨
     private Long report; //신고 당한 횟수
 
-
     @Builder
     public Member(String userID, String password,String nickname, String intro, List<String> keyword){
         this.userID = userID;
