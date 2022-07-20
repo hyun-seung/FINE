@@ -15,12 +15,8 @@ import java.util.UUID;
 @Transactional
 @Slf4j
 public class PhoneService {
-    /**
-     * 이메일 토큰 검증 로직
-     */
     public boolean isValidToken(HttpSession session,String token) {
         return (session.getAttribute("token")).equals(token);
-        //return this.emailCheckToken.equals(token);
     }
 
     public void completeSignUp(HttpSession session) {
@@ -28,12 +24,10 @@ public class PhoneService {
     }
 
     public PhoneResponseDto phoneVerification(HttpSession session, String token){
-        if (!isValidToken(session,token)) {//토큰이 맞는지 검증
+        if (!isValidToken(session,token)) {
             return null; 
         }
-        //토큰 검증이 끝났다면 -> completeSignUp으로 해당 객체의 phoneVerified을 true로
         completeSignUp(session);
-
         return createAccountResponseDto(session);
     }
 
