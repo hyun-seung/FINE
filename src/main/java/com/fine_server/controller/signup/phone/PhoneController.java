@@ -29,7 +29,7 @@ import java.util.UUID;
 
 /**
  * written by dahae
- * date: 22.07.15
+ * date: 22.07.20
  */
 //수정
     //깃 이그노어 적용
