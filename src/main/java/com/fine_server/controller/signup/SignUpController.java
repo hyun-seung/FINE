@@ -3,6 +3,7 @@ package com.fine_server.controller.signup;
 import com.fine_server.controller.mypage.errors.UserException;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.mypage.MemberRequestDto;
+import com.fine_server.repository.MemberRepository;
 import com.fine_server.service.mypage.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,6 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class SignUpController {
     private final MemberService memberService;
-
     @PostMapping("/signup")
     public ResponseEntity<Member> signUp(@RequestBody @Valid MemberRequestDto memberDto, BindingResult bindingResult, Errors errors) {
         if(bindingResult.hasErrors()){
