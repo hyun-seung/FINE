@@ -5,14 +5,20 @@ import com.fine_server.entity.mypage.MemberRequestDto;
 import com.fine_server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * written by dahae
  * date: 22.05.27
+ *
+ * edit by dahae
+ * date: 22.07.15
  */
 
 @Service
@@ -21,14 +27,15 @@ import java.util.Optional;
 @Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
-
+    private final PasswordEncoder passwordEncoder;
     public Optional<Member> findMember(Long memberId) {
         return memberRepository.findById(memberId);
     }
 
-    // save account for test
     public Member saveNewAccount(MemberRequestDto memberDto) {
-        memberRepository.save(memberDto.toEntity());
+        Member member = memberDto.toEntity();
+        member.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+        memberRepository.save(member);
         return memberDto.toEntity();
     }
 
@@ -42,4 +49,5 @@ public class MemberService {
 
         return memberDto.toEntity();
     }
+
 }
