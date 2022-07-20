@@ -64,9 +64,9 @@ public class PostingController {
 
     // 해당 글 조회 (개인 , 그룹 상관 없이)
     @GetMapping("/post/{postingId}")
-    public Posting getPosting(@PathVariable Long postingId) {
-        Posting posting = postingService.findPosting(postingId);
-        return posting;
+    public GetPostingDto getPosting(@PathVariable Long postingId) {
+        GetPostingDto postingDto = postingService.findPosting(postingId);
+        return postingDto;
     }
 
     // 해당 글 삭제

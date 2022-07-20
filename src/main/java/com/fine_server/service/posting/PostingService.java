@@ -47,9 +47,14 @@ public class PostingService {
 
     // 해당 포스팅 불러오기
     @Transactional(readOnly = true)
-    public Posting findPosting(Long postingId) {
-        Optional<Posting> posting = postingRepository.findById(postingId);
-        return posting.get();
+    public GetPostingDto findPosting(Long postingId) {
+        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
+        Posting posting = optionalPosting.get();
+        GetPostingDto postingDto = new GetPostingDto(posting.getId(),
+                posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
+                posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
+                posting.getRecruitingList(), posting.getComments());
+        return postingDto;
     }
 
     // 일반 포스팅 전체 불러오기
