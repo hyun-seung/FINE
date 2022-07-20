@@ -16,4 +16,6 @@ public interface PostingCustomRepository {
     List<Posting> findGroupClosingFPosting();
 
     List<Recruiting> findAcceptCheckT(Long postingId);
+
+    List<Posting> findSearchPostings(String title);
 }

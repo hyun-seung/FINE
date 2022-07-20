@@ -171,4 +171,18 @@ public class PostingService {
         return count == posting.getMaxMember();
     }
 
+    // 글 검색
+    @Transactional (readOnly = true)
+    public List<FindGroupPostingDto> findSearchPostings(String title) {
+        List<Posting> postings = postingRepository.findSearchPostings(title);
+        List<FindGroupPostingDto> postingDtos = new ArrayList<>();
+        for(Posting posting : postings) {
+            FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
+                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
+                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
+            );
+            postingDtos.add(findGroupPostingDto);
+        }
+        return postingDtos;
+    }
 }

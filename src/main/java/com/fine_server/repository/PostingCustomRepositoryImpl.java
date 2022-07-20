@@ -51,5 +51,11 @@ public class PostingCustomRepositoryImpl implements PostingCustomRepository {
                 .getResultList();
     }
 
-
+    // 그룹 전체
+    @Override
+    public List<Posting> findSearchPostings(String title) {
+        return em.createQuery("select p from Posting p where p.title = :title")
+                .setParameter("title", title)
+                .getResultList();
+    }
 }
