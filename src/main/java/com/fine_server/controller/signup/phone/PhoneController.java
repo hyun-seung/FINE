@@ -43,7 +43,7 @@ public class PhoneController {
     private final DefaultMessageService messageService;
 
     public PhoneController() {
-        this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
+        this.messageService = NurigoApp.INSTANCE.initialize(phoneNum.getApiKey(), phoneNum.getApiSecretKey(), "https://api.coolsms.co.kr");
     }
 
     @PostMapping("/authMessage/{memberId}")
