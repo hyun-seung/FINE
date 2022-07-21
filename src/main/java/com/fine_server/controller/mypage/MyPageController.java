@@ -59,7 +59,7 @@ public class MyPageController {
      * 마이페이지 접속 화면
      */
     @ResponseBody
-    @GetMapping("/myPage/{memberId}")
+    @GetMapping("/mypage/{memberId}")
     public ResponseEntity<Member> profileTest(@PathVariable Long memberId){
         Optional<Member> findMember = memberService.findMember(memberId);
         if (!findMember.isEmpty()){
@@ -72,7 +72,7 @@ public class MyPageController {
     /**
      * edit. 22.06.26
      */
-    @PostMapping("/myPage/editProfile/{memberId}")
+    @PostMapping("/mypage/editProfile/{memberId}")
     public ResponseEntity<Member> editProfile(@RequestBody @Valid MemberRequestDto memberRequestDto, @PathVariable Long memberId, BindingResult bindingResult, Errors errors) {
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
@@ -90,7 +90,7 @@ public class MyPageController {
      * edit. 22.06.26
      * 친구 프로필 조회
      */
-    @ResponseBody
+
     @GetMapping("/profile/{memberId}")
     public ResponseEntity<Member> profile(@PathVariable Long memberId){
         Optional<Member> findMember = memberService.findMember(memberId);
@@ -120,20 +120,18 @@ public class MyPageController {
      * add. 22.06.23
      * 내 게시글 조회
      */
-    @ResponseBody
-    @GetMapping("/myPage/myPost/{memberId}")
+    @GetMapping("/mypage/myPost/{memberId}")
     public ResponseEntity myPost(@PathVariable Long memberId){
         List<Posting> posts = myPageService.getMyPost(memberId);
         return ResponseEntity.ok(posts);
 
     }
 
-
     /**
      * edit. 22.07.20
      * 북마크 조회
      */
-    @GetMapping("/myPage/bookmark/{memberId}")
+    @GetMapping("/mypage/bookmark/{memberId}")
     public ResponseEntity<Member> findBookMark(@PathVariable Long memberId) {
 
         Member member = memberRepository.findById(memberId).get();
@@ -146,6 +144,12 @@ public class MyPageController {
         }
 
         return new ResponseEntity(bookMarkList,HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/mypage/{bookmarkId}")
+    public Long deleteBookmark(@PathVariable Long memberId) {
+        return memberService.deleteAccount(memberId);
     }
 
     @ExceptionHandler

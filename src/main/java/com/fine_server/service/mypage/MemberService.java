@@ -50,4 +50,8 @@ public class MemberService {
         return memberDto.toEntity();
     }
 
+    public Long deleteAccount(Long id) {
+        memberRepository.deleteById(id);
+        return id;
+    }
 }
