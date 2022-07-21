@@ -42,7 +42,7 @@ public class PhoneController {
     private final DefaultMessageService messageService;
 
     public PhoneController() {
-        this.messageService = NurigoApp.INSTANCE.initialize(infraData.getApiKey(), infraData.getApiSecretKey(), "https://api.coolsms.co.kr");
+        this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
     }
 
     @PostMapping("/authMessage/{memberId}")
@@ -53,7 +53,7 @@ public class PhoneController {
         session.setAttribute("id", memberId);
         session.setAttribute("token", generateCheckToken());
 
-        message.setFrom(infraData.getPhoneNum());
+        message.setFrom("01063001337");
         message.setTo(phoneRequestDto.getPhoneNumber());
         message.setText("안녕하세요 FINE입니다.\n\n다음의 인증번호를 입력해주세요!!\n\n" + (String) session.getAttribute("token"));
 
