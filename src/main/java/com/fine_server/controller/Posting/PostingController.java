@@ -37,28 +37,28 @@ public class PostingController {
     // 일반 글 목록 조회
     @GetMapping("/post/general")
     public List<FindGeneralPostingDto> getGenralPostings() {
-        List<FindGeneralPostingDto> postings = postingService.findGeneralPostings();
+        List<FindGeneralPostingDto> postings = postingService.findGeneralPostings(false);
         return postings;
     }
 
     // 단체 글 목록 조회
     @GetMapping("/post/group")
     public List<FindGroupPostingDto> getGroupPostings() {
-        List<FindGroupPostingDto> postings = postingService.findGroupPostings();
+        List<FindGroupPostingDto> postings = postingService.findGroupPostings(true);
         return postings;
     }
 
     // 단체 글 진행 목록 조회
     @GetMapping("/post/group/proceed")
     public List<FindGroupPostingDto> getGroupProceedPostings() {
-        List<FindGroupPostingDto> postings = postingService.findGroupClosingFPostings();
+        List<FindGroupPostingDto> postings = postingService.findGroupClosingPostings(false);
         return postings;
     }
 
     // 단체 글 마감 목록 조회
     @GetMapping("/post/group/close")
     public List<FindGroupPostingDto> getGroupClosingPostings() {
-        List<FindGroupPostingDto> postings = postingService.findGroupClosingTPostings();
+        List<FindGroupPostingDto> postings = postingService.findGroupClosingPostings(true);
         return postings;
     }
 
@@ -91,8 +91,8 @@ public class PostingController {
 
     // 검색
     @GetMapping("post/search")
-    public List<FindGroupPostingDto> getSearchPostings(@RequestParam String title) {
-        List<FindGroupPostingDto> postings = postingService.findSearchPostings(title);
+    public List<FindPostingsDto> getSearchPostings(@RequestParam String title) {
+        List<FindPostingsDto> postings = postingService.findSearchPostings(title);
         return postings;
     }
 

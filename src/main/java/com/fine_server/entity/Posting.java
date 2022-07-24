@@ -47,7 +47,7 @@ public class Posting extends BaseEntity {
     private Boolean closing_check;  // false -> 마감 X , true -> 마감
 
     @ColumnDefault("false")
-    private Boolean group_check;    // false -> 일반 글(General) , true -> 단체 글(Group)
+    private Boolean group_check;    // false -> 일반 글(General), true -> 단체 글(Group)
 
     private Integer maxMember;
 
