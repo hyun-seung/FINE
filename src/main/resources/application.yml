@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/fine_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/fineDB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
-    password: 1234
+    password: kim253511!
 
 # RDS 연결 정보
 #    url: jdbc:mysql://fine.cwvwlhmmtlyg.us-east-1.rds.amazonaws.com:3306/fine_database?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
