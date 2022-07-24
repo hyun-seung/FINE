@@ -1,6 +1,5 @@
 package com.fine_server.service.posting;
 
-import com.fine_server.entity.GroupCollection;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.Posting;
 import com.fine_server.entity.Recruiting;
@@ -19,7 +18,7 @@ import java.util.Optional;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.06.29
+ * LastModifiedDate: 22.07.23
  * LastModifiedPerson : eunhye
  */
 
@@ -54,12 +53,12 @@ public class PostingService {
 
     // 일반 포스팅 전체 불러오기
     @Transactional(readOnly = true)
-    public List<FindGeneralPostingDto> findGeneralPostings() {
-        List<Posting> postings = postingRepository.findGeneralPosting();
+    public List<FindGeneralPostingDto> findGeneralPostings(Boolean groupCheck) {
+        List<Posting> postings = postingRepository.findPostings(groupCheck);
         List<FindGeneralPostingDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindGeneralPostingDto findGeneralPostingDto = new FindGeneralPostingDto(
-                    posting.getId(), posting.getMember().getNickname(),
+                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(),
                     posting.getTitle(), posting.getContent(), posting.getComments().size(),
                     posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
             );
@@ -70,13 +69,13 @@ public class PostingService {
 
     // 그룹 포스팅 전체 불러오기
     @Transactional(readOnly = true)
-    public List<FindGroupPostingDto> findGroupPostings() {
-        List<Posting> postings = postingRepository.findGroupPosting();
+    public List<FindGroupPostingDto> findGroupPostings(Boolean groupCheck) {
+        List<Posting> postings = postingRepository.findPostings(groupCheck);
         List<FindGroupPostingDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
                     posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
+                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), headCount(posting.getId()), posting.getClosing_check()
             );
             postingDtos.add(findGroupPostingDto);
         }
@@ -84,30 +83,15 @@ public class PostingService {
     }
 
 
-    // 그룹 포스팅 모집 중 불러오기
+    // 그룹 포스팅 모집 여부에 따라 불러오기
     @Transactional(readOnly = true)
-    public List<FindGroupPostingDto> findGroupClosingFPostings() {
-        List<Posting> postings = postingRepository.findGroupClosingFPosting();
+    public List<FindGroupPostingDto> findGroupClosingPostings(Boolean closingCheck) {
+        List<Posting> postings = postingRepository.findGroupClosingPosting(closingCheck);
         List<FindGroupPostingDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
                     posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
-            );
-            postingDtos.add(findGroupPostingDto);
-        }
-        return postingDtos;
-    }
-
-    // 그룹 포스팅 모집 완료 불러오기
-    @Transactional(readOnly = true)
-    public List<FindGroupPostingDto> findGroupClosingTPostings() {
-        List<Posting> postings = postingRepository.findGroupClosingTPosting();
-        List<FindGroupPostingDto> postingDtos = new ArrayList<>();
-        for(Posting posting : postings) {
-            FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
+                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), headCount(posting.getId()), posting.getClosing_check()
             );
             postingDtos.add(findGroupPostingDto);
         }
@@ -145,9 +129,9 @@ public class PostingService {
         Recruiting save = recruiting.get();
         save.updateAcceptCheck(recruitingDto.getAccept_check());
 
+        Optional<Posting> posting = postingRepository.findById(postingId);
         // 현재 수락 인원이 max면 포스팅 마감 결정
-        if(headCount(postingId)) {
-            Optional<Posting> posting = postingRepository.findById(postingId);
+        if(headCount(postingId) == posting.get().getMaxMember()) {
             posting.get().updateClosingCheck(true);
 
             groupService.makeGroup(postingId);
@@ -156,7 +140,7 @@ public class PostingService {
     }
 
     // 현재 수락 인원 체크
-    public Boolean headCount(Long postingId) {
+    public Integer headCount(Long postingId) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
 
@@ -168,20 +152,20 @@ public class PostingService {
                 count++;
             }
         }
-        return count == posting.getMaxMember();
+        return count;
     }
 
-    // 글 검색
+    // 글 제목으로 검색
     @Transactional (readOnly = true)
-    public List<FindGroupPostingDto> findSearchPostings(String title) {
+    public List<FindPostingsDto> findSearchPostings(String title) {
         List<Posting> postings = postingRepository.findSearchPostings(title);
-        List<FindGroupPostingDto> postingDtos = new ArrayList<>();
+        List<FindPostingsDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
-            FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), posting.getClosing_check()
+            FindPostingsDto findPostingsDto = new FindPostingsDto(
+                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getGroup_check(),
+                    posting.getComments().size(), posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
             );
-            postingDtos.add(findGroupPostingDto);
+            postingDtos.add(findPostingsDto);
         }
         return postingDtos;
     }
