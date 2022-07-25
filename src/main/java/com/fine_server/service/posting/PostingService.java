@@ -1,6 +1,7 @@
 package com.fine_server.service.posting;
 
 import com.fine_server.entity.*;
+import com.fine_server.entity.bookmark.GetBookmarkDto;
 import com.fine_server.entity.posting.*;
 import com.fine_server.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -154,7 +155,7 @@ public class PostingService {
         return recruitingId;
     }
 
-    // 참여 수락 및 취소
+    // 참여 수락 및 수락 취소
     public Recruiting joinAccept(Long postingId, Long recruitingId, RecruitingDto recruitingDto) {
         Optional<Recruiting> recruiting = recruitingRepository.findById(recruitingId);
         Recruiting save = recruiting.get();

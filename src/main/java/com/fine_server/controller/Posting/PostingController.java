@@ -87,14 +87,14 @@ public class PostingController {
     }
 
     // 참여하기 - memberId dto에 담아서 하는 걸로 리팩토링
-    @PostMapping("/post/{postingId}/{memberId}/join")
+    @PostMapping("/post/join/{postingId}/{memberId}")
     public ResponseEntity<Recruiting> groupJoin(@RequestBody RecruitingDto recruitingDto, @PathVariable Long postingId, @PathVariable Long memberId) {
         Recruiting recruiting = postingService.groupJoin(postingId, memberId, recruitingDto);
         return new ResponseEntity(recruiting, HttpStatus.OK);
     }
 
     // 참여하기 취소 (삭제)
-    @DeleteMapping("/post/{recruitingId}/delete")
+    @DeleteMapping("/post/delete/{recruitingId}")
     public Long deleteRecruiting(@PathVariable Long recruitingId) {
         return postingService.deleteRecruiting(recruitingId);
     }

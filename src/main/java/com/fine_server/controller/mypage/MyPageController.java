@@ -124,7 +124,6 @@ public class MyPageController {
     public ResponseEntity myPost(@PathVariable Long memberId){
         List<Posting> posts = myPageService.getMyPost(memberId);
         return ResponseEntity.ok(posts);
-
     }
 
     /**
