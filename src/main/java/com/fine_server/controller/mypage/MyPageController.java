@@ -1,9 +1,12 @@
 package com.fine_server.controller.mypage;
 
 import com.fine_server.controller.mypage.errors.UserException;
+import com.fine_server.entity.Bookmark;
 import com.fine_server.entity.Keyword;
 import com.fine_server.entity.Posting;
 import com.fine_server.entity.mypage.MemberResponseDto;
+import com.fine_server.repository.BookmarkRepository;
+import com.fine_server.repository.MemberRepository;
 import com.fine_server.service.mypage.KeywordService;
 import com.fine_server.service.mypage.MemberService;
 import com.fine_server.controller.mypage.errors.ErrorResult;
@@ -37,7 +40,10 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final KeywordService keywordService;
 
-    @PostMapping("/signUp")
+    private final BookmarkRepository bookmarkRepository;
+    private final MemberRepository memberRepository;
+
+    @PostMapping("/signuptest")
     public ResponseEntity<Member> signUp(@RequestBody @Valid MemberRequestDto memberDto, BindingResult bindingResult, Errors errors) {
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
@@ -50,8 +56,23 @@ public class MyPageController {
 
     /**
      * edit. 22.06.26
+     * 마이페이지 접속 화면
      */
-    @PostMapping("/myPage/editProfile/{memberId}")
+    @ResponseBody
+    @GetMapping("/mypage/{memberId}")
+    public ResponseEntity<Member> profileTest(@PathVariable Long memberId){
+        Optional<Member> findMember = memberService.findMember(memberId);
+        if (!findMember.isEmpty()){
+            return new ResponseEntity(findMember, HttpStatus.OK);
+        }else{
+            throw new UserException("사용자를 찾지 못하였습니다.");
+        }
+    }
+
+    /**
+     * edit. 22.06.26
+     */
+    @PostMapping("/mypage/editProfile/{memberId}")
     public ResponseEntity<Member> editProfile(@RequestBody @Valid MemberRequestDto memberRequestDto, @PathVariable Long memberId, BindingResult bindingResult, Errors errors) {
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
@@ -64,22 +85,12 @@ public class MyPageController {
         return new ResponseEntity(memberResponseDto,HttpStatus.OK);
     }
 
-    @ResponseBody
-    @GetMapping("/myPage/{memberId}")
-    public ResponseEntity<Member> profileTest(@PathVariable Long memberId){
-        Optional<Member> findMember = memberService.findMember(memberId);
-        if (!findMember.isEmpty()){
-            return new ResponseEntity(findMember, HttpStatus.OK);
-        }else{
-            throw new UserException("사용자를 찾지 못하였습니다.");
-        }
-    }
 
     /**
      * edit. 22.06.26
      * 친구 프로필 조회
      */
-    @ResponseBody
+
     @GetMapping("/profile/{memberId}")
     public ResponseEntity<Member> profile(@PathVariable Long memberId){
         Optional<Member> findMember = memberService.findMember(memberId);
@@ -107,9 +118,9 @@ public class MyPageController {
 
     /**
      * add. 22.06.23
+     * 내 게시글 조회
      */
-    @ResponseBody
-    @GetMapping("/myPage/myPost/{memberId}")
+    @GetMapping("/mypage/myPost/{memberId}")
     public ResponseEntity myPost(@PathVariable Long memberId){
         List<Posting> posts = myPageService.getMyPost(memberId);
         return ResponseEntity.ok(posts);
@@ -117,17 +128,29 @@ public class MyPageController {
     }
 
     /**
-     * add. 22.06.26
+     * edit. 22.07.20
+     * 북마크 조회
      */
-//    @ResponseBody
-//    @GetMapping("/myPage/myBookMark/{memberId}")
-//    public ResponseEntity myBookMark(@PathVariable Long memberId){
-//        List<Posting> posts = myPageService.getMyBookMark(memberId);
-//        return ResponseEntity.ok(posts);
-//
-//    }
+    @GetMapping("/mypage/bookmark/{memberId}")
+    public ResponseEntity<Member> findBookMark(@PathVariable Long memberId) {
+
+        Member member = memberRepository.findById(memberId).get();
+        List<Bookmark> bookmarks = bookmarkRepository.findAllByMember(member);
+
+        List<Posting> bookMarkList = new ArrayList<>();
+
+        for(Bookmark bookmark:  bookmarks) {
+            bookMarkList.add(bookmark.getPosting());
+        }
+
+        return new ResponseEntity(bookMarkList,HttpStatus.OK);
+    }
 
 
+    @DeleteMapping("/mypage/{bookmarkId}")
+    public Long deleteBookmark(@PathVariable Long memberId) {
+        return memberService.deleteAccount(memberId);
+    }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResult> userExHandler (UserException e) {

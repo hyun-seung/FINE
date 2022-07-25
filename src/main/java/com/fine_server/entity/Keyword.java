@@ -13,9 +13,9 @@ import static lombok.AccessLevel.PROTECTED;
  * date: 22.06.26
  */
 
-
 @Builder
 @Entity @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor //에러로 추가
 public class Keyword {

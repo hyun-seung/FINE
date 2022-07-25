@@ -15,8 +15,11 @@ import static lombok.AccessLevel.PROTECTED;
 /**
  * written by dahae
  * date: 22.05.27
- * 사용자 이미지처리는 보류
+ *
+ * edit by dahae
+ * date: 22.07.15
  */
+
 
 @Entity
 @Getter @Setter //이후 리팩토링 예정
@@ -31,12 +34,16 @@ public class Member extends BaseEntity{
     private Long id;
 
     @Column(nullable = false)
+    private String userID;
+    @JsonIgnore
+    @Column(nullable = false)
+    private String password;
+
     private String nickname;
     private String email;
     private String intro; //자기소개
 
-    @JsonIgnore
-    private String password;
+
     private String userIntroduction;
     private String userUniversity;//대학명
     private String userCollege;//단과대
@@ -48,9 +55,10 @@ public class Member extends BaseEntity{
     private String level;//프로필 레벨
     private Long report; //신고 당한 횟수
 
-
     @Builder
-    public Member(String nickname, String intro, List<String> keyword){
+    public Member(String userID, String password,String nickname, String intro, List<String> keyword){
+        this.userID = userID;
+        this.password = password;
         this.nickname = nickname;
         this.intro = intro;
     }
