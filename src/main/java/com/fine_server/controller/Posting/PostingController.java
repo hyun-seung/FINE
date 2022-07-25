@@ -89,4 +89,11 @@ public class PostingController {
         return postingService.deleteRecruiting(recruitingId);
     }
 
+    // 검색
+    @GetMapping("post/search")
+    public List<FindGroupPostingDto> getSearchPostings(@RequestParam String title) {
+        List<FindGroupPostingDto> postings = postingService.findSearchPostings(title);
+        return postings;
+    }
+
 }
