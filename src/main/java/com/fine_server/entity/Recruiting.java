@@ -33,6 +33,7 @@ public class Recruiting {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonIgnore
     private Member member;
 
     @Column(nullable = false)

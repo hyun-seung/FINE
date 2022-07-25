@@ -61,12 +61,20 @@ public class PostingService {
     public GetPostingDto findPosting(Long postingId) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
-        List<Comment> commentList = posting.getComments();
 
+        List<Recruiting> recruitingList = posting.getRecruitingList();
+        List<RecruitingDto> newRecruiting = new ArrayList<>();
+        for(Recruiting recruiting: recruitingList) {
+            RecruitingDto recruitingDto = new RecruitingDto(recruiting.getAccept_check(),
+                    new GetMemberDto(recruiting.getMember().getId(), recruiting.getMember().getNickname(), recruiting.getMember().getLevel()));
+            newRecruiting.add(recruitingDto);
+        }
+
+        List<Comment> commentList = posting.getComments();
         List<CommentMemberDto> newCommentList = new ArrayList<>();
         for(Comment comment : commentList) {
             CommentMemberDto commentMemberDto = new CommentMemberDto(comment.getId(), comment.getText(),
-                    new GetMemberDto(comment.getMember().getId(), comment.getMember().getNickname()));
+                    new GetMemberDto(comment.getMember().getId(), comment.getMember().getNickname(), comment.getMember().getLevel()));
             newCommentList.add(commentMemberDto);
         }
 
@@ -80,7 +88,7 @@ public class PostingService {
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
                 posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
                 posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
-                posting.getRecruitingList(), newCommentList, newBookmarkList);
+                newRecruiting, newCommentList, newBookmarkList);
         return postingDto;
     }
 

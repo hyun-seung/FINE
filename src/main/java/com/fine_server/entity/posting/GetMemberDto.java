@@ -11,11 +11,13 @@ public class GetMemberDto {
 
     String nickname;
 
+    String level;
+
 //    Integer profileIamgeNum;
 
-
-    public GetMemberDto(Long memberId, String nickname) {
+    public GetMemberDto(Long memberId, String nickname, String level) {
         this.memberId = memberId;
         this.nickname = nickname;
+        this.level = level;
     }
 }
