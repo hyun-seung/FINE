@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @Entity @Getter
 @NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor //에러로 추가
+@AllArgsConstructor
 public class Keyword {
     @Id
     @GeneratedValue

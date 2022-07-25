@@ -1,7 +1,9 @@
 package com.fine_server.entity.mypage;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fine_server.entity.Member;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -19,13 +21,21 @@ import java.util.List;
 @AllArgsConstructor
 public class MemberRequestDto {
 
-    @NotBlank(message = "닉네임 값은 필수 입력 값입니다.")
-    private String nickname;
+    @NotBlank(message = "아이디 값은 필수 입력 값입니다.")
+    private String id;
+    @NotBlank
+    @Length(min = 8,max = 40)
+    private String password;
+
+    //@NotBlank(message = "닉네임 값은 필수 입력 값입니다.")
+    private String nickname; //닉네임 값이 없으면 그냥 id 값으로 넣어주기
     private String intro;
     private List<String> keyword; //키워드
 
     public Member toEntity(){
         return Member.builder()
+                .userID(id)
+                .password(password)
                 .nickname(nickname)
                 .intro(intro)
                 .keyword(keyword)
