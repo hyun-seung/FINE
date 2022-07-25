@@ -2,7 +2,11 @@ package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import com.fine_server.entity.posting.TextDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -29,7 +33,7 @@ public class Posting extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "posting_id")
-    @JsonProperty(value = "posting_id")
+    @JsonProperty(value = "postingId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,6 +68,10 @@ public class Posting extends BaseEntity {
     public void setMember(Member member) {
         this.member = member;
 //        member.getPostings().add(this);
+    }
+
+    public void setText(TextDto textDto) {
+        this.content = textDto.getText();
     }
 
     public void updateClosingCheck(Boolean check) {

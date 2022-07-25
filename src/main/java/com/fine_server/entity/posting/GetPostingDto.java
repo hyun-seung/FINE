@@ -1,7 +1,7 @@
 package com.fine_server.entity.posting;
 
-import com.fine_server.entity.Comment;
 import com.fine_server.entity.Recruiting;
+import com.fine_server.entity.bookmark.GetBookmarkDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class GetPostingDto {
 
-    private Long id;
+    private Long postingId;
+
+    private Long writer_id;
 
     private String writer_nickname;
 
@@ -27,10 +29,14 @@ public class GetPostingDto {
 
     private List<Recruiting> recruitingList;
 
-    private List<Comment> comments;
+    private List<CommentMemberDto> comments;
 
-    public GetPostingDto(Long id, String nickname, String title, String content, Boolean closing_check, Boolean group_check, Integer maxMember, List<Recruiting> recruitingList, List<Comment> comments) {
-        this.id = id;
+    private List<GetBookmarkDto> bookmarks;
+
+    public GetPostingDto(Long id, Long writer_id, String nickname, String title, String content, Boolean closing_check, Boolean group_check, Integer maxMember,
+                         List<Recruiting> recruitingList, List<CommentMemberDto> comments, List<GetBookmarkDto> bookmarks) {
+        this.postingId = id;
+        this.writer_id = writer_id;
         this.writer_nickname = nickname;
         this.title = title;
         this.content = content;
@@ -39,5 +45,6 @@ public class GetPostingDto {
         this.maxMember = maxMember;
         this.recruitingList = recruitingList;
         this.comments = comments;
+        this.bookmarks = bookmarks;
     }
 }
