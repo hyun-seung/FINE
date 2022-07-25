@@ -60,4 +60,17 @@ public class FollowService {
         }
         return followDtos;
     }
+
+    //맞팔 수 카운트
+    public Integer getFollowBackCount(Long memberId) {
+        List<Follow> followList = followRepository.findFriends(memberId);
+
+        int count = 0;
+        for(Follow follow: followList) {
+            if(followRepository.findByFriendId(follow.getFriend().getId(), memberId) > 0) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
