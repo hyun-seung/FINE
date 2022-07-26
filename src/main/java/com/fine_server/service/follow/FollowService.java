@@ -27,6 +27,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
 
+    // 팔로우
     public Follow make(Long friendId, Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         Optional<Member> friend = memberRepository.findById(friendId);
@@ -40,7 +41,13 @@ public class FollowService {
         return follow;
     }
 
-    // 글 찾는 거 전반적으로 리팩토링 필요. 그냥 리스트 바로 반환하면 안되나?..
+    // 팔로우 취소
+    public Long deleteById(Long followId) {
+        followRepository.deleteById(followId);
+        return followId;
+    }
+
+    // 팔로우 리스트
     public List<FollowDto> getFollowList(Long memberId) {
         List<Follow> followList = followRepository.findFriends(memberId);
         List<FollowDto> followDtos = new ArrayList<>();
@@ -52,5 +59,18 @@ public class FollowService {
             followDtos.add(followDto);
         }
         return followDtos;
+    }
+
+    //맞팔 수 카운트
+    public Integer getFollowBackCount(Long memberId) {
+        List<Follow> followList = followRepository.findFriends(memberId);
+
+        int count = 0;
+        for(Follow follow: followList) {
+            if(followRepository.findByFriendId(follow.getFriend().getId(), memberId) > 0) {
+                count++;
+            }
+        }
+        return count;
     }
 }
