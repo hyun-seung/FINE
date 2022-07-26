@@ -27,13 +27,16 @@ public class GetPostingDto {
 
     private Integer maxMember;
 
+    private Integer headCount;
+
     private List<RecruitingDto> recruitingList;
 
     private List<CommentMemberDto> comments;
 
     private List<GetBookmarkDto> bookmarks;
 
-    public GetPostingDto(Long id, Long writer_id, String nickname, String title, String content, Boolean closing_check, Boolean group_check, Integer maxMember,
+    public GetPostingDto(Long id, Long writer_id, String nickname, String title, String content, Boolean closing_check,
+                         Boolean group_check, Integer maxMember, Integer headCount,
                          List<RecruitingDto> recruitingList, List<CommentMemberDto> comments, List<GetBookmarkDto> bookmarks) {
         this.postingId = id;
         this.writer_id = writer_id;
@@ -43,6 +46,7 @@ public class GetPostingDto {
         this.closing_check = closing_check;
         this.group_check = group_check;
         this.maxMember = maxMember;
+        this.headCount = headCount;
         this.recruitingList = recruitingList;
         this.comments = comments;
         this.bookmarks = bookmarks;
