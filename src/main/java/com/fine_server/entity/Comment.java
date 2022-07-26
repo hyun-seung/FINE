@@ -2,7 +2,6 @@ package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fine_server.entity.comment.CommentDto;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -23,7 +22,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bookmark_id")
-    @JsonProperty(value = "comment_id")
+    @JsonProperty(value = "commentId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

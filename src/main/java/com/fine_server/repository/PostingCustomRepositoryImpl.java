@@ -17,32 +17,21 @@ public class PostingCustomRepositoryImpl implements PostingCustomRepository {
     EntityManager em;
 
     @Override
-    public List<Posting> findGeneralPosting() {
-        return em.createQuery("select p from Posting p where p.group_check = false")
+    public List<Posting> findPostings(Boolean groupCheck) {
+        return em.createQuery("select p from Posting p where p.group_check = :groupCheck")
+                .setParameter("groupCheck", groupCheck)
                 .getResultList();
     }
 
-    // 그룹 전체
+
+
     @Override
-    public List<Posting> findGroupPosting() {
-        return em.createQuery("select p from Posting p where p.group_check = true")
+    public List<Posting> findGroupClosingPosting(Boolean closingCheck) {
+        return em.createQuery("select p from Posting p where p.group_check = true and p.closing_check = :closingCheck")
+                .setParameter("closingCheck", closingCheck)
                 .getResultList();
     }
 
-    // 모집 중 (closing X)
-    @Override
-    public List<Posting> findGroupClosingFPosting() {
-        return em.createQuery("select p from Posting p where p.group_check = true and p.closing_check = false")
-                .getResultList();
-    }
-
-
-    // 모집 완료 (closing O)
-    @Override
-    public List<Posting> findGroupClosingTPosting() {
-        return em.createQuery("select p from Posting p where p.group_check = true and p.closing_check = true")
-                .getResultList();
-    }
 
     @Override
     public List<Recruiting> findAcceptCheckT(Long postingId) {
@@ -51,5 +40,11 @@ public class PostingCustomRepositoryImpl implements PostingCustomRepository {
                 .getResultList();
     }
 
-
+    // 그룹 전체
+    @Override
+    public List<Posting> findSearchPostings(String title) {
+        return em.createQuery("select p from Posting p where p.title = :title")
+                .setParameter("title", title)
+                .getResultList();
+    }
 }

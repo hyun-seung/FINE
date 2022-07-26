@@ -1,4 +1,4 @@
-package com.fine_server.entity.Dto;
+package com.fine_server.entity.posting;
 
 import lombok.Getter;
 import lombok.Setter;

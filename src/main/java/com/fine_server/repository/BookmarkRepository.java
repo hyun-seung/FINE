@@ -14,4 +14,6 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
      * date: 22.07.20
      */
     List<Bookmark> findAllByMember(Member member);
+
+    List<Bookmark> findAllByPosting(Posting posting);
 }

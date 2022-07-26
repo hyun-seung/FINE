@@ -6,40 +6,39 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * written by hyunseung , eunhye
- * LastModifiedDate: 22.07.22
- * LastModifiedPerson : eunhye
+ * written by eunhye
+ * LastModifiedDate: 22.07.23
  */
 
 @Getter
 @NoArgsConstructor
-public class FindGeneralPostingDto {
+public class FindPostingsDto {
 
     private Long postingId;
-    private Long memberId;
+    private Long memberId; // 작성자 아이디
 
-    private String nickname;    // 작성자의 닉네임
 
     private String title;
-    private String content;
     private int commentCount;
+
+    private Boolean groupCheck; //커뮤니티 구분
 
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
     private Boolean closingCheck;
 
-    public FindGeneralPostingDto(Long postingId, Long memberId, String nickname,
-                                 String title, String content, int commentCount,
-                                 LocalDateTime createdDate, LocalDateTime lastModifiedDate, Boolean closingCheck) {
+
+    public FindPostingsDto(Long postingId, Long memberId, String title, Boolean groupCheck, int commentCount,
+                           LocalDateTime createdDate, LocalDateTime lastModifiedDate, Boolean closingCheck) {
         this.postingId = postingId;
         this.memberId = memberId;
-        this.nickname = nickname;
         this.title = title;
-        this.content = content;
         this.commentCount = commentCount;
+        this.groupCheck = groupCheck;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
         this.closingCheck = closingCheck;
     }
+
 }

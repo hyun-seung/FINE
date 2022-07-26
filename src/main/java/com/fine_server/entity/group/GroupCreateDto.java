@@ -1,4 +1,4 @@
-package com.fine_server.entity.posting;
+package com.fine_server.entity.group;
 
 import com.fine_server.entity.Group;
 import com.fine_server.entity.Member;
