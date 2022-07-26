@@ -20,7 +20,7 @@ public class GroupController {
     private final GroupService groupService;
     private final PostingService postingService;
 
-    // 신청 수락 (인원 체크 및 마감 여부 변경 포함)
+    // 신청 수락 및 수락 취소 (인원 체크 후 마감 여부 자동 변경 포함)
     @PostMapping("/{postingId}/{recruitingId}/accept")
     public ResponseEntity<Recruiting> joinAccept(@RequestBody RecruitingDto recruitingDto, @PathVariable Long postingId, @PathVariable Long recruitingId) {
         Recruiting recruiting = postingService.joinAccept(postingId, recruitingId, recruitingDto);

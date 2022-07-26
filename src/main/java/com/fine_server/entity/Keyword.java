@@ -13,11 +13,10 @@ import static lombok.AccessLevel.PROTECTED;
  * date: 22.06.26
  */
 
-
 @Builder
 @Entity @Getter
-@NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 public class Keyword {
     @Id
     @GeneratedValue

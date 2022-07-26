@@ -1,13 +1,9 @@
 package com.fine_server.service.posting;
 
-import com.fine_server.entity.Member;
-import com.fine_server.entity.Posting;
-import com.fine_server.entity.Recruiting;
+import com.fine_server.entity.*;
+import com.fine_server.entity.bookmark.GetBookmarkDto;
 import com.fine_server.entity.posting.*;
-import com.fine_server.repository.GroupCollectionRepository;
-import com.fine_server.repository.MemberRepository;
-import com.fine_server.repository.PostingRepository;
-import com.fine_server.repository.RecruitingRepository;
+import com.fine_server.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +27,7 @@ public class PostingService {
     private final MemberRepository memberRepository;
     private final RecruitingRepository recruitingRepository;
     private final GroupCollectionRepository groupCollectionRepository;
-
+    private final BookmarkRepository bookmarkRepository;
     private final GroupService groupService;
 
 
@@ -44,11 +40,57 @@ public class PostingService {
         return save;
     }
 
+    // 포스팅 수정(내용만)
+    public Posting updateText(Long postingId, TextDto textDto) {
+        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
+        Posting posting = optionalPosting.get();
+        posting.setText(textDto);
+        return posting;
+    }
+
+    // 포스팅 수정(마감 여부 반대로 변경)
+    public Posting updateClosingCheck(Long postingId) {
+        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
+        Posting posting = optionalPosting.get();
+        posting.updateClosingCheck(!posting.getClosing_check());
+        return posting;
+    }
+
     // 해당 포스팅 불러오기
     @Transactional(readOnly = true)
-    public Posting findPosting(Long postingId) {
-        Optional<Posting> posting = postingRepository.findById(postingId);
-        return posting.get();
+    public GetPostingDto findPosting(Long postingId) {
+        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
+        Posting posting = optionalPosting.get();
+
+        List<Recruiting> recruitingList = posting.getRecruitingList();
+        List<RecruitingDto> newRecruiting = new ArrayList<>();
+        for(Recruiting recruiting: recruitingList) {
+            RecruitingDto recruitingDto = new RecruitingDto(recruiting.getAccept_check(),
+                    new GetMemberDto(recruiting.getMember().getId(), recruiting.getMember().getNickname(), recruiting.getMember().getLevel()));
+            newRecruiting.add(recruitingDto);
+        }
+
+        List<Comment> commentList = posting.getComments();
+        List<CommentMemberDto> newCommentList = new ArrayList<>();
+        for(Comment comment : commentList) {
+            CommentMemberDto commentMemberDto = new CommentMemberDto(comment.getId(), comment.getText(),
+                    new GetMemberDto(comment.getMember().getId(), comment.getMember().getNickname(), comment.getMember().getLevel()));
+            newCommentList.add(commentMemberDto);
+        }
+
+        List<Bookmark> BookmarkList = bookmarkRepository.findAllByPosting(posting);
+        List<GetBookmarkDto> newBookmarkList = new ArrayList<>();
+        for(Bookmark bookmark : BookmarkList) {
+            GetBookmarkDto getBookmarkDto = new GetBookmarkDto(bookmark.getId(), bookmark.getMember().getId());
+            newBookmarkList.add(getBookmarkDto);
+        }
+
+        GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
+                posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
+                posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(), headCount(posting.getId()),
+                posting.getCreatedDate(), posting.getLastModifiedDate(),
+                newRecruiting, newCommentList, newBookmarkList);
+        return postingDto;
     }
 
     // 일반 포스팅 전체 불러오기
@@ -98,7 +140,6 @@ public class PostingService {
         return postingDtos;
     }
 
-
     public Long deleteById(Long postingId) {
         postingRepository.deleteById(postingId);
         return postingId;
@@ -123,7 +164,7 @@ public class PostingService {
         return recruitingId;
     }
 
-    // 참여 수락 및 취소
+    // 참여 수락 및 수락 취소
     public Recruiting joinAccept(Long postingId, Long recruitingId, RecruitingDto recruitingDto) {
         Optional<Recruiting> recruiting = recruitingRepository.findById(recruitingId);
         Recruiting save = recruiting.get();
