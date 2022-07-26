@@ -88,6 +88,7 @@ public class PostingService {
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
                 posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
                 posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(), headCount(posting.getId()),
+                posting.getCreatedDate(), posting.getLastModifiedDate(),
                 newRecruiting, newCommentList, newBookmarkList);
         return postingDto;
     }

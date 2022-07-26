@@ -1,10 +1,10 @@
 package com.fine_server.entity.posting;
 
-import com.fine_server.entity.Recruiting;
 import com.fine_server.entity.bookmark.GetBookmarkDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -29,6 +29,10 @@ public class GetPostingDto {
 
     private Integer headCount;
 
+    private LocalDateTime createdDate;
+
+    private LocalDateTime lastModifiedDate;
+
     private List<RecruitingDto> recruitingList;
 
     private List<CommentMemberDto> comments;
@@ -36,17 +40,19 @@ public class GetPostingDto {
     private List<GetBookmarkDto> bookmarks;
 
     public GetPostingDto(Long id, Long writer_id, String nickname, String title, String content, Boolean closing_check,
-                         Boolean group_check, Integer maxMember, Integer headCount,
+                         Boolean group_check, Integer maxMember, Integer headCount,  LocalDateTime createdDate, LocalDateTime lastModifiedDate,
                          List<RecruitingDto> recruitingList, List<CommentMemberDto> comments, List<GetBookmarkDto> bookmarks) {
-        this.postingId = id;
+        this.postingId = postingId;
         this.writer_id = writer_id;
-        this.writer_nickname = nickname;
+        this.writer_nickname = writer_nickname;
         this.title = title;
         this.content = content;
         this.closing_check = closing_check;
         this.group_check = group_check;
         this.maxMember = maxMember;
         this.headCount = headCount;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
         this.recruitingList = recruitingList;
         this.comments = comments;
         this.bookmarks = bookmarks;
