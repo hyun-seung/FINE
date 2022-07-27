@@ -81,7 +81,7 @@ public class MyPageController {
         Member member = memberService.editProfile(memberId,memberRequestDto);
         List<String> keywordList = keywordService.save(member, memberRequestDto.getKeyword());//키워드 저장
 
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getIntro(),keywordList);
+        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList);
         return new ResponseEntity(memberResponseDto,HttpStatus.OK);
     }
 
@@ -112,7 +112,7 @@ public class MyPageController {
             keywordList.add(keyword.getKeyword());
         }
 
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getIntro(),keywordList);
+        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList);
         return memberResponseDto;
     }
 

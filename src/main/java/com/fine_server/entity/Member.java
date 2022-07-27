@@ -38,6 +38,7 @@ public class Member extends BaseEntity{
     @JsonIgnore
     @Column(nullable = false)
     private String password;
+    private int userImageNum;
 
     private String nickname;
     private String email;
