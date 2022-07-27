@@ -39,7 +39,8 @@ public class GetPostingDto {
 
     private List<GetBookmarkDto> bookmarks;
 
-    public GetPostingDto(Long id, Long writer_id, String nickname, String title, String content, Boolean closing_check,
+
+    public GetPostingDto(Long postingId, Long writer_id, String nickname, String title, String content, Boolean closing_check,
                          Boolean group_check, Integer maxMember, Integer headCount,  LocalDateTime createdDate, LocalDateTime lastModifiedDate,
                          List<RecruitingDto> recruitingList, List<CommentMemberDto> comments, List<GetBookmarkDto> bookmarks) {
         this.postingId = id;
