@@ -127,6 +127,18 @@ public class MyPageController {
 
     }
 
+
+    /**
+     * add. 22.07.27
+     * 내 그룹 신청글 조회
+     */
+    @GetMapping("/mypage/myPost/{memberId}")
+    public ResponseEntity myGroupPost(@PathVariable Long memberId){
+        List<Posting> posts = myPageService.getMyPost(memberId);
+        return ResponseEntity.ok(posts);
+
+    }
+
     /**
      * edit. 22.07.20
      * 북마크 조회
