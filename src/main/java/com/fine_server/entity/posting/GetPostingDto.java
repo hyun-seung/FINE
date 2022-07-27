@@ -42,9 +42,9 @@ public class GetPostingDto {
     public GetPostingDto(Long id, Long writer_id, String nickname, String title, String content, Boolean closing_check,
                          Boolean group_check, Integer maxMember, Integer headCount,  LocalDateTime createdDate, LocalDateTime lastModifiedDate,
                          List<RecruitingDto> recruitingList, List<CommentMemberDto> comments, List<GetBookmarkDto> bookmarks) {
-        this.postingId = postingId;
+        this.postingId = id;
         this.writer_id = writer_id;
-        this.writer_nickname = writer_nickname;
+        this.writer_nickname = nickname;
         this.title = title;
         this.content = content;
         this.closing_check = closing_check;
