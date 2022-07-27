@@ -7,13 +7,11 @@ import java.util.List;
 
 public interface PostingCustomRepository {
 
-    List<Posting> findGeneralPosting();
+    List<Posting> findPostings(Boolean groupCheck);
 
-    List<Posting> findGroupPosting();
-
-    List<Posting> findGroupClosingTPosting();
-
-    List<Posting> findGroupClosingFPosting();
+    List<Posting> findGroupClosingPosting(Boolean closingCheck);
 
     List<Recruiting> findAcceptCheckT(Long postingId);
+
+    List<Posting> findSearchPostings(String title);
 }
