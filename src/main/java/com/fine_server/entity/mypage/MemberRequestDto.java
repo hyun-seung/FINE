@@ -27,6 +27,7 @@ public class MemberRequestDto {
     @Length(min = 8,max = 40)
     private String password;
 
+    private int userImageNum;
     //@NotBlank(message = "닉네임 값은 필수 입력 값입니다.")
     private String nickname; //닉네임 값이 없으면 그냥 id 값으로 넣어주기
     private String intro;

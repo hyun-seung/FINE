@@ -20,6 +20,7 @@ import java.util.List;
 public class MemberResponseDto {
 
     private String nickname;
+    private int userImageNum;
     private String intro;
     private List<String> keyword;
 
