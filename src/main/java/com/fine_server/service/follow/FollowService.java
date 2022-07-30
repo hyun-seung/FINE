@@ -15,7 +15,7 @@ import java.util.Optional;
 
 /**
  * written by eunhye
- * date: 22.07.20
+ * date: 22.07.29
  */
 
 
@@ -27,7 +27,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
 
-    // 팔로우
+    // 팔로우 - 전체를 리턴하는 거에서 friend만 리턴으로 리팩토링 예정
     public Follow make(Long friendId, Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         Optional<Member> friend = memberRepository.findById(friendId);
@@ -35,10 +35,9 @@ public class FollowService {
         FollowDto followDto = new FollowDto();
         followDto.setMember(member.get());
         followDto.setFriend(friend.get());
+        followRepository.save(followDto.toEntity());
 
-        Follow follow = followRepository.save(followDto.toEntity());
-
-        return follow;
+        return followDto.toEntity();
     }
 
     // 팔로우 취소
@@ -63,11 +62,11 @@ public class FollowService {
 
     //맞팔 수 카운트
     public Integer getFollowBackCount(Long memberId) {
-        List<Follow> followList = followRepository.findFriends(memberId);
+        List<Follow> followList = followRepository.findFriends(memberId); //해당 멤버가 팔로우 한 리스트
 
         int count = 0;
-        for(Follow follow: followList) {
-            if(followRepository.findByFriendId(follow.getFriend().getId(), memberId) > 0) {
+        for(Follow follow: followList) { //팔로우 리스트에서 해당 사용자를 팔로우 한 멤버 탐색
+            if(followRepository.findByMemberIdAndFriendId(follow.getFriend().getId(), memberId) > 0) {
                 count++;
             }
         }

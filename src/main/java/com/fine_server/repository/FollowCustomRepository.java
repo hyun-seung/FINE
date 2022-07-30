@@ -8,5 +8,5 @@ public interface FollowCustomRepository {
 
     List<Follow> findFriends(Long memberId);
 
-    Integer findByFriendId(Long memberId, Long friendId);
+    Long findByMemberIdAndFriendId(Long memberId, Long friendId);
 }

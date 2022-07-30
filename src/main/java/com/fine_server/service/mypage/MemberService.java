@@ -3,6 +3,7 @@ package com.fine_server.service.mypage;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.mypage.MemberRequestDto;
 import com.fine_server.repository.MemberRepository;
+import com.fine_server.service.follow.FollowService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,8 +30,14 @@ import java.util.UUID;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FollowService followService;
+
     public Optional<Member> findMember(Long memberId) {
-        return memberRepository.findById(memberId);
+        Optional<Member> findMember = memberRepository.findById(memberId);
+        Member member = findMember.get();
+
+        member.setFollowBack(followService.getFollowBackCount(memberId));
+        return Optional.of(member);
     }
 
     public Member saveNewAccount(MemberRequestDto memberDto) {
