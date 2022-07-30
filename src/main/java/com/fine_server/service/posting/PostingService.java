@@ -14,7 +14,7 @@ import java.util.Optional;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.07.23
+ * LastModifiedDate: 22.07.29
  * LastModifiedPerson : eunhye
  */
 
@@ -87,7 +87,8 @@ public class PostingService {
 
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
                 posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(), headCount(posting.getId()),
+                posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
+                headCount(posting.getId()),
                 posting.getCreatedDate(), posting.getLastModifiedDate(),
                 newRecruiting, newCommentList, newBookmarkList);
         return postingDto;
@@ -199,7 +200,7 @@ public class PostingService {
     // 글 제목으로 검색
     @Transactional (readOnly = true)
     public List<FindPostingsDto> findSearchPostings(String title) {
-        List<Posting> postings = postingRepository.findSearchPostings(title);
+        List<Posting> postings = postingRepository.findByTitleContaining(title);
         List<FindPostingsDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindPostingsDto findPostingsDto = new FindPostingsDto(

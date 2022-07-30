@@ -20,4 +20,6 @@ import java.util.Optional;
 public interface PostingRepository  extends JpaRepository<Posting, Long>, PostingCustomRepository {
 
     List<Posting> findByMemberId(Long memberId);
+
+    List<Posting> findByTitleContaining(String title);
 }
