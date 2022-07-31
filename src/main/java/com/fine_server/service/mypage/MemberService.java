@@ -42,13 +42,16 @@ public class MemberService {
 
     public Member editProfile(Long memberId, MemberRequestDto memberDto) {
        Member member = memberRepository.findById(memberId).get();
+       member.setIntro(memberDto.getIntro());
+       member.setNickname(memberDto.getNickname());
+       member.setUserImageNum(memberDto.getUserImageNum());
+       member.setKeyword1(memberDto.getKeyword1());
+       member.setKeyword2(memberDto.getKeyword2());
+       member.setKeyword3(memberDto.getKeyword3());
 
-        member.setIntro(memberDto.getIntro());
-        member.setNickname(memberDto.getNickname());
-        member.setUserImageNum(memberDto.getUserImageNum());
-        memberRepository.save(member);
+       memberRepository.save(member);
 
-        return memberDto.toEntity();
+       return memberDto.toEntity();
     }
 
     public Long deleteAccount(Long id) {

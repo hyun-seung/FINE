@@ -34,12 +34,19 @@ public class MemberRequestDto {
     private String intro;
     //private List<String> keyword; //키워드
 
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
+
     public Member toEntity(){
         return Member.builder()
                 .userID(id)
                 .password(password)
                 .nickname(nickname)
                 .intro(intro)
+                .keyword1(keyword1)
+                .keyword2(keyword2)
+                .keyword3(keyword3)
                 .build();
     }
 }
