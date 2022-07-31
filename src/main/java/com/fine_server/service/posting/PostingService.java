@@ -14,7 +14,7 @@ import java.util.Optional;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.07.29
+ * LastModifiedDate: 22.07.31
  * LastModifiedPerson : eunhye
  */
 
@@ -183,9 +183,6 @@ public class PostingService {
 
     //참여 여부 체크
     public Boolean joinCheck(Long postingId, Long memberId) {
-        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
-        Posting posting = optionalPosting.get();
-
         List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
 
         for(Recruiting recruiting : recruitingList) {
@@ -198,9 +195,6 @@ public class PostingService {
 
     // 현재 수락 인원 체크
     public Integer headCount(Long postingId) {
-        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
-        Posting posting = optionalPosting.get();
-
         List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
 
         int count = 0;
