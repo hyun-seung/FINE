@@ -1,7 +1,6 @@
 package com.fine_server.service.posting;
 
 import com.fine_server.entity.*;
-import com.fine_server.entity.bookmark.GetBookmarkDto;
 import com.fine_server.entity.comment.CommentMemberDto;
 import com.fine_server.entity.posting.*;
 import com.fine_server.repository.*;
@@ -65,7 +64,7 @@ public class PostingService {
         List<Recruiting> recruitingList = posting.getRecruitingList();
         List<RecruitingDto> newRecruiting = new ArrayList<>();
         for(Recruiting recruiting: recruitingList) {
-            RecruitingDto recruitingDto = new RecruitingDto(recruiting.getAccept_check(),
+            RecruitingDto recruitingDto = new RecruitingDto(recruiting.getId(), recruiting.getAccept_check(),
                     new GetMemberDto(recruiting.getMember().getId(), recruiting.getMember().getNickname(), recruiting.getMember().getLevel()));
             newRecruiting.add(recruitingDto);
         }
@@ -88,15 +87,15 @@ public class PostingService {
 
     // 북마크 여부 체크
     @Transactional(readOnly = true)
-    public Boolean bookmarkCheck(Long postingId, Long memberId) {
+    public Long bookmarkCheck(Long postingId, Long memberId) {
         List<Bookmark> bookmarkList = bookmarkRepository.findByPostingId(postingId);
 
         for(Bookmark bookmark : bookmarkList) {
             if(bookmark.getMember().getId().equals(memberId)) {
-                return true;
+                return bookmark.getId();
             }
         }
-        return false;
+        return 0L;
     }
 
     // 일반 포스팅 전체 불러오기
@@ -174,7 +173,7 @@ public class PostingService {
     public Recruiting joinAccept(Long postingId, Long recruitingId, RecruitingDto recruitingDto) {
         Optional<Recruiting> recruiting = recruitingRepository.findById(recruitingId);
         Recruiting save = recruiting.get();
-        save.updateAcceptCheck(recruitingDto.getAccept_check());
+        save.updateAcceptCheck(recruitingDto.getAcceptCheck());
 
         Optional<Posting> posting = postingRepository.findById(postingId);
         // 현재 수락 인원이 max면 포스팅 마감 결정

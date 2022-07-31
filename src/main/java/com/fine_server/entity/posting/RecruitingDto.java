@@ -2,7 +2,6 @@ package com.fine_server.entity.posting;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fine_server.entity.Recruiting;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +16,8 @@ import lombok.NoArgsConstructor;
 //@AllArgsConstructor
 public class RecruitingDto {
 
-    private Boolean accept_check;
+    private Long recruitingId;
+    private Boolean acceptCheck;
 
     @JsonProperty(value = "member")
     GetMemberDto memberDto;
@@ -25,12 +25,13 @@ public class RecruitingDto {
     public Recruiting toEntity(){
 
         return Recruiting.builder()
-                .accept_check(accept_check)
+                .accept_check(acceptCheck)
                 .build();
     }
 
-    public RecruitingDto(Boolean accept_check, GetMemberDto memberDto) {
-        this.accept_check = accept_check;
+    public RecruitingDto(Long recruitingId, Boolean acceptCheck, GetMemberDto memberDto) {
+        this.recruitingId = recruitingId;
+        this.acceptCheck = acceptCheck;
         this.memberDto = memberDto;
     }
 }
