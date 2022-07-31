@@ -6,8 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -55,6 +54,9 @@ public class Member extends BaseEntity{
     @ColumnDefault("1")
     private String level;//프로필 레벨
     private Long report; //신고 당한 횟수
+
+    @OneToMany(mappedBy = "member")
+    private List<RoomCollection> roomCollectionList = new ArrayList<>();
 
     @Builder
     public Member(String userID, String password,String nickname, String intro, List<String> keyword){
