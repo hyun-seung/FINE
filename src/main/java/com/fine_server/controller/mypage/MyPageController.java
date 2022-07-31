@@ -39,7 +39,6 @@ public class MyPageController {
     private final MemberService memberService;
     private final MyPageService myPageService;
     private final KeywordService keywordService;
-
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
 
