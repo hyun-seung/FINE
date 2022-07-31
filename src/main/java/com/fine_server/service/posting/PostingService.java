@@ -58,7 +58,7 @@ public class PostingService {
 
     // 해당 포스팅 불러오기
     @Transactional(readOnly = true)
-    public GetPostingDto findPosting(Long postingId) {
+    public GetPostingDto findPosting(Long postingId, Long memberId) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
 
@@ -88,7 +88,7 @@ public class PostingService {
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
                 posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
                 posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
-                headCount(posting.getId()),
+                headCount(posting.getId()), joinCheck(postingId, memberId),
                 posting.getCreatedDate(), posting.getLastModifiedDate(),
                 newRecruiting, newCommentList, newBookmarkList);
         return postingDto;
@@ -181,6 +181,21 @@ public class PostingService {
         return save;
     }
 
+    //참여 여부 체크
+    public Boolean joinCheck(Long postingId, Long memberId) {
+        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
+        Posting posting = optionalPosting.get();
+
+        List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
+
+        for(Recruiting recruiting : recruitingList) {
+            if (recruiting.getMember().getId().equals(memberId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 현재 수락 인원 체크
     public Integer headCount(Long postingId) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
@@ -210,5 +225,11 @@ public class PostingService {
             postingDtos.add(findPostingsDto);
         }
         return postingDtos;
+    }
+
+    // 조회수 초기화
+    @Transactional (readOnly = true)
+    public void initViews() {
+        List<Posting> postingList = postingRepository.findAll();
     }
 }

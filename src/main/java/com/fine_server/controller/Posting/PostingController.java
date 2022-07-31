@@ -24,9 +24,9 @@ public class PostingController {
     private final PostingService postingService;
 
     // 해당 글 조회 (개인 , 그룹 상관 없이)
-    @GetMapping("/post/{postingId}")
-    public GetPostingDto getPosting(@PathVariable Long postingId) {
-        GetPostingDto postingDto = postingService.findPosting(postingId);
+    @GetMapping("/post/{postingId}/{memberId}")
+    public GetPostingDto getPosting(@PathVariable Long postingId, @PathVariable Long memberId) {
+        GetPostingDto postingDto = postingService.findPosting(postingId, memberId);
         return postingDto;
     }
 
