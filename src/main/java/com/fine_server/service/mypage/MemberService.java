@@ -41,11 +41,11 @@ public class MemberService {
     }
 
     public Member editProfile(Long memberId, MemberRequestDto memberDto) {
-        Optional<Member> findMember = memberRepository.findById(memberId);
-        Member member = findMember.get();
+       Member member = memberRepository.findById(memberId).get();
 
         member.setIntro(memberDto.getIntro());
         member.setNickname(memberDto.getNickname());
+        member.setUserImageNum(memberDto.getUserImageNum());
         memberRepository.save(member);
 
         return memberDto.toEntity();
