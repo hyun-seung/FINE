@@ -87,7 +87,7 @@ public class PostingController {
     }
 
     // 참여하기 - memberId dto에 담아서 하는 걸로 리팩토링
-    @PostMapping("/post/{postingId}/join/{memberId}")
+    @PostMapping("/post/{postingId}/{memberId}/join")
     public ResponseEntity<Recruiting> groupJoin(@RequestBody RecruitingDto recruitingDto, @PathVariable Long postingId, @PathVariable Long memberId) {
         Recruiting recruiting = postingService.groupJoin(postingId, memberId, recruitingDto);
         return new ResponseEntity(recruiting, HttpStatus.OK);
