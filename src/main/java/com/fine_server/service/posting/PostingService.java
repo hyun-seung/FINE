@@ -2,6 +2,7 @@ package com.fine_server.service.posting;
 
 import com.fine_server.entity.*;
 import com.fine_server.entity.bookmark.GetBookmarkDto;
+import com.fine_server.entity.comment.CommentMemberDto;
 import com.fine_server.entity.posting.*;
 import com.fine_server.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,6 @@ public class PostingService {
     private final PostingRepository postingRepository;
     private final MemberRepository memberRepository;
     private final RecruitingRepository recruitingRepository;
-    private final GroupCollectionRepository groupCollectionRepository;
     private final BookmarkRepository bookmarkRepository;
     private final GroupService groupService;
 
@@ -78,20 +78,25 @@ public class PostingService {
             newCommentList.add(commentMemberDto);
         }
 
-        List<Bookmark> BookmarkList = bookmarkRepository.findAllByPosting(posting);
-        List<GetBookmarkDto> newBookmarkList = new ArrayList<>();
-        for(Bookmark bookmark : BookmarkList) {
-            GetBookmarkDto getBookmarkDto = new GetBookmarkDto(bookmark.getId(), bookmark.getMember().getId());
-            newBookmarkList.add(getBookmarkDto);
-        }
-
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
                 posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
                 posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
-                headCount(posting.getId()), joinCheck(postingId, memberId),
-                posting.getCreatedDate(), posting.getLastModifiedDate(),
-                newRecruiting, newCommentList, newBookmarkList);
+                headCount(posting.getId()), joinCheck(postingId, memberId), bookmarkCheck(postingId, memberId),
+                posting.getCreatedDate(), posting.getLastModifiedDate(), newRecruiting, newCommentList);
         return postingDto;
+    }
+
+    // 북마크 여부 체크
+    @Transactional(readOnly = true)
+    public Boolean bookmarkCheck(Long postingId, Long memberId) {
+        List<Bookmark> bookmarkList = bookmarkRepository.findByPostingId(postingId);
+
+        for(Bookmark bookmark : bookmarkList) {
+            if(bookmark.getMember().getId().equals(memberId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // 일반 포스팅 전체 불러오기

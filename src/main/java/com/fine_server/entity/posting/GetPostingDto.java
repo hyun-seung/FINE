@@ -1,6 +1,7 @@
 package com.fine_server.entity.posting;
 
 import com.fine_server.entity.bookmark.GetBookmarkDto;
+import com.fine_server.entity.comment.CommentMemberDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,18 +24,19 @@ public class GetPostingDto {
 
     private Integer headCount;
     private Boolean joinCheck;
+    private Boolean bookmarkCheck;
 
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
     private List<RecruitingDto> recruitingList;
     private List<CommentMemberDto> comments;
-    private List<GetBookmarkDto> bookmarks;
+//    private List<GetBookmarkDto> bookmarks;
 
     public GetPostingDto(Long postingId, Long writer_id, String writer_nickname, String title, String content, Boolean closing_check,
-                         Boolean group_check, Integer maxMember, Integer headCount, Boolean joinCheck,
+                         Boolean group_check, Integer maxMember, Integer headCount, Boolean joinCheck, Boolean bookmarkCheck,
                          LocalDateTime createdDate, LocalDateTime lastModifiedDate,
-                         List<RecruitingDto> recruitingList, List<CommentMemberDto> comments, List<GetBookmarkDto> bookmarks) {
+                         List<RecruitingDto> recruitingList, List<CommentMemberDto> comments) {
         this.postingId = postingId;
         this.writer_id = writer_id;
         this.writer_nickname = writer_nickname;
@@ -46,11 +48,11 @@ public class GetPostingDto {
 
         this.headCount = headCount;
         this.joinCheck = joinCheck;
+        this.bookmarkCheck = bookmarkCheck;
 
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
         this.recruitingList = recruitingList;
         this.comments = comments;
-        this.bookmarks = bookmarks;
     }
 }

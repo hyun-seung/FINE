@@ -40,7 +40,6 @@ public class FollowService {
         return follow;
     }
 
-    // 글 찾는 거 전반적으로 리팩토링 필요. 그냥 리스트 바로 반환하면 안되나?..
     public List<FollowDto> getFollowList(Long memberId) {
         List<Follow> followList = followRepository.findFriends(memberId);
         List<FollowDto> followDtos = new ArrayList<>();

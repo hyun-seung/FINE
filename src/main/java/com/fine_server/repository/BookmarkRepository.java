@@ -10,10 +10,10 @@ import java.util.List;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     /**
-     * edit by dahae
-     * date: 22.07.20
+     * edit by eunhye
+     * date: 22.07.31
      */
     List<Bookmark> findAllByMember(Member member);
 
-    List<Bookmark> findAllByPosting(Posting posting);
+    List<Bookmark> findByPostingId(Long postingId);
 }
