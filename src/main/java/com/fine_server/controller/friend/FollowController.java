@@ -42,4 +42,10 @@ public class FollowController {
         return followList;
     }
 
+    // 팔로우 목록에서 검색 - 닉네임만 됨, 키워드 추후 수정
+    @GetMapping("followList/search/{memberId}")
+    public List<FollowDto> searchFollow(@RequestParam String search, @PathVariable Long memberId) {
+        List<FollowDto> followDtoList = followService.searchFollow(memberId, search);
+        return followDtoList;
+    }
 }

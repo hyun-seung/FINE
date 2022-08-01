@@ -72,4 +72,11 @@ public class FollowService {
         }
         return count;
     }
+
+    //팔로우 검색
+    public List<FollowDto> searchFollow(Long memberId, String nickname) {
+        List<FollowDto> followList = followRepository.findByNickname(memberId, nickname); //검색 결과
+
+        return followList;
+    }
 }
