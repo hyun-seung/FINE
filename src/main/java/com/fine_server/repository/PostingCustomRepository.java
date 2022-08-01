@@ -13,5 +13,4 @@ public interface PostingCustomRepository {
 
     List<Recruiting> findAcceptCheckT(Long postingId);
 
-    List<Posting> findSearchPostings(String title);
 }

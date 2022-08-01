@@ -39,7 +39,6 @@ public class MyPageController {
     private final MemberService memberService;
     private final MyPageService myPageService;
     private final KeywordService keywordService;
-
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
 
@@ -79,10 +78,9 @@ public class MyPageController {
             throw new UserException("입력값이 잘못 되었습니다.");
         }
         Member member = memberService.editProfile(memberId,memberRequestDto);
-        List<String> keywordList = keywordService.save(member, memberRequestDto.getKeyword());//키워드 저장
 
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList);
-        return new ResponseEntity(memberResponseDto,HttpStatus.OK);
+        //MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList);
+        return new ResponseEntity(memberRequestDto,HttpStatus.OK);
     }
 
 

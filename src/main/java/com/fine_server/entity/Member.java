@@ -6,7 +6,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -66,4 +67,7 @@ public class Member extends BaseEntity{
         this.intro = intro;
     }
 
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
 }

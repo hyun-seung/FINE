@@ -21,17 +21,22 @@ import java.util.List;
 @AllArgsConstructor
 public class MemberRequestDto {
 
-    @NotBlank(message = "아이디 값은 필수 입력 값입니다.")
+    //@NotBlank(message = "아이디 값은 필수 입력 값입니다.")
     private String id;
-    @NotBlank
+    //@NotBlank
     @Length(min = 8,max = 40)
     private String password;
 
     private int userImageNum;
     //@NotBlank(message = "닉네임 값은 필수 입력 값입니다.")
+
     private String nickname; //닉네임 값이 없으면 그냥 id 값으로 넣어주기
     private String intro;
-    private List<String> keyword; //키워드
+    //private List<String> keyword; //키워드
+
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
 
     public Member toEntity(){
         return Member.builder()
@@ -39,7 +44,9 @@ public class MemberRequestDto {
                 .password(password)
                 .nickname(nickname)
                 .intro(intro)
-                .keyword(keyword)
+                .keyword1(keyword1)
+                .keyword2(keyword2)
+                .keyword3(keyword3)
                 .build();
     }
 }

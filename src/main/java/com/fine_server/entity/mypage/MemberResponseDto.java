@@ -24,4 +24,5 @@ public class MemberResponseDto {
     private String intro;
     private List<String> keyword;
 
+
 }

@@ -1,6 +1,7 @@
-package com.fine_server.entity.posting;
+package com.fine_server.entity.comment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fine_server.entity.posting.GetMemberDto;
 import lombok.Getter;
 import lombok.Setter;
 
