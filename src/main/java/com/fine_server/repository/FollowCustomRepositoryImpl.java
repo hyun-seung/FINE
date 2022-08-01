@@ -21,4 +21,12 @@ public class FollowCustomRepositoryImpl implements FollowCustomRepository{
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
+
+    //성능 이슈 : count 보단 exists로
+    public Integer findByFriendId(Long memberId, Long friendId) {
+        return em.createQuery("select count(f) from Follow f where f.member.id = :memberId and f.friend.id = :friendId")
+                .setParameter("memberId", memberId)
+                .setParameter("friendId", friendId)
+                .getFirstResult();
+    }
 }

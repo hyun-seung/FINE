@@ -7,4 +7,6 @@ import java.util.List;
 public interface FollowCustomRepository {
 
     List<Follow> findFriends(Long memberId);
+
+    Integer findByFriendId(Long memberId, Long friendId);
 }

@@ -28,6 +28,13 @@ public class FollowController {
         return save;
     }
 
+    // 팔로우 취소
+    @DeleteMapping("follow/{followId}/delete")
+    public Long deleteFollow(@PathVariable Long followId) {
+        Long deleteFollowId = followService.deleteById(followId);
+        return deleteFollowId;
+    }
+
     // 팔로우 목록 불러오기
     @GetMapping("/followlist/{memberId}")
     public List<FollowDto> getFollowList(@PathVariable Long memberId) {
