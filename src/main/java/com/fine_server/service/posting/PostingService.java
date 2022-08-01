@@ -60,10 +60,14 @@ public class PostingService {
     public GetPostingDto findPosting(Long postingId, Long memberId) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
+        Long checkRecruitingId = 0L;
 
         List<Recruiting> recruitingList = posting.getRecruitingList();
         List<RecruitingDto> newRecruiting = new ArrayList<>();
         for(Recruiting recruiting: recruitingList) {
+            if (recruiting.getMember().getId().equals(memberId)) {
+                checkRecruitingId = recruiting.getId();
+            }
             RecruitingDto recruitingDto = new RecruitingDto(recruiting.getId(), recruiting.getAccept_check(),
                     new GetMemberDto(recruiting.getMember().getId(), recruiting.getMember().getNickname(), recruiting.getMember().getLevel()));
             newRecruiting.add(recruitingDto);
@@ -80,7 +84,7 @@ public class PostingService {
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
                 posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
                 posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
-                headCount(posting.getId()), joinCheck(postingId, memberId), bookmarkCheck(postingId, memberId),
+                headCount(posting.getId()), checkRecruitingId, bookmarkCheck(postingId, memberId),
                 posting.getCreatedDate(), posting.getLastModifiedDate(), newRecruiting, newCommentList);
         return postingDto;
     }
@@ -186,16 +190,16 @@ public class PostingService {
     }
 
     //참여 여부 체크
-    public Boolean joinCheck(Long postingId, Long memberId) {
-        List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
-
-        for(Recruiting recruiting : recruitingList) {
-            if (recruiting.getMember().getId().equals(memberId)) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public Long joinCheck(Long postingId, Long memberId) {
+//        List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
+//
+//        for(Recruiting recruiting : recruitingList) {
+//            if (recruiting.getMember().getId().equals(memberId)) {
+//                return recruiting.getId();
+//            }
+//        }
+//        return 0L;
+//    }
 
     // 현재 수락 인원 체크
     public Integer headCount(Long postingId) {
