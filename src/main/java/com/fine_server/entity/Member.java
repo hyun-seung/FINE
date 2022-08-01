@@ -6,8 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -24,6 +23,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter @Setter //이후 리팩토링 예정
 @DynamicInsert
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseEntity{
@@ -56,18 +56,11 @@ public class Member extends BaseEntity{
     private String level;//프로필 레벨
     private Long report; //신고 당한 횟수
 
-    @OneToMany(mappedBy = "member")
-    private List<RoomCollection> roomCollectionList = new ArrayList<>();
-
-    @Builder
-    public Member(String userID, String password,String nickname, String intro, List<String> keyword){
-        this.userID = userID;
-        this.password = password;
-        this.nickname = nickname;
-        this.intro = intro;
-    }
-
     private String keyword1;
     private String keyword2;
     private String keyword3;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<RoomCollection> roomCollectionList = new ArrayList<>();
 }
