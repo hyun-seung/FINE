@@ -71,7 +71,7 @@ public class MyPageController {
     /**
      * edit. 22.06.26
      */
-    @PostMapping("/mypage/editProfile/{memberId}")
+    @PostMapping("/mypage/profile/{memberId}")
     public ResponseEntity<Member> editProfile(@RequestBody @Valid MemberRequestDto memberRequestDto, @PathVariable Long memberId, BindingResult bindingResult, Errors errors) {
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
@@ -118,7 +118,7 @@ public class MyPageController {
      * add. 22.06.23
      * 내 게시글 조회
      */
-    @GetMapping("/mypage/myPost/{memberId}")
+    @GetMapping("/mypage/post/{memberId}")
     public ResponseEntity myPost(@PathVariable Long memberId){
         List<Posting> posts = myPageService.getMyPost(memberId);
         return ResponseEntity.ok(posts);
@@ -129,7 +129,7 @@ public class MyPageController {
      * add. 22.07.27
      * 내 그룹 신청글 조회
      */
-    @GetMapping("/mypage/myGroupPost/{memberId}")
+    @GetMapping("/mypage/post/group/{memberId}")
     public ResponseEntity myGroupPost(@PathVariable Long memberId){
         List<Posting> posts = myPageService.getMyPost(memberId);
         return ResponseEntity.ok(posts);
@@ -156,8 +156,8 @@ public class MyPageController {
     }
 
 
-    @DeleteMapping("/mypage/{bookmarkId}")
-    public Long deleteBookmark(@PathVariable Long memberId) {
+    @DeleteMapping("/mypage/{memberId}")
+    public Long deleteMember(@PathVariable Long memberId) {
         return memberService.deleteAccount(memberId);
     }
 
