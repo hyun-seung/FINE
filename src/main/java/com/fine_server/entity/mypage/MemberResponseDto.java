@@ -25,5 +25,9 @@ public class MemberResponseDto {
     private String intro;
     private List<String> keyword;
 
-
+    /**
+     * added by eunhye
+     * date: 22.08.09
+     */
+    private int followBack; //맞팔 수
 }

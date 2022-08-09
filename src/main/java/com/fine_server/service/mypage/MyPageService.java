@@ -1,6 +1,7 @@
 package com.fine_server.service.mypage;
 
 import com.fine_server.entity.Posting;
+import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.PostingRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.List;
 @Slf4j
 public class MyPageService {
     private final PostingRepository postingRepository;
+//    private final FollowRepository followRepository;
     //private  final BookMarkRepository bookMarkRepository;
 
     public List<Posting> getMyPost(Long memberId) {

@@ -60,7 +60,7 @@ public class FollowService {
         return followDtos;
     }
 
-    //맞팔 수 카운트
+    //맞팔 수 카운트 - 친구 페이지에만 반환 중, 수정 필요
     public Integer getFollowBackCount(Long memberId) {
         List<Follow> followList = followRepository.findFriends(memberId); //해당 멤버가 팔로우 한 리스트
 

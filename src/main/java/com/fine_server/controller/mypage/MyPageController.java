@@ -7,6 +7,7 @@ import com.fine_server.entity.Posting;
 import com.fine_server.entity.mypage.MemberResponseDto;
 import com.fine_server.repository.BookmarkRepository;
 import com.fine_server.repository.MemberRepository;
+import com.fine_server.service.follow.FollowService;
 import com.fine_server.service.mypage.KeywordService;
 import com.fine_server.service.mypage.MemberService;
 import com.fine_server.controller.mypage.errors.ErrorResult;
@@ -39,7 +40,7 @@ public class MyPageController {
     private final MemberService memberService;
     private final MyPageService myPageService;
     private final KeywordService keywordService;
-
+    private final FollowService followService;
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
 
@@ -81,7 +82,7 @@ public class MyPageController {
         Member member = memberService.editProfile(memberId,memberRequestDto);
         List<String> keywordList = keywordService.save(member, memberRequestDto.getKeyword());//키워드 저장
 
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList);
+        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList,0); //followBack 임시
         return new ResponseEntity(memberResponseDto,HttpStatus.OK);
     }
 
@@ -112,7 +113,8 @@ public class MyPageController {
             keywordList.add(keyword.getKeyword());
         }
 
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList);
+        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList,
+                followService.getFollowBackCount(member.getId()));
         return memberResponseDto;
     }
 
