@@ -22,6 +22,9 @@ public class MemberResponseDto {
     private String nickname;
     private int userImageNum;
     private String intro;
-    private List<String> keyword;
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
+    private int follower;
 
 }

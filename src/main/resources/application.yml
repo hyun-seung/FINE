@@ -5,7 +5,7 @@ spring:
     username: admin
     password: d4a1b2c3!
 
-# RDS 연결 정보
+  # RDS 연결 정보
 #    url: jdbc:mysql://fine.cwvwlhmmtlyg.us-east-1.rds.amazonaws.com:3306/fine_database?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
 #    username: admin
 #    password: d4a1b2c3!
@@ -16,7 +16,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
@@ -31,3 +31,4 @@ server:
   servlet:
     session:
       timeout: 1800
+
