@@ -3,6 +3,7 @@ package com.fine_server.service.follow;
 import com.fine_server.entity.Follow;
 import com.fine_server.entity.FollowDto;
 import com.fine_server.entity.Member;
+import com.fine_server.entity.posting.GetMemberDto;
 import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -74,8 +75,8 @@ public class FollowService {
     }
 
     //팔로우 검색
-    public List<FollowDto> searchFollow(Long memberId, String nickname) {
-        List<FollowDto> followList = followRepository.findByNickname(memberId, nickname); //검색 결과
+    public List<Member> searchFollow(Long memberId, String nickname) {
+        List<Member> followList = followRepository.findByNickname(memberId, nickname); //검색 결과
 
         return followList;
     }
