@@ -6,6 +6,9 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static lombok.AccessLevel.PROTECTED;
 
 /**
