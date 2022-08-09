@@ -1,7 +1,7 @@
 package com.fine_server.service.posting;
 
 import com.fine_server.entity.*;
-import com.fine_server.entity.bookmark.GetBookmarkDto;
+import com.fine_server.entity.comment.CommentMemberDto;
 import com.fine_server.entity.posting.*;
 import com.fine_server.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.07.23
+ * LastModifiedDate: 22.07.31
  * LastModifiedPerson : eunhye
  */
 
@@ -26,7 +26,6 @@ public class PostingService {
     private final PostingRepository postingRepository;
     private final MemberRepository memberRepository;
     private final RecruitingRepository recruitingRepository;
-    private final GroupCollectionRepository groupCollectionRepository;
     private final BookmarkRepository bookmarkRepository;
     private final GroupService groupService;
 
@@ -58,14 +57,18 @@ public class PostingService {
 
     // 해당 포스팅 불러오기
     @Transactional(readOnly = true)
-    public GetPostingDto findPosting(Long postingId) {
+    public GetPostingDto findPosting(Long postingId, Long memberId) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
+        Long checkRecruitingId = 0L;
 
         List<Recruiting> recruitingList = posting.getRecruitingList();
         List<RecruitingDto> newRecruiting = new ArrayList<>();
         for(Recruiting recruiting: recruitingList) {
-            RecruitingDto recruitingDto = new RecruitingDto(recruiting.getAccept_check(),
+            if (recruiting.getMember().getId().equals(memberId)) {
+                checkRecruitingId = recruiting.getId();
+            }
+            RecruitingDto recruitingDto = new RecruitingDto(recruiting.getId(), recruiting.getAccept_check(),
                     new GetMemberDto(recruiting.getMember().getId(), recruiting.getMember().getNickname(), recruiting.getMember().getLevel()));
             newRecruiting.add(recruitingDto);
         }
@@ -78,19 +81,25 @@ public class PostingService {
             newCommentList.add(commentMemberDto);
         }
 
-        List<Bookmark> BookmarkList = bookmarkRepository.findAllByPosting(posting);
-        List<GetBookmarkDto> newBookmarkList = new ArrayList<>();
-        for(Bookmark bookmark : BookmarkList) {
-            GetBookmarkDto getBookmarkDto = new GetBookmarkDto(bookmark.getId(), bookmark.getMember().getId());
-            newBookmarkList.add(getBookmarkDto);
-        }
-
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
                 posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(), headCount(posting.getId()),
-                posting.getCreatedDate(), posting.getLastModifiedDate(),
-                newRecruiting, newCommentList, newBookmarkList);
+                posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
+                headCount(posting.getId()), checkRecruitingId, bookmarkCheck(postingId, memberId),
+                posting.getCreatedDate(), posting.getLastModifiedDate(), newRecruiting, newCommentList);
         return postingDto;
+    }
+
+    // 북마크 여부 체크
+    @Transactional(readOnly = true)
+    public Long bookmarkCheck(Long postingId, Long memberId) {
+        List<Bookmark> bookmarkList = bookmarkRepository.findByPostingId(postingId);
+
+        for(Bookmark bookmark : bookmarkList) {
+            if(bookmark.getMember().getId().equals(memberId)) {
+                return bookmark.getId();
+            }
+        }
+        return 0L;
     }
 
     // 일반 포스팅 전체 불러오기
@@ -168,7 +177,7 @@ public class PostingService {
     public Recruiting joinAccept(Long postingId, Long recruitingId, RecruitingDto recruitingDto) {
         Optional<Recruiting> recruiting = recruitingRepository.findById(recruitingId);
         Recruiting save = recruiting.get();
-        save.updateAcceptCheck(recruitingDto.getAccept_check());
+        save.updateAcceptCheck(recruitingDto.getAcceptCheck());
 
         Optional<Posting> posting = postingRepository.findById(postingId);
         // 현재 수락 인원이 max면 포스팅 마감 결정
@@ -180,11 +189,20 @@ public class PostingService {
         return save;
     }
 
+    //참여 여부 체크
+//    public Long joinCheck(Long postingId, Long memberId) {
+//        List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
+//
+//        for(Recruiting recruiting : recruitingList) {
+//            if (recruiting.getMember().getId().equals(memberId)) {
+//                return recruiting.getId();
+//            }
+//        }
+//        return 0L;
+//    }
+
     // 현재 수락 인원 체크
     public Integer headCount(Long postingId) {
-        Optional<Posting> optionalPosting = postingRepository.findById(postingId);
-        Posting posting = optionalPosting.get();
-
         List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
 
         int count = 0;
@@ -199,7 +217,7 @@ public class PostingService {
     // 글 제목으로 검색
     @Transactional (readOnly = true)
     public List<FindPostingsDto> findSearchPostings(String title) {
-        List<Posting> postings = postingRepository.findSearchPostings(title);
+        List<Posting> postings = postingRepository.findByTitleContaining(title);
         List<FindPostingsDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
             FindPostingsDto findPostingsDto = new FindPostingsDto(
@@ -209,5 +227,11 @@ public class PostingService {
             postingDtos.add(findPostingsDto);
         }
         return postingDtos;
+    }
+
+    // 조회수 초기화
+    @Transactional (readOnly = true)
+    public void initViews() {
+        List<Posting> postingList = postingRepository.findAll();
     }
 }

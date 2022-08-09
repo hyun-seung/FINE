@@ -24,9 +24,9 @@ public class PostingController {
     private final PostingService postingService;
 
     // 해당 글 조회 (개인 , 그룹 상관 없이)
-    @GetMapping("/post/{postingId}")
-    public GetPostingDto getPosting(@PathVariable Long postingId) {
-        GetPostingDto postingDto = postingService.findPosting(postingId);
+    @GetMapping("/post/{postingId}/{memberId}")
+    public GetPostingDto getPosting(@PathVariable Long postingId, @PathVariable Long memberId) {
+        GetPostingDto postingDto = postingService.findPosting(postingId, memberId);
         return postingDto;
     }
 
@@ -87,7 +87,7 @@ public class PostingController {
     }
 
     // 참여하기 - memberId dto에 담아서 하는 걸로 리팩토링
-    @PostMapping("/post/{postingId}/join/{memberId}")
+    @PostMapping("/post/{postingId}/{memberId}/join")
     public ResponseEntity<Recruiting> groupJoin(@RequestBody RecruitingDto recruitingDto, @PathVariable Long postingId, @PathVariable Long memberId) {
         Recruiting recruiting = postingService.groupJoin(postingId, memberId, recruitingDto);
         return new ResponseEntity(recruiting, HttpStatus.OK);

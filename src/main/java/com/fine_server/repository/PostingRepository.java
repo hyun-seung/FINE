@@ -14,10 +14,12 @@ import java.util.Optional;
 
 /**
  * edit by.dahae
- * date: 22.06.23
+ * date: 22.06.29
  * JPA 리포지토리 사용 필요로 상속 추가
  */
-public interface PostingRepository  extends JpaRepository<Posting, Long>, PostingCustomRepository {
+public interface PostingRepository extends JpaRepository<Posting, Long>, PostingCustomRepository {
 
     List<Posting> findByMemberId(Long memberId);
+
+    List<Posting> findByTitleContaining(String title);
 }

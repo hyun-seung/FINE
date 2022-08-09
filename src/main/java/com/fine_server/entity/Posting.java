@@ -55,6 +55,9 @@ public class Posting extends BaseEntity {
 
     private Integer maxMember;
 
+    @ColumnDefault("0")
+    private Integer views;
+
     @Builder.Default
     @OneToMany(mappedBy = "posting")
     private List<Recruiting> recruitingList = new ArrayList<>();

@@ -27,4 +27,5 @@ public class MemberResponseDto {
     private String keyword3;
     private int follower;
 
+
 }
