@@ -30,7 +30,7 @@ public class SignUpController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Member> signUp(HttpServletRequest request, @RequestBody @Valid MemberRequestDto memberDto, BindingResult bindingResult, Errors errors) {
+    public ResponseEntity<Member> signUp(@RequestBody MemberRequestDto memberDto, BindingResult bindingResult, Errors errors) {
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");

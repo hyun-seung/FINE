@@ -2,15 +2,14 @@ package com.fine_server.controller.login;
 
 import com.fine_server.controller.mypage.errors.UserException;
 import com.fine_server.entity.Member;
-import com.fine_server.entity.mypage.MemberRequestDto;
 import com.fine_server.service.login.LoginService;
-import com.fine_server.service.mypage.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -28,7 +27,7 @@ import javax.validation.Valid;
 public class LoginController {
     private final LoginService loginService;
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseEntity<Member> signUp(HttpServletRequest request, @RequestBody @Valid LoginDto loginDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
@@ -48,12 +47,13 @@ public class LoginController {
         return new ResponseEntity(loginMember, HttpStatus.OK);
     }
 
-    @PostMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    @GetMapping("/logout")
+    public LogoutRes logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
+        if (session == null) {
+            throw new IllegalArgumentException("로그인 정보가 없는 사용자입니다.");
         }
-        return "redirect:/";
+        session.invalidate();
+        return new LogoutRes("정상 로그아웃 처리되었습니다.");
     }
 }
