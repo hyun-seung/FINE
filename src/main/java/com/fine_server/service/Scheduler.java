@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class Scheduler {
     private final PostingService postingService;
 
-    @Scheduled(cron = "0 0 0 5 * *") // 매시간 5분
+    @Scheduled(cron = "0 5 * * * *") // 매시간 5분
     public void initViews() {
         postingService.initViews();
     }
