@@ -1,8 +1,8 @@
 package com.fine_server.controller.chat;
 
-import com.fine_server.entity.Member;
 import com.fine_server.entity.chat.ChatMessageDto;
 import com.fine_server.entity.chat.MessageType;
+import com.fine_server.entity.chat.ReturnChatMessageDto;
 import com.fine_server.service.chat.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -19,13 +19,22 @@ public class ChatController {
 
     @MessageMapping("/message")
     public void message(ChatMessageDto message) {
-        // 입장 시
+
+        // 입장 시(해당 방 입장 시)
         if(MessageType.ENTER.equals(message.getType())) {
-            Member member = chatMessageService.findMember(message.getMemberId());
-            message.setMessage(member.getNickname() + "님이 입장하셨습니다.");
+            chatMessageService.enterRoom(message.getRoomId(), message.getMemberId());
         }
 
-        messageingTemplate.convertAndSend("/sub/message/" + message.getRoomId(), message);
-        chatMessageService.makeChatMessage(message);
+        // 채팅 시
+        if(MessageType.TALK.equals(message.getType())) {
+            ReturnChatMessageDto modifiedMessage = chatMessageService.makeChatMessage(message);
+            messageingTemplate.convertAndSend("/sub/message/" + message.getRoomId(), modifiedMessage);
+        }
+
+        // 퇴장 시(해당 방 퇴장 시)
+        if(MessageType.EXIT.equals(message.getType())) {
+            chatMessageService.quitRoom(message.getRoomId(), message.getMemberId());
+        }
+
     }
 }

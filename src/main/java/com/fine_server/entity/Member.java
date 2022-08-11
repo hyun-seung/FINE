@@ -60,7 +60,8 @@ public class Member extends BaseEntity{
     private String keyword2;
     private String keyword3;
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "member")
-    private List<RoomCollection> roomCollectionList = new ArrayList<>();
+    private List<ChatMember> chatMemberList = new ArrayList<>();
 }
