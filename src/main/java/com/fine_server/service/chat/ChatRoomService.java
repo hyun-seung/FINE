@@ -137,5 +137,32 @@ public class ChatRoomService {
         return returnList;
     }
 
+    public List<Long> getMemberChatRoomNum(Long memberId) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        Member member = optionalMember.get();
+
+        List<Long> roomNumList = new ArrayList<>();
+        for(ChatMember chatMember : member.getChatMemberList()) {
+            Long roomId = chatMember.getChatRoom().getRoomId();
+            roomNumList.add(roomId);
+        }
+
+        return roomNumList;
+    }
+
+    public ChatMember changeRoomName(ChangeRoomNameDto changeRoomNameDto) {
+        Optional<Member> optionalMember = memberRepository.findById(changeRoomNameDto.getMemberId());
+        Member member = optionalMember.get();
+
+        for(ChatMember chatMember : member.getChatMemberList()) {
+            ChatRoom chatRoom = chatMember.getChatRoom();
+            if(chatRoom.getRoomId().equals(changeRoomNameDto.getRoomId())) {
+                chatMember.setRoomName(changeRoomNameDto.getRoomName());
+
+                return chatMember;
+            }
+        }
+        return null;
+    }
 
 }

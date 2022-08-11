@@ -1,5 +1,6 @@
 package com.fine_server.controller.chat;
 
+import com.fine_server.entity.ChatMember;
 import com.fine_server.entity.ChatRoom;
 import com.fine_server.entity.chat.*;
 import com.fine_server.service.chat.ChatRoomService;
@@ -46,16 +47,23 @@ public class ChatRoomController {
         return chatRoom;
     }
 
-//    // 멤버가 속해 있는 chatRoomId 전체 조회
-//    @GetMapping("/rooms/login/{memberId}")
-//    public List<> getMemberChatRoomNumList(@PathVariable Long memberId) {
-//
-//    }
+    // 멤버가 속해 있는 chatRoomId 전체 조회
+    @GetMapping("/rooms/login/{memberId}")
+    public List<Long> getMemberChatRoomNumList(@PathVariable Long memberId) {
+        List<Long> memberChatRoomNumList = chatRoomService.getMemberChatRoomNum(memberId);
+        return memberChatRoomNumList;
+    }
 
 
     @GetMapping("/rooms/chat/{memberId}")
     public List<GetMemberChatRoomDto> getMemberChatRoomList(@PathVariable Long memberId) {
         List<GetMemberChatRoomDto> memberChatRoomList = chatRoomService.getMemberChatRoom(memberId);
         return memberChatRoomList;
+    }
+
+    @PutMapping("/room/name")
+    public ChatMember changeRoomName(@RequestBody ChangeRoomNameDto changeRoomNameDto) {
+        ChatMember chatMember = chatRoomService.changeRoomName(changeRoomNameDto);
+        return chatMember;
     }
 }
