@@ -19,10 +19,18 @@ import java.util.List;
 @AllArgsConstructor
 public class MemberResponseDto {
 
+//    level 추가 및 GetMemberDto와 통합
     private String nickname;
     private int userImageNum;
     private String intro;
-    private List<String> keyword;
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
+    private int follower;
 
-
+    /**
+     * added by eunhye
+     * date: 22.08.09
+     */
+//    private int followBack; //맞팔 수
 }

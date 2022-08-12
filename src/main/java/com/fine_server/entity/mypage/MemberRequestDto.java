@@ -22,7 +22,7 @@ import java.util.List;
 public class MemberRequestDto {
 
     //@NotBlank(message = "아이디 값은 필수 입력 값입니다.")
-    private String id;
+    private String userId;
     //@NotBlank
     @Length(min = 8,max = 40)
     private String password;
@@ -40,7 +40,7 @@ public class MemberRequestDto {
 
     public Member toEntity(){
         return Member.builder()
-                .userID(id)
+                .userId(userId)
                 .password(password)
                 .nickname(nickname)
                 .intro(intro)
