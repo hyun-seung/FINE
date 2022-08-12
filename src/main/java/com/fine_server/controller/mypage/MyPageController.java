@@ -111,8 +111,9 @@ public class MyPageController {
             keywordList.add(keyword.getKeyword());
         }
 
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList,
-                followService.getFollowBackCount(member.getId()));
+//        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList,
+//                followService.getFollowBackCount(member.getId()));
+        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList);
         return memberResponseDto;
     }
 

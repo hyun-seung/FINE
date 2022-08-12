@@ -29,5 +29,5 @@ public class MemberResponseDto {
      * added by eunhye
      * date: 22.08.09
      */
-    private int followBack; //맞팔 수
+//    private int followBack; //맞팔 수
 }
