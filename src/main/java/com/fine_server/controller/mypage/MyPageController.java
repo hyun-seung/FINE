@@ -133,7 +133,7 @@ public class MyPageController {
      * add. 22.07.27
      * 내 그룹 신청글 조회
      */
-    @GetMapping("/mypage/join/{memberId}")
+    @GetMapping("/mypage/myGroupPost/{memberId}")
     public ResponseEntity myGroupPost(@PathVariable Long memberId){
         List<Posting> posts = myPageService.getMyPost(memberId);
         return ResponseEntity.ok(posts);

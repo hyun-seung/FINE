@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
  * date: 22.07.28
  */
 
-
+@Builder
 @Entity
 @Getter @Setter //이후 리팩토링 예정
 @DynamicInsert
@@ -35,6 +35,7 @@ public class Member extends BaseEntity{
 
     @Column(nullable = false)
     private String userID;
+
     @JsonIgnore
     @Column(nullable = false)
     private String password;
@@ -54,6 +55,10 @@ public class Member extends BaseEntity{
     @ColumnDefault("1")
     private String level;//프로필 레벨
     private Long report; //신고 당한 횟수
+
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
 
     @Column(nullable = false)
     @ColumnDefault("0")
