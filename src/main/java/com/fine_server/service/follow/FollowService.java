@@ -3,7 +3,6 @@ package com.fine_server.service.follow;
 import com.fine_server.entity.Follow;
 import com.fine_server.entity.FollowDto;
 import com.fine_server.entity.Member;
-import com.fine_server.entity.posting.GetMemberDto;
 import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +41,8 @@ public class FollowService {
     }
 
     // 팔로우 취소
-    public Long deleteById(Long followId) {
-        followRepository.deleteById(followId);
-        return followId;
+    public Long deleteFollow(Long friendId, Long memberId) {
+        return followRepository.deleteByFriendIdAndMemberId(friendId, memberId);
     }
 
     // 팔로우 리스트

@@ -30,9 +30,9 @@ public class FollowController {
     }
 
     // 팔로우 취소
-    @DeleteMapping("follow/{followId}/delete")
-    public Long deleteFollow(@PathVariable Long followId) {
-        Long deleteFollowId = followService.deleteById(followId);
+    @DeleteMapping("follow/delete/{friendId}/{memberId}")
+    public Long deleteFollow(@PathVariable Long friendId, @PathVariable Long memberId) {
+        Long deleteFollowId = followService.deleteFollow(friendId, memberId);
         return deleteFollowId;
     }
 
