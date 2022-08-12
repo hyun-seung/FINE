@@ -6,6 +6,7 @@ import com.fine_server.entity.mypage.MemberResponseDto;
 import com.fine_server.repository.BookmarkRepository;
 import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.MemberRepository;
+import com.fine_server.service.follow.FollowService;
 import com.fine_server.service.mypage.KeywordService;
 import com.fine_server.service.mypage.MemberService;
 import com.fine_server.controller.mypage.errors.ErrorResult;
@@ -85,7 +86,6 @@ public class MyPageController {
         //MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(),keywordList);
         return new ResponseEntity(memberRequestDto,HttpStatus.OK);
     }
-
 
     /**
      * edit. 22.06.26
