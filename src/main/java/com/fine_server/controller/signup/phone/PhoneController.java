@@ -45,7 +45,7 @@ public class PhoneController {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
     }
 
-    @PostMapping("/authMessage/{memberId}")
+    @PostMapping("/mypage/phone/{memberId}")
     public ResponseEntity<PhoneRequestDto> sendOne(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid PhoneRequestDto phoneRequestDto, BindingResult bindingResult) {
         Message message = new Message();
 
@@ -67,7 +67,7 @@ public class PhoneController {
         return uuid;
     }
 
-    @PostMapping("/phoneVerification/{memberId}")
+    @PostMapping("/mypage/phone/token/{memberId}")
     public ResponseEntity emailVerification(HttpServletRequest request, @RequestBody @Valid TokenDto tokenDto, @PathVariable Long memberId, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){

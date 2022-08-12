@@ -5,18 +5,10 @@ spring:
     username: root
     password: kim253511!
 
-# RDS 연결 정보
+  # RDS 연결 정보
 #    url: jdbc:mysql://fine.cwvwlhmmtlyg.us-east-1.rds.amazonaws.com:3306/fine_database?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
 #    username: admin
 #    password: d4a1b2c3!
-
-#다해 : mysql 연결이 계속 실패해서 일단 있던 db 연결해 둔 것 삭제 X
-#spring:
- # datasource:
-  #  url: jdbc:h2:tcp://localhost/~/jpashop
-   # username: sa
-    #password:
-    #driver-class-name: org.h2.Driver
 
   jackson:
     serialization:
@@ -24,7 +16,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
@@ -34,3 +26,9 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+server:
+  servlet:
+    session:
+      timeout: 1800
+
