@@ -17,10 +17,13 @@ public class GetMemberChatRoomDto {
 
     private Timestamp lastMessageTime;
 
-    public GetMemberChatRoomDto(Long roomId, String roomName, String latestMessage, Timestamp lastMessageTime) {
+    private int unreadMessageCount;
+
+    public GetMemberChatRoomDto(Long roomId, String roomName, String latestMessage, Timestamp lastMessageTime, int unreadMessageCount) {
         this.roomId = roomId;
         this.roomName = roomName;
         this.latestMessage = latestMessage;
         this.lastMessageTime = lastMessageTime;
+        this.unreadMessageCount = unreadMessageCount;
     }
 }

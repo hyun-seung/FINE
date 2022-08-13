@@ -121,8 +121,13 @@ public class ChatRoomService {
         List<ChatMember> chatMemberList = member.getChatMemberList();
         List<GetMemberChatRoomDto> returnList = new ArrayList<>();
         for(ChatMember chatMember : chatMemberList) {
+            int lastReadPoint = chatMember.getLastReadPoint();
+            int now = chatMember.getChatRoom().getChatMessageList().size();
+
+            int unreadMessageCount = now - lastReadPoint;
             GetMemberChatRoomDto getMemberChatRoomDto = new GetMemberChatRoomDto(
-                    chatMember.getChatRoom().getRoomId(), chatMember.getRoomName(), chatMember.getChatRoom().getLatestMessage(), chatMember.getChatRoom().getUpdateTime()
+                    chatMember.getChatRoom().getRoomId(), chatMember.getRoomName(), chatMember.getChatRoom().getLatestMessage(),
+                    chatMember.getChatRoom().getUpdateTime(), unreadMessageCount
             );
             returnList.add(getMemberChatRoomDto);
         }

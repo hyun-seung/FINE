@@ -63,6 +63,10 @@ public class ChatMessageService {
                 ChatMember myChatMember = chatMember;
                 chatMember.setPresent_position(true);
                 this.readMessage(chatRoom, myChatMember);
+
+                int lastReadPoint = chatRoom.getChatMessageList().size();
+                chatMember.setLastReadPoint(lastReadPoint);
+
                 break;
             }
         }
@@ -72,9 +76,14 @@ public class ChatMessageService {
         Optional<ChatRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
         ChatRoom chatRoom = optionalChatRoom.get();
 
+
         for(ChatMember chatMember : chatRoom.getChatMemberList()) {
             if(chatMember.getMember().getId().equals(memberId)) {
                 chatMember.setPresent_position(false);
+
+                int lastReadPoint = chatRoom.getChatMessageList().size();
+                chatMember.setLastReadPoint(lastReadPoint);
+
                 break;
             }
         }

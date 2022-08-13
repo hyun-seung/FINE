@@ -43,6 +43,8 @@ public class ChatMember {
     // 방 현재 접속 여부
     private Boolean present_position; // true : 접속 중 , false : 접속 X
 
+    private int lastReadPoint;
+
     public void setChatRoom(ChatRoom chatRoom) {
         this.chatRoom = chatRoom;
         chatRoom.getChatMemberList().add(this);
@@ -59,5 +61,9 @@ public class ChatMember {
 
     public void setPresent_position(Boolean present_position) {
         this.present_position = present_position;
+    }
+
+    public void setLastReadPoint(int lastReadPoint) {
+        this.lastReadPoint = lastReadPoint;
     }
 }
