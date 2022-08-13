@@ -28,15 +28,15 @@ public class ChatRoom {
     @Column(columnDefinition = "VARCHAR(100)")
     private String latestMessage;
 
-    @Builder.Default
     @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "chatRoom")
     private List<ChatMessage> chatMessageList = new ArrayList<>();
 
-    @Builder.Default
     @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "chatRoom")
-    private List<RoomCollection> roomCollectionList = new ArrayList<>();
+    private List<ChatMember> chatMemberList = new ArrayList<>();
 
     public void setLatestMessage(String latestMessage) {
         if(latestMessage.strip().length() > 100) {

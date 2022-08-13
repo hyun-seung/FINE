@@ -19,6 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
  * date: 22.08.13
  */
 
+
 @Entity
 @Getter @Setter //이후 리팩토링 예정
 @DynamicInsert
@@ -63,6 +64,11 @@ public class Member extends BaseEntity{
     @ColumnDefault("0")
     private Integer followBack; //맞팔 수
 
+    @JsonIgnore
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<ChatMember> chatMemberList = new ArrayList<>();
+
     @Builder
     public Member(String userID, String password,String nickname, String intro, List<String> keyword){
         this.userId = userID;
@@ -74,8 +80,4 @@ public class Member extends BaseEntity{
 //    public void updateFollowBackCount(int followBack) {
 //        this.followBack = followBack;
 //    } 추후 리팩토링
-
-    @Builder.Default
-    @OneToMany(mappedBy = "member")
-    private List<RoomCollection> roomCollectionList = new ArrayList<>();
 }
