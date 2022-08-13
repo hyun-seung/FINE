@@ -62,8 +62,7 @@ public class MyPageController {
         Optional<Member> findMember = memberService.findMember(memberId);
         if (!findMember.isEmpty()){
             Member member = findMember.get();
-            List<Follow> followList = followRepository.findFriends(memberId);
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),followList.size());
+            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),member.getFollowBack());
             return new ResponseEntity(memberResponseDto, HttpStatus.OK);
         }
 
@@ -98,8 +97,7 @@ public class MyPageController {
 
         if (!findMember.isEmpty()){
             Member member = findMember.get();
-            List<Follow> followList = followRepository.findFriends(memberId);
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),followList.size());
+            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),member.getFollowBack());
             return new ResponseEntity(memberResponseDto, HttpStatus.OK);
         }
 

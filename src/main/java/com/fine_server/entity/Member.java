@@ -16,7 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
  * date: 22.05.27
  *
  * edit by eunhye
- * date: 22.07.28
+ * date: 22.08.13
  */
 
 @Entity
@@ -65,15 +65,15 @@ public class Member extends BaseEntity{
 
     @Builder
     public Member(String userID, String password,String nickname, String intro, List<String> keyword){
-        this.userID = userID;
+        this.userId = userID;
         this.password = password;
         this.nickname = nickname;
         this.intro = intro;
     }
 
-    public void updateFollowBackCount(int followBack) {
-        this.followBack = followBack;
-    }
+//    public void updateFollowBackCount(int followBack) {
+//        this.followBack = followBack;
+//    } 추후 리팩토링
 
     @Builder.Default
     @OneToMany(mappedBy = "member")
