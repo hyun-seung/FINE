@@ -39,6 +39,8 @@ public class PostingCreateDto {
                 .closing_check(false)
                 .group_check(groupCheck)
                 .maxMember(maxMember)
+                .totalViews(0)
+                .views(0)
                 .build();
     }
 }
