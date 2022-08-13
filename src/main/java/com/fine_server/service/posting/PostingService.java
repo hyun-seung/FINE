@@ -55,11 +55,12 @@ public class PostingService {
         return posting;
     }
 
-    // 해당 포스팅 불러오기
-    @Transactional(readOnly = true)
+    // 해당 포스팅 상세 페이지
     public GetPostingDto findPosting(Long postingId, Long memberId) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
+        posting.updateViews(); //조회수 +1
+
         Long checkRecruitingId = 0L;
 
         List<Recruiting> recruitingList = posting.getRecruitingList();
@@ -189,18 +190,6 @@ public class PostingService {
         return save;
     }
 
-    //참여 여부 체크
-//    public Long joinCheck(Long postingId, Long memberId) {
-//        List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
-//
-//        for(Recruiting recruiting : recruitingList) {
-//            if (recruiting.getMember().getId().equals(memberId)) {
-//                return recruiting.getId();
-//            }
-//        }
-//        return 0L;
-//    }
-
     // 현재 수락 인원 체크
     public Integer headCount(Long postingId) {
         List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
@@ -230,8 +219,28 @@ public class PostingService {
     }
 
     // 조회수 초기화
-    @Transactional (readOnly = true)
+    @Transactional
     public void initViews() {
         List<Posting> postingList = postingRepository.findAll();
+        //시간 조회수 전부 초기화 for문 돌지 않고 하도록 리팩토링
+        for (Posting posting : postingList) {
+            posting.initViews();
+        }
+    }
+
+    // 조회수 인기글 - 메인
+    @Transactional (readOnly = true)
+    public List<FindPostingsDto> popularPostings() {
+        List<Posting> postingList = postingRepository.findTop5ByOrderByViewsDesc();
+        List<FindPostingsDto> postingsDtos = new ArrayList<>();
+
+        for(Posting posting : postingList) {
+            FindPostingsDto findPostingsDto = new FindPostingsDto(
+                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getGroup_check(),
+                    posting.getComments().size(), posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
+            );
+            postingsDtos.add(findPostingsDto);
+        }
+        return postingsDtos;
     }
 }

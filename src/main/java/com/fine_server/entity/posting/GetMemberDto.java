@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class GetMemberDto {
 
+//    MemberResponseDto와 통합
+
     Long memberId;
 
     String nickname;

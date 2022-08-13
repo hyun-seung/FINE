@@ -106,4 +106,11 @@ public class PostingController {
         return postings;
     }
 
+    // 메인 - 인기글 5개
+    @GetMapping("/main/popular")
+    public List<FindPostingsDto> popularPostings() {
+        List<FindPostingsDto> popularPostings = postingService.popularPostings();
+        return popularPostings;
+    }
+
 }
