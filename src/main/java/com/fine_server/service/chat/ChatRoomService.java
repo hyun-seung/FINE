@@ -73,7 +73,9 @@ public class ChatRoomService {
         ChatMember receiverInfo = new ChatMemberDto(chatRoom, receiver).toEntity();
 
         memberInfo.setRoomName(receiver.getNickname());
+        memberInfo.setImageNum(receiver.getUserImageNum());
         receiverInfo.setRoomName(member.getNickname());
+        receiverInfo.setImageNum(member.getUserImageNum());
 
         chatMemberRepository.save(memberInfo);
         chatMemberRepository.save(receiverInfo);
@@ -94,6 +96,7 @@ public class ChatRoomService {
         ChatMember memberInfo = new ChatMemberDto(chatRoom, member).toEntity();
 
         memberInfo.setRoomName(groupChatRoomDto.getRoomName());
+        memberInfo.setImageNum(member.getUserImageNum());
         chatRoom.getChatMemberList().add(memberInfo);
         chatMemberRepository.save(memberInfo);
 
@@ -104,6 +107,7 @@ public class ChatRoomService {
             ChatMember receiverInfo = new ChatMemberDto(chatRoom, receiver).toEntity();
 
             receiverInfo.setRoomName(groupChatRoomDto.getRoomName());
+            receiverInfo.setImageNum(member.getUserImageNum());
             chatRoom.getChatMemberList().add(receiverInfo);
             chatMemberRepository.save(receiverInfo);
         }
@@ -126,7 +130,9 @@ public class ChatRoomService {
 
             int unreadMessageCount = now - lastReadPoint;
             GetMemberChatRoomDto getMemberChatRoomDto = new GetMemberChatRoomDto(
-                    chatMember.getChatRoom().getRoomId(), chatMember.getRoomName(), chatMember.getChatRoom().getLatestMessage(),
+                    chatMember.getChatRoom().getRoomId(), chatMember.getImageNum(), chatMember.getRoomName(),
+                    chatMember.getChatRoom().isSoloCheck(), chatMember.getChatRoom().getChatMemberList().size(),
+                    chatMember.getChatRoom().getLatestMessage(),
                     chatMember.getChatRoom().getUpdateTime(), unreadMessageCount
             );
             returnList.add(getMemberChatRoomDto);
@@ -163,7 +169,6 @@ public class ChatRoomService {
             ChatRoom chatRoom = chatMember.getChatRoom();
             if(chatRoom.getRoomId().equals(changeRoomNameDto.getRoomId())) {
                 chatMember.setRoomName(changeRoomNameDto.getRoomName());
-
                 return chatMember;
             }
         }

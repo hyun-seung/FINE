@@ -15,11 +15,14 @@ public class GetMemberDto {
 
     String level;
 
+    int userImageNum;
+
 //    Integer profileIamgeNum;
 
-    public GetMemberDto(Long memberId, String nickname, String level) {
+    public GetMemberDto(Long memberId, String nickname, String level, int userImageNum) {
         this.memberId = memberId;
         this.nickname = nickname;
         this.level = level;
+        this.userImageNum = userImageNum;
     }
 }

@@ -13,8 +13,8 @@ import java.util.List;
 
 /**
  * written by hyunseung , eunhye
- * LastModifiedDate: 22.06.30
- * LastModifiedPerson : eunhye
+ * LastModifiedDate: 22.08.15
+ * LastModifiedPerson : hyunseung
  */
 
 @RestController
@@ -86,7 +86,7 @@ public class PostingController {
         return postings;
     }
 
-    // 참여하기 - memberId dto에 담아서 하는 걸로 리팩토링
+    // 참여하기
     @PostMapping("/post/{postingId}/{memberId}/join")
     public ResponseEntity<Recruiting> groupJoin(@RequestBody RecruitingDto recruitingDto, @PathVariable Long postingId, @PathVariable Long memberId) {
         Recruiting recruiting = postingService.groupJoin(postingId, memberId, recruitingDto);

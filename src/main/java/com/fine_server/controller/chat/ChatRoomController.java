@@ -17,7 +17,7 @@ public class ChatRoomController {
 
     @GetMapping("/room")
     public ReturnChatRoomDto getChatRoom(@RequestBody GetChatRoomDto getChatRoomDto) {
-        ReturnChatRoomDto returnChatRoomDto = chatRoomService.getChatRoom(getChatRoomDto.getMemberId(), getChatRoomDto.getMemberId());
+        ReturnChatRoomDto returnChatRoomDto = chatRoomService.getChatRoom(getChatRoomDto.getMemberId(), getChatRoomDto.getRoomId());
         return returnChatRoomDto;
     }
 

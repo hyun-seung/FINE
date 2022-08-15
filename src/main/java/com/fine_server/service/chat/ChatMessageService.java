@@ -61,7 +61,7 @@ public class ChatMessageService {
         for(ChatMember chatMember : chatRoom.getChatMemberList()) {
             if(chatMember.getMember().getId().equals(memberId)) {
                 ChatMember myChatMember = chatMember;
-                chatMember.setPresent_position(true);
+                chatMember.setPresentPosition(true);
                 this.readMessage(chatRoom, myChatMember);
 
                 int lastReadPoint = chatRoom.getChatMessageList().size();
@@ -79,7 +79,7 @@ public class ChatMessageService {
 
         for(ChatMember chatMember : chatRoom.getChatMemberList()) {
             if(chatMember.getMember().getId().equals(memberId)) {
-                chatMember.setPresent_position(false);
+                chatMember.setPresentPosition(false);
 
                 int lastReadPoint = chatRoom.getChatMessageList().size();
                 chatMember.setLastReadPoint(lastReadPoint);
@@ -94,7 +94,7 @@ public class ChatMessageService {
 
         int readCount = 0;
         for(ChatMember chatMember : chatMemberList) {
-            if(chatMember.getPresent_position().equals(true)) {
+            if(chatMember.getPresentPosition().equals(true)) {
                 readCount++;
             }
         }

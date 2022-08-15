@@ -25,7 +25,7 @@ public class ChatMemberDto {
 
         chatMember.setChatRoom(chatRoom);
         chatMember.setMember(member);
-        chatMember.setPresent_position(false);
+        chatMember.setPresentPosition(false);
 
         return chatMember;
     }

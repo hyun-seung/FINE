@@ -30,6 +30,8 @@ public class ChatMember {
     @JoinColumn(name = "chatRoom_id")
     private ChatRoom chatRoom;
 
+    private int imageNum;
+
     private String roomName;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,7 +43,7 @@ public class ChatMember {
     private Timestamp recentOutTime;
 
     // 방 현재 접속 여부
-    private Boolean present_position; // true : 접속 중 , false : 접속 X
+    private Boolean presentPosition; // true : 접속 중 , false : 접속 X
 
     private int lastReadPoint;
 
@@ -59,8 +61,12 @@ public class ChatMember {
         this.roomName = roomName;
     }
 
-    public void setPresent_position(Boolean present_position) {
-        this.present_position = present_position;
+    public void setImageNum(int imageNum) {
+        this.imageNum = imageNum;
+    }
+
+    public void setPresentPosition(Boolean presentPosition) {
+        this.presentPosition = presentPosition;
     }
 
     public void setLastReadPoint(int lastReadPoint) {
