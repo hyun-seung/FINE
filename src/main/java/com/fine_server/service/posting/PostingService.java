@@ -236,7 +236,7 @@ public class PostingService {
 
         for(Posting posting : postingList) {
             FindPostingsDto findPostingsDto = new FindPostingsDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getGroup_check(),
+                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getGroup_check(),
                     posting.getComments().size(), posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
             );
             postingsDtos.add(findPostingsDto);
