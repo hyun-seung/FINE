@@ -52,7 +52,7 @@ public class FollowService {
 
         for(Follow follow: followList) {
             FollowDto followDto = new FollowDto(follow.getFriend().getId(), follow.getFriend().getNickname(),
-                    follow.getFriend().getIntro(), follow.getFriend().getLevel());
+                    follow.getFriend().getUserImageNum(), follow.getFriend().getIntro(), follow.getFriend().getLevel());
 
             followDtos.add(followDto);
         }

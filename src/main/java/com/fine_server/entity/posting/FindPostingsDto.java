@@ -19,6 +19,7 @@ public class FindPostingsDto {
 
 
     private String title;
+    private String content;
     private int commentCount;
 
     private Boolean groupCheck; //커뮤니티 구분
@@ -36,6 +37,19 @@ public class FindPostingsDto {
         this.title = title;
         this.commentCount = commentCount;
         this.groupCheck = groupCheck;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
+        this.closingCheck = closingCheck;
+    }
+
+    public FindPostingsDto(Long postingId, Long memberId, String title, String content, Boolean groupCheck, int commentCount,
+                           LocalDateTime createdDate, LocalDateTime lastModifiedDate, Boolean closingCheck) {
+        this.postingId = postingId;
+        this.memberId = memberId;
+        this.title = title;
+        this.content = content;
+        this.groupCheck = groupCheck;
+        this.commentCount = commentCount;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
         this.closingCheck = closingCheck;
