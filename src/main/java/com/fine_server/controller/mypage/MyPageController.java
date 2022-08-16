@@ -6,7 +6,6 @@ import com.fine_server.entity.mypage.MemberResponseDto;
 import com.fine_server.repository.BookmarkRepository;
 import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.MemberRepository;
-import com.fine_server.service.mypage.KeywordService;
 import com.fine_server.service.mypage.MemberService;
 import com.fine_server.controller.mypage.errors.ErrorResult;
 import com.fine_server.entity.mypage.MemberRequestDto;
