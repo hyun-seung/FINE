@@ -20,6 +20,7 @@ public class FollowDto {
 
     private Long friendId;
     private String nickname;
+    private Integer imageNum;
     private String intro;
     private String level;
 
@@ -30,9 +31,11 @@ public class FollowDto {
                 .build();
     }
 
-    public FollowDto(Long friendId, String nickname, String intro, String level) {
+    //getMemberDto 사용해서 리팩토링 (getMemberDto에는 intro 없으므로 이를 논의 후 추가)
+    public FollowDto(Long friendId, String nickname, Integer userImageNum, String intro, String level) {
         this.friendId = friendId;
         this.nickname = nickname;
+        this.imageNum = userImageNum;
         this.intro = intro;
         this.level = level;
     }

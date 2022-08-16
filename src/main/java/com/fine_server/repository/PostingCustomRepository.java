@@ -12,5 +12,4 @@ public interface PostingCustomRepository {
     List<Posting> findGroupClosingPosting(Boolean closingCheck);
 
     List<Recruiting> findAcceptCheckT(Long postingId);
-
 }

@@ -1,6 +1,7 @@
 package com.fine_server.service.mypage;
 
 import com.fine_server.entity.Posting;
+import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.PostingRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,4 @@ public class MyPageService {
         }
         return myPosting;
     }
-
 }

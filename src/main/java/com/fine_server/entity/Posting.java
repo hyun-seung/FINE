@@ -56,7 +56,10 @@ public class Posting extends BaseEntity {
     private Integer maxMember;
 
     @ColumnDefault("0")
-    private Integer views;
+    private Integer totalViews; //누적조회수
+    
+    @ColumnDefault("0")
+    private Integer views; //시간조회수
 
     @Builder.Default
     @OneToMany(mappedBy = "posting")
@@ -80,5 +83,12 @@ public class Posting extends BaseEntity {
     public void updateClosingCheck(Boolean check) {
         this.closing_check = check;
     }
+
+    public void updateViews() {
+        this.totalViews += 1;
+        this.views += 1;
+    }
+
+    public void initViews() { this.views = 0; }
 
 }

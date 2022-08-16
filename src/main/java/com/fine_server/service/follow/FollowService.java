@@ -15,7 +15,7 @@ import java.util.Optional;
 
 /**
  * written by eunhye
- * date: 22.07.20
+ * date: 22.07.29
  */
 
 
@@ -27,7 +27,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
 
-    // 팔로우
+    // 팔로우 - 전체를 리턴하는 거에서 friend만 리턴으로 리팩토링 예정
     public Follow make(Long friendId, Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         Optional<Member> friend = memberRepository.findById(friendId);
@@ -35,16 +35,14 @@ public class FollowService {
         FollowDto followDto = new FollowDto();
         followDto.setMember(member.get());
         followDto.setFriend(friend.get());
+        followRepository.save(followDto.toEntity());
 
-        Follow follow = followRepository.save(followDto.toEntity());
-
-        return follow;
+        return followDto.toEntity();
     }
 
     // 팔로우 취소
-    public Long deleteById(Long followId) {
-        followRepository.deleteById(followId);
-        return followId;
+    public Long deleteFollow(Long friendId, Long memberId) {
+        return followRepository.deleteByFriendIdAndMemberId(friendId, memberId);
     }
 
     // 팔로우 리스트
@@ -54,7 +52,7 @@ public class FollowService {
 
         for(Follow follow: followList) {
             FollowDto followDto = new FollowDto(follow.getFriend().getId(), follow.getFriend().getNickname(),
-                    follow.getFriend().getIntro(), follow.getFriend().getLevel());
+                    follow.getFriend().getUserImageNum(), follow.getFriend().getIntro(), follow.getFriend().getLevel());
 
             followDtos.add(followDto);
         }
@@ -63,14 +61,21 @@ public class FollowService {
 
     //맞팔 수 카운트
     public Integer getFollowBackCount(Long memberId) {
-        List<Follow> followList = followRepository.findFriends(memberId);
+        List<Follow> followList = followRepository.findFriends(memberId); //해당 멤버가 팔로우 한 리스트
 
         int count = 0;
-        for(Follow follow: followList) {
-            if(followRepository.findByFriendId(follow.getFriend().getId(), memberId) > 0) {
+        for(Follow follow: followList) { //팔로우 리스트에서 해당 사용자를 팔로우 한 멤버 탐색
+            if(followRepository.findByMemberIdAndFriendId(follow.getFriend().getId(), memberId) > 0) {
                 count++;
             }
         }
         return count;
+    }
+
+    //팔로우 검색 - 풀네임 검색만 가능 추후 수정
+    public List<Member> searchFollow(Long memberId, String nickname) {
+        List<Member> followList = followRepository.findByNickname(memberId, nickname); //검색 결과
+
+        return followList;
     }
 }

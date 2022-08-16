@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class Scheduler {
-    private PostingService postingService;
+    private final PostingService postingService;
 
-    @Scheduled(cron = "0 0 1 * * *") //새벽 1시
+    @Scheduled(cron = "0 5 * * * *") // 매시간 5분
     public void initViews() {
         postingService.initViews();
     }

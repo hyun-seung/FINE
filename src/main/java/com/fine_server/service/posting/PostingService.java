@@ -55,11 +55,12 @@ public class PostingService {
         return posting;
     }
 
-    // 해당 포스팅 불러오기
-    @Transactional(readOnly = true)
+    // 해당 포스팅 상세 페이지
     public GetPostingDto findPosting(Long postingId, Long memberId) {
         Optional<Posting> optionalPosting = postingRepository.findById(postingId);
         Posting posting = optionalPosting.get();
+        posting.updateViews(); //조회수 +1
+
         Long checkRecruitingId = 0L;
 
         List<Recruiting> recruitingList = posting.getRecruitingList();
@@ -69,7 +70,7 @@ public class PostingService {
                 checkRecruitingId = recruiting.getId();
             }
             RecruitingDto recruitingDto = new RecruitingDto(recruiting.getId(), recruiting.getAccept_check(),
-                    new GetMemberDto(recruiting.getMember().getId(), recruiting.getMember().getNickname(), recruiting.getMember().getLevel()));
+                    new GetMemberDto(recruiting.getMember().getId(), recruiting.getMember().getNickname(), recruiting.getMember().getLevel(), recruiting.getMember().getUserImageNum()));
             newRecruiting.add(recruitingDto);
         }
 
@@ -77,14 +78,14 @@ public class PostingService {
         List<CommentMemberDto> newCommentList = new ArrayList<>();
         for(Comment comment : commentList) {
             CommentMemberDto commentMemberDto = new CommentMemberDto(comment.getId(), comment.getText(),
-                    new GetMemberDto(comment.getMember().getId(), comment.getMember().getNickname(), comment.getMember().getLevel()));
+                    new GetMemberDto(comment.getMember().getId(), comment.getMember().getNickname(), comment.getMember().getLevel(), comment.getMember().getUserImageNum()));
             newCommentList.add(commentMemberDto);
         }
 
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
-                posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
+                posting.getMember().getNickname(), posting.getMember().getUserImageNum(), posting.getTitle(), posting.getContent(),
                 posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
-                headCount(posting.getId()), checkRecruitingId, bookmarkCheck(postingId, memberId),
+                joinCount(posting.getId()), checkRecruitingId, bookmarkCheck(postingId, memberId),
                 posting.getCreatedDate(), posting.getLastModifiedDate(), newRecruiting, newCommentList);
         return postingDto;
     }
@@ -126,7 +127,7 @@ public class PostingService {
         for(Posting posting : postings) {
             FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
                     posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), headCount(posting.getId()), posting.getClosing_check()
+                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check()
             );
             postingDtos.add(findGroupPostingDto);
         }
@@ -142,7 +143,7 @@ public class PostingService {
         for(Posting posting : postings) {
             FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
                     posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), headCount(posting.getId()), posting.getClosing_check()
+                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check()
             );
             postingDtos.add(findGroupPostingDto);
         }
@@ -181,7 +182,7 @@ public class PostingService {
 
         Optional<Posting> posting = postingRepository.findById(postingId);
         // 현재 수락 인원이 max면 포스팅 마감 결정
-        if(headCount(postingId) == posting.get().getMaxMember()) {
+        if(joinCount(postingId) == posting.get().getMaxMember()) {
             posting.get().updateClosingCheck(true);
 
             groupService.makeGroup(postingId);
@@ -189,20 +190,8 @@ public class PostingService {
         return save;
     }
 
-    //참여 여부 체크
-//    public Long joinCheck(Long postingId, Long memberId) {
-//        List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
-//
-//        for(Recruiting recruiting : recruitingList) {
-//            if (recruiting.getMember().getId().equals(memberId)) {
-//                return recruiting.getId();
-//            }
-//        }
-//        return 0L;
-//    }
-
     // 현재 수락 인원 체크
-    public Integer headCount(Long postingId) {
+    public Integer joinCount(Long postingId) {
         List<Recruiting> recruitingList = recruitingRepository.findByPostingId(postingId);
 
         int count = 0;
@@ -230,8 +219,28 @@ public class PostingService {
     }
 
     // 조회수 초기화
-    @Transactional (readOnly = true)
+    @Transactional
     public void initViews() {
         List<Posting> postingList = postingRepository.findAll();
+        //시간 조회수 전부 초기화 for문 돌지 않고 하도록 리팩토링
+        for (Posting posting : postingList) {
+            posting.initViews();
+        }
+    }
+
+    // 조회수 인기글 - 메인
+    @Transactional (readOnly = true)
+    public List<FindPostingsDto> popularPostings() {
+        List<Posting> postingList = postingRepository.findTop5ByOrderByViewsDesc();
+        List<FindPostingsDto> postingsDtos = new ArrayList<>();
+
+        for(Posting posting : postingList) {
+            FindPostingsDto findPostingsDto = new FindPostingsDto(
+                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getGroup_check(),
+                    posting.getComments().size(), posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
+            );
+            postingsDtos.add(findPostingsDto);
+        }
+        return postingsDtos;
     }
 }
