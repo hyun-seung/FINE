@@ -33,7 +33,7 @@ public class Member extends BaseEntity{
     @Column(name = "member_id")
     private Long id;
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     private String userId;
 
     @JsonIgnore
