@@ -74,8 +74,4 @@ public class Member extends BaseEntity{
         this.nickname = nickname;
         this.intro = intro;
     }
-
-//    public void updateFollowBackCount(int followBack) {
-//        this.followBack = followBack;
-//    } 추후 리팩토링
 }
