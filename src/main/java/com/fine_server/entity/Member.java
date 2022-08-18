@@ -46,8 +46,6 @@ public class Member extends BaseEntity{
     private String intro; //자기소개
 
     private String userIntroduction;
-    private String userUniversity;//대학명
-    private String userCollege;//단과대
     private String userPhoneNumber;
     private String userResidence;//거주지
 

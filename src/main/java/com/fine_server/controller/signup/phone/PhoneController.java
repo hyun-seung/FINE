@@ -64,7 +64,8 @@ public class PhoneController {
 
 
     @PostMapping("/mypage/phone/{memberId}")
-    public ResponseEntity<PhoneRequestDto> sendOne(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid PhoneRequestDto phoneRequestDto, BindingResult bindingResult) {
+    public ResponseEntity<PhoneRequestDto> sendOne(HttpServletRequest request, @PathVariable Long memberId,
+                                                   @RequestBody @Valid PhoneRequestDto phoneRequestDto) {
         Message message = new Message();
 
         HttpSession session = request.getSession();
