@@ -27,7 +27,7 @@ import javax.validation.Valid;
 public class LoginController {
     private final LoginService loginService;
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Member> signUp(HttpServletRequest request, @RequestBody @Valid LoginDto loginDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
