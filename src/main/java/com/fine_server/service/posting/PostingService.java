@@ -222,12 +222,10 @@ public class PostingService {
     @Transactional
     public void initViews() {
         List<Posting> postingList = postingRepository.findAll();
-        //시간 조회수 전부 초기화 for문 돌지 않고 하도록 리팩토링
         for (Posting posting : postingList) {
             posting.initViews();
         }
     }
-
     // 조회수 인기글 - 메인
     @Transactional (readOnly = true)
     public List<FindPostingsDto> popularPostings() {
@@ -236,8 +234,9 @@ public class PostingService {
 
         for(Posting posting : postingList) {
             FindPostingsDto findPostingsDto = new FindPostingsDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getGroup_check(),
-                    posting.getComments().size(), posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
+                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(),
+                    posting.getGroup_check(), posting.getComments().size(), posting.getCreatedDate(),
+                    posting.getLastModifiedDate(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check()
             );
             postingsDtos.add(findPostingsDto);
         }

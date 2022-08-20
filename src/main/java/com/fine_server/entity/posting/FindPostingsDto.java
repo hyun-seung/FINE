@@ -27,6 +27,8 @@ public class FindPostingsDto {
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
+    private Integer maxMember;
+    private Integer joinCount;
     private Boolean closingCheck;
 
 
@@ -43,7 +45,7 @@ public class FindPostingsDto {
     }
 
     public FindPostingsDto(Long postingId, Long memberId, String title, String content, Boolean groupCheck, int commentCount,
-                           LocalDateTime createdDate, LocalDateTime lastModifiedDate, Boolean closingCheck) {
+                           LocalDateTime createdDate, LocalDateTime lastModifiedDate, Integer maxMember, Integer joinCount, Boolean closingCheck) {
         this.postingId = postingId;
         this.memberId = memberId;
         this.title = title;
@@ -52,6 +54,8 @@ public class FindPostingsDto {
         this.commentCount = commentCount;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
+        this.maxMember = maxMember;
+        this.joinCount = joinCount;
         this.closingCheck = closingCheck;
     }
 
