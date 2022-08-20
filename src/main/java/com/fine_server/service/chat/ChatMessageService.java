@@ -44,12 +44,14 @@ public class ChatMessageService {
 
         chatMessage.setUnreadCount(unreadCount);
 
+        chatMessageRepository.save(chatMessage);
+
+        LocalDateTime createdTime = chatMessage.getCreatedDate();
+
         ReturnChatMessageDto message = new ReturnChatMessageDto(
                 chatMessageDto.getType(), chatMessageDto.getRoomId(),
                 chatMessageDto.getMemberId(), member.getNickname(),
-                chatMessageDto.getMessage(), unreadCount);
-
-        chatMessageRepository.save(chatMessage);
+                chatMessageDto.getMessage(), unreadCount, createdTime);
 
         return message;
     }
