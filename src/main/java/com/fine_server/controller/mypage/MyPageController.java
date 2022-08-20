@@ -62,7 +62,8 @@ public class MyPageController {
         Optional<Member> findMember = memberService.findMember(memberId);
         if (!findMember.isEmpty()){
             Member member = findMember.get();
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),member.getFollowBack());
+            List<Follow> followList = followRepository.findFriends(memberId);
+            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),followList.size());
             return new ResponseEntity(memberResponseDto, HttpStatus.OK);
         }
 
@@ -86,6 +87,7 @@ public class MyPageController {
         return new ResponseEntity(memberRequestDto,HttpStatus.OK);
     }
 
+
     /**
      * edit. 22.06.26
      * 친구 프로필 조회
@@ -97,7 +99,8 @@ public class MyPageController {
 
         if (!findMember.isEmpty()){
             Member member = findMember.get();
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),member.getFollowBack());
+            List<Follow> followList = followRepository.findFriends(memberId);
+            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),followList.size());
             return new ResponseEntity(memberResponseDto, HttpStatus.OK);
         }
 

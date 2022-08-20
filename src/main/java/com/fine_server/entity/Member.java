@@ -33,7 +33,7 @@ public class Member extends BaseEntity{
     @Column(name = "member_id")
     private Long id;
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     private String userId;
 
     @JsonIgnore
@@ -46,8 +46,6 @@ public class Member extends BaseEntity{
     private String intro; //자기소개
 
     private String userIntroduction;
-    private String userUniversity;//대학명
-    private String userCollege;//단과대
     private String userPhoneNumber;
     private String userResidence;//거주지
 
@@ -76,8 +74,4 @@ public class Member extends BaseEntity{
         this.nickname = nickname;
         this.intro = intro;
     }
-
-//    public void updateFollowBackCount(int followBack) {
-//        this.followBack = followBack;
-//    } 추후 리팩토링
 }

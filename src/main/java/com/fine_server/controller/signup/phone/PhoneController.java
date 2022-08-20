@@ -1,6 +1,7 @@
 package com.fine_server.controller.signup.phone;
 
 import com.fine_server.controller.mypage.errors.UserException;
+import com.fine_server.controller.signup.dto.ResidenceDto;
 import com.fine_server.controller.signup.dto.PhoneRequestDto;
 import com.fine_server.controller.signup.dto.PhoneResponseDto;
 import com.fine_server.controller.signup.dto.TokenDto;
@@ -45,8 +46,26 @@ public class PhoneController {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
     }
 
+    //지역인증
+    @PostMapping("/mypage/residence/{memberId}")
+    public ResponseEntity ResidenceVerification(@PathVariable Long memberId, @RequestBody @Valid ResidenceDto residenceDto, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+            Member member = memberRepository.findById(memberId).get();
+            member.setUserResidence(residenceDto.getUserResidence());
+            member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
+
+            return ResponseEntity.ok().build();
+
+    }
+
+
     @PostMapping("/mypage/phone/{memberId}")
-    public ResponseEntity<PhoneRequestDto> sendOne(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid PhoneRequestDto phoneRequestDto, BindingResult bindingResult) {
+    public ResponseEntity<PhoneRequestDto> sendOne(HttpServletRequest request, @PathVariable Long memberId,
+                                                   @RequestBody @Valid PhoneRequestDto phoneRequestDto) {
         Message message = new Message();
 
         HttpSession session = request.getSession();

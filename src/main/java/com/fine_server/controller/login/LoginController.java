@@ -27,7 +27,7 @@ import javax.validation.Valid;
 public class LoginController {
     private final LoginService loginService;
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Member> signUp(HttpServletRequest request, @RequestBody @Valid LoginDto loginDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
@@ -36,6 +36,7 @@ public class LoginController {
         }
 
         Member loginMember = loginService.login(loginDto.getId(), loginDto.getPassword());
+        
         if(loginMember == null){
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             throw new UserException("입력값이 잘못 되었습니다.");
