@@ -1,4 +1,4 @@
-package com.fine_server.entity.mypage;
+package com.fine_server.controller.signup.dto;
 
 import com.fine_server.entity.Keyword;
 import com.fine_server.entity.Member;
