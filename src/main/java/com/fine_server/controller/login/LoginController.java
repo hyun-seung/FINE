@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,28 +25,19 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 @AllArgsConstructor
+@RestController
 public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<Member> signUp(HttpServletRequest request, @RequestBody @Valid LoginDto loginDto, BindingResult bindingResult) {
+    public LoginRes signUp(HttpServletRequest request, @RequestBody @Valid LoginDto loginDto, BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()){
-            log.info("errors={}", bindingResult);
-            throw new UserException("입력값이 잘못 되었습니다.");
+        // 아이디 또는 비밀번호에 빈 문자열이 들어온 경우
+        if (bindingResult.hasErrors()) {
+            throw new IllegalArgumentException("아이디 비밀번호를 입력해주세요");
         }
 
-        Member loginMember = loginService.login(loginDto.getId(), loginDto.getPassword());
-        
-        if(loginMember == null){
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            throw new UserException("입력값이 잘못 되었습니다.");
-        }
-
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-
-        return new ResponseEntity(loginMember, HttpStatus.OK);
+        return loginService.login(loginDto, request);
     }
 
     @GetMapping("/logout")
