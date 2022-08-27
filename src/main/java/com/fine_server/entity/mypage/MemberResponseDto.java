@@ -26,11 +26,18 @@ public class MemberResponseDto {
     private String keyword1;
     private String keyword2;
     private String keyword3;
-    private int follower;
+    private int follower; //followBack으로 추후 수정
 
     /**
      * added by eunhye
-     * date: 22.08.09
+     * date: 22.08.24
      */
-//    private int followBack; //맞팔 수
+    public MemberResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2, String keyword3) {
+        this.nickname = nickname;
+        this.userImageNum = userImageNum;
+        this.intro = intro;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
+    }
 }
