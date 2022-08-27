@@ -10,6 +10,7 @@ import com.fine_server.repository.MemberRepository;
 import com.fine_server.service.mypage.PhoneService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
@@ -39,7 +40,6 @@ import java.util.UUID;
 public class PhoneController {
     private PhoneService phoneService;
     private MemberRepository memberRepository;
-    private InfraData infraData;
     private final DefaultMessageService messageService;
 
     public PhoneController() {
@@ -59,7 +59,6 @@ public class PhoneController {
             member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
 
             return ResponseEntity.ok().build();
-
     }
 
 
