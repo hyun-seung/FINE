@@ -24,21 +24,26 @@ public class ChatRoomService {
 
     private final ChatMemberRepository chatMemberRepository;
 
+    private final ChatMessageService chatMessageService;
+
+    // 입장할 때 실행 = unreadCount확인 후 list 보내기
     public ReturnChatRoomDto getChatRoom(Long memberId, Long roomId) {
         Optional<ChatRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
         ChatRoom chatRoom = optionalChatRoom.get();
 
-        String roomName = " ";
+        ChatMember myChatMember = null;
 
         for(ChatMember chatMember : chatRoom.getChatMemberList()) {
             if(chatMember.getMember().getId().equals(memberId)) {
-                roomName = chatMember.getRoomName();
+                myChatMember = chatMember;
             }
         }
 
+        chatMessageService.readMessage(chatRoom, myChatMember);
+
         ReturnChatRoomDto returnChatRoomDto = new ReturnChatRoomDto(
                 chatRoom.getRoomId(), chatRoom.isSoloCheck(), chatRoom.getChatMemberList().size(),
-                roomName, chatRoom.getChatMessageList()
+                myChatMember.getRoomName(), chatRoom.getChatMessageList()
         );
 
         return returnChatRoomDto;
@@ -175,4 +180,7 @@ public class ChatRoomService {
         return null;
     }
 
+    public void findExistRoom() {
+
+    }
 }

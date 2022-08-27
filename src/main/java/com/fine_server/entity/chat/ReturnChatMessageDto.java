@@ -3,6 +3,8 @@ package com.fine_server.entity.chat;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class ReturnChatMessageDto {
@@ -19,14 +21,17 @@ public class ReturnChatMessageDto {
 
     private int unreadCount;
 
+    private LocalDateTime createdTime;
+
     public ReturnChatMessageDto(MessageType type, Long roomId,
                                 Long memberId, String nickName, String message,
-                                int unreadCount) {
+                                int unreadCount, LocalDateTime createdTime) {
         this.type = type;
         this.roomId = roomId;
         this.memberId = memberId;
         this.nickName = nickName;
         this.message = message;
         this.unreadCount = unreadCount;
+        this.createdTime = createdTime;
     }
 }
