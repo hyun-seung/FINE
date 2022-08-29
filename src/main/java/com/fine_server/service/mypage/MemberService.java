@@ -53,8 +53,8 @@ public class MemberService {
        member.setNickname(memberDto.getNickname());
        member.setUserImageNum(memberDto.getUserImageNum());
        member.setKeyword1(memberDto.getKeyword1());
-       member.setKeyword2(memberDto.getKeyword2());
-       member.setKeyword3(memberDto.getKeyword3());
+//       member.setKeyword2(memberDto.getKeyword2());
+//       member.setKeyword3(memberDto.getKeyword3());
 
        memberRepository.save(member);
 

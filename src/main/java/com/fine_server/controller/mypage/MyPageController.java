@@ -62,7 +62,7 @@ public class MyPageController {
         Optional<Member> findMember = memberService.findMember(memberId);
         if (!findMember.isEmpty()){
             Member member = findMember.get();
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),member.getFollowBack());
+            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack());
             return new ResponseEntity(memberResponseDto, HttpStatus.OK);
         }
 
@@ -97,7 +97,7 @@ public class MyPageController {
 
         if (!findMember.isEmpty()){
             Member member = findMember.get();
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),member.getFollowBack());
+            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack());
             return new ResponseEntity(memberResponseDto, HttpStatus.OK);
         }
 

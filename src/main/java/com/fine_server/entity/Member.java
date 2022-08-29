@@ -57,8 +57,8 @@ public class Member extends BaseEntity{
     private Long report; //신고 당한 횟수
 
     private String keyword1;
-    private String keyword2;
-    private String keyword3;
+//    private String keyword2;
+//    private String keyword3;
 
     @Column(nullable = false)
     @ColumnDefault("0")

@@ -22,5 +22,7 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long> {
     
     /* 키워드 테마별 일치 멤버 리스트 조회 */
 //    @Query("select k.member from Keyword k where k.keyword = :keyword")
-    List<Member> findAllByKeyword(String keyword);
+    List<Member> findAllByKeywordAndType(String keyword, Integer type);
+
+    /* 키워드 제거 후 생성 (변경) */
 }

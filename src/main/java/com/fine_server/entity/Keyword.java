@@ -9,8 +9,8 @@ import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 /**
- * written by dahae
- * date: 22.06.26
+ * written by eunhye
+ * date: 22.08.28
  */
 
 @Builder
@@ -28,4 +28,7 @@ public class Keyword {
     private Member member;
 
     private String keyword;
+
+    // 1~3
+    private Integer type;
 }

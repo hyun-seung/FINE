@@ -27,36 +27,36 @@ public class KeywordService {
     private final KeywordRepository keywordRepository;
     private final MemberRepository memberRepository;
 
-    public List<String> save(Member member, List<String> keywordList) {
-
-        List<String> KeywordList = new ArrayList<>();
-
-        for(String keyword: keywordList) {
-            KeywordDto keywordDto=new KeywordDto();
-            keywordDto.setMember(member);
-            keywordDto.setKeyword(keyword);
-
-            keywordRepository.save(keywordDto.toEntity());
-            KeywordList.add(keyword);
-        }
-
-        return KeywordList;
-    }
+//    public List<String> save(Member member, List<String> keywordList) {
+//
+//        List<String> KeywordList = new ArrayList<>();
+//
+//        for(String keyword: keywordList) {
+//            KeywordDto keywordDto=new KeywordDto();
+//            keywordDto.setMember(member);
+//            keywordDto.setKeyword(keyword);
+//
+//            keywordRepository.save(keywordDto.toEntity());
+//            KeywordList.add(keyword);
+//        }
+//
+//        return KeywordList;
+//    }
 
     public List<Keyword> findByMemberId(Member member) {
         return keywordRepository.findAllByMember(member);
     }
 
     
-    //키워드 카테고리별 일치 멤버 리스트
-    public List<MemberResponseDto> keywordOfCategory(String keyword) {
-        List<Member> memberList = keywordRepository.findAllByKeyword(keyword);
-        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>() ;
+    //키워드 카테고리별 일치 멤버 리스트 - 자신 제외
+    public List<MemberResponseDto> keywordOfCategory(String keyword, Integer type) {
+        List<Member> memberList = keywordRepository.findAllByKeywordAndType(keyword, type);
+        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
 
         for (Member member: memberList) {
             MemberResponseDto responseDto = new MemberResponseDto(
                     member.getNickname(), member.getUserImageNum(), member.getIntro(),
-                    member.getKeyword1(), member.getKeyword2(), member.getKeyword3()
+                    member.getKeyword1()
             );
             memberResponseDtoList.add(responseDto);
         }
@@ -86,6 +86,13 @@ public class KeywordService {
 //        }
 //
 //        return memberResponseDtoList;
+//    }
+
+
+    //키워드 변경
+
+//    String updateKeyword(Long memberId, String keyword) {
+//        keywordRepository.deleteByMemberId(memberId);
 //    }
 
 }
