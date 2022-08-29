@@ -1,14 +1,14 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fineDB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: kim253511!
+#    url: jdbc:mysql://localhost:3306/fineDB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+#    username: root
+#    password: kim253511!
 
 # RDS 연결 정보
-#    url: jdbc:mysql://fine.cwvwlhmmtlyg.us-east-1.rds.amazonaws.com:3306/fine_database?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-#    username: admin
-#    password: d4a1b2c3!
+    url: jdbc:mysql://fine.cwvwlhmmtlyg.us-east-1.rds.amazonaws.com:3306/fine_database?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: d4a1b2c3!
 
   jackson:
     serialization:
@@ -16,7 +16,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true

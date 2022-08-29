@@ -13,6 +13,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,18 +27,15 @@ import java.util.List;
 @Slf4j
 public class MyPageService {
     private final PostingRepository postingRepository;
-//    private final FollowRepository followRepository;
-    //private  final BookMarkRepository bookMarkRepository;
 
     public List<Posting> getMyPost(Long memberId) {
-        List<Posting> memberPosts = postingRepository.findByMemberId(memberId);
-        return memberPosts;
+        List<Posting> Postings = postingRepository.findAll();
+        List<Posting> myPosting = new ArrayList<>();
+
+        for(Posting post : Postings){
+            if(post.getMember().getId() == memberId)
+                myPosting.add(post);
+        }
+        return myPosting;
     }
-
-//    //findAllBookMark로 처리 예정
-//    public List<Posting> getMyBookMark(Long memberId) {
-//        //List<Posting> memberBookMarks = bookMarkRepository.findAllBookMark(memberId);
-//        //return memberBookMarks;
-//    }
-
 }
