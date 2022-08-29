@@ -29,6 +29,6 @@ public class Keyword {
 
     private String keyword;
 
-    // 1~3
+    // 거주지 1 학교 2 전공 3
     private Integer type;
 }

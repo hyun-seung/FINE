@@ -6,6 +6,8 @@ import com.fine_server.controller.signup.dto.PhoneRequestDto;
 import com.fine_server.controller.signup.dto.PhoneResponseDto;
 import com.fine_server.controller.signup.dto.TokenDto;
 import com.fine_server.entity.Member;
+import com.fine_server.entity.mypage.KeywordDto;
+import com.fine_server.repository.KeywordRepository;
 import com.fine_server.repository.MemberRepository;
 import com.fine_server.service.mypage.PhoneService;
 import lombok.AllArgsConstructor;
@@ -41,6 +43,7 @@ public class PhoneController {
     private MemberRepository memberRepository;
     private InfraData infraData;
     private final DefaultMessageService messageService;
+    private KeywordRepository keywordRepository;
 
     public PhoneController() {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
@@ -54,11 +57,20 @@ public class PhoneController {
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
         }
-            Member member = memberRepository.findById(memberId).get();
-            member.setUserResidence(residenceDto.getUserResidence());
-            member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
 
-            return ResponseEntity.ok().build();
+        Member member = memberRepository.findById(memberId).get();
+        member.setUserResidence(residenceDto.getUserResidence());
+        member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
+
+        // 키워드에 거주지 넣기
+        KeywordDto keywordDto = new KeywordDto();
+        keywordDto.setMember(member);
+        keywordDto.setKeyword(residenceDto.getUserResidence());
+        keywordDto.setType(1); //거주지는 type 1
+
+        keywordRepository.save(keywordDto.toEntity());
+
+        return ResponseEntity.ok().build();
 
     }
 
@@ -106,6 +118,7 @@ public class PhoneController {
 
             member.setUserPhoneNumber(dto.getPhoneNumber());
             member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
+
             return ResponseEntity.ok().build();
         }
     }

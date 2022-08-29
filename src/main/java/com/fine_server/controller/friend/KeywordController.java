@@ -1,5 +1,6 @@
 package com.fine_server.controller.friend;
 
+import com.fine_server.entity.keyword.KeywordRequestDto;
 import com.fine_server.entity.mypage.KeywordDto;
 import com.fine_server.entity.mypage.MemberResponseDto;
 import com.fine_server.service.mypage.KeywordService;
@@ -21,9 +22,9 @@ public class KeywordController {
     private final KeywordService keywordService;
 
     /* 키워드 카테고리별 친구 목록 */
-    @GetMapping("/keyword/{keyword}")
-    List<MemberResponseDto> memberList(@PathVariable String keyword, @RequestParam Integer type) {
-        return keywordService.keywordOfCategory(keyword, type);
+    @GetMapping("/recommend/{memberId}")
+    List<MemberResponseDto> memberList(@PathVariable Long memberId, @RequestParam Integer category) {
+        return keywordService.keywordOfCategory(memberId, category);
     }
 
     /* 키워드 변경 */

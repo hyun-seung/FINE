@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * written by dahae
@@ -48,12 +49,15 @@ public class KeywordService {
     }
 
     
-    //키워드 카테고리별 일치 멤버 리스트 - 자신 제외
-    public List<MemberResponseDto> keywordOfCategory(String keyword, Integer type) {
-        List<Member> memberList = keywordRepository.findAllByKeywordAndType(keyword, type);
+    //키워드 카테고리별 일치 멤버 리스트 - 자신 제외 구현 예정
+    public List<MemberResponseDto> keywordOfCategory(Long memberId, Integer category) {
+        String keyword = keywordRepository.findByMemberIdAndType(memberId, category);
+
+        List<Keyword> memberList = keywordRepository.findAllByKeywordAndType(keyword, category);
         List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
 
-        for (Member member: memberList) {
+        for (Keyword keywords: memberList) {
+            Member member = keywords.getMember();
             MemberResponseDto responseDto = new MemberResponseDto(
                     member.getNickname(), member.getUserImageNum(), member.getIntro(),
                     member.getKeyword1()
@@ -65,22 +69,27 @@ public class KeywordService {
     }
 
 
-    //키워드 전부 일치 멤버 리스트
-//    public List<MemberResponseDto> keywordAll(String UserId) {
-//        List<String> keywordList = new ArrayList<>();
-//        keywordList.add(memberRepository.findByUserId(UserId).getKeyword1());
-//        keywordList.add(memberRepository.findByUserId(UserId).getKeyword2());
-//        keywordList.add(memberRepository.findByUserId(UserId).getKeyword3());
+//    키워드 전부 일치 멤버 리스트
+//    public List<MemberResponseDto> keywordAll(Long memberId) {
+//        Optional<Member> member = memberRepository.findById(memberId);
+//        List<Keyword> keywordList = keywordRepository.findAllByMember(member.get()); //사용자의 키워드 리스트
 //
-//        List<Member> memberList = keywordRepository.findAllByKeyword(keywordList.get(1));
 //
+//        List<Keyword> memberList = keywordRepository.findAllByKeywordAndType(keywordList.get(i).getKeyword(), keywordList.get(i).getType());
+//        List<Keyword> memberList = keywordRepository.findAllByKeywordAndType(keywordList.get(i).getKeyword(), keywordList.get(i).getType());
+//        List<Keyword> memberList = keywordRepository.findAllByKeywordAndType(keywordList.get(i).getKeyword(), keywordList.get(i).getType());
+//
+//        for (Mem keyword : memberList) {
+//            List<Keyword> memberList = keywordRepository.findByMemberIdAndType(member, keyword.getType());
+//
+//        }
 //
 //        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
 //
 //        for (Member member: memberList) {
 //            MemberResponseDto responseDto = new MemberResponseDto(
 //                    member.getNickname(), member.getUserImageNum(), member.getIntro(),
-//                    member.getKeyword1(), member.getKeyword2(), member.getKeyword3()
+//                    member.getKeyword1()
 //            );
 //            memberResponseDtoList.add(responseDto);
 //        }
