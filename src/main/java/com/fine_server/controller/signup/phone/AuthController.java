@@ -6,8 +6,9 @@ import com.fine_server.controller.signup.dto.PhoneRequestDto;
 import com.fine_server.controller.signup.dto.PhoneResponseDto;
 import com.fine_server.controller.signup.dto.TokenDto;
 import com.fine_server.entity.Member;
+import com.fine_server.entity.MemberDetail;
 import com.fine_server.repository.MemberRepository;
-import com.fine_server.service.mypage.PhoneService;
+import com.fine_server.service.mypage.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -37,16 +37,19 @@ import java.util.UUID;
 @Slf4j
 @AllArgsConstructor
 @Controller
-public class PhoneController {
-    private PhoneService phoneService;
+public class AuthController {
+    private AuthService authService;
     private MemberRepository memberRepository;
+    private InfraData infraData;
     private final DefaultMessageService messageService;
 
-    public PhoneController() {
+    public AuthController() {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
     }
 
-    //지역인증
+    /**
+     * 지역인증
+     */
     @PostMapping("/mypage/residence/{memberId}")
     public ResponseEntity ResidenceVerification(@PathVariable Long memberId, @RequestBody @Valid ResidenceDto residenceDto, BindingResult bindingResult){
 
@@ -54,17 +57,15 @@ public class PhoneController {
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
         }
-            Member member = memberRepository.findById(memberId).get();
-            member.setUserResidence(residenceDto.getUserResidence());
-            member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
 
-            return ResponseEntity.ok().build();
+        ResidenceDto residenceResponseDto = authService.residenceAuth(memberId, residenceDto);
+        return ResponseEntity.ok(residenceResponseDto);
+
     }
 
 
     @PostMapping("/mypage/phone/{memberId}")
-    public ResponseEntity<PhoneRequestDto> sendOne(HttpServletRequest request, @PathVariable Long memberId,
-                                                   @RequestBody @Valid PhoneRequestDto phoneRequestDto) {
+    public ResponseEntity<PhoneRequestDto> sendMessage(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid PhoneRequestDto phoneRequestDto) {
         Message message = new Message();
 
         HttpSession session = request.getSession();
@@ -86,26 +87,21 @@ public class PhoneController {
     }
 
     @PostMapping("/mypage/phone/token/{memberId}")
-    public ResponseEntity emailVerification(HttpServletRequest request, @RequestBody @Valid TokenDto tokenDto, @PathVariable Long memberId, BindingResult bindingResult){
+    public ResponseEntity phoneVerification(HttpServletRequest request, @RequestBody @Valid TokenDto tokenDto, @PathVariable Long memberId, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
         }
 
-        PhoneResponseDto dto = phoneService.phoneVerification(request.getSession(), tokenDto.getToken());
+        PhoneResponseDto dto = authService.phoneVerification(request.getSession(), tokenDto.getToken(),tokenDto);
 
         if(dto == null){
             throw new UserException("인증번호가 맞지 않습니다.");
         } else{
             request.getSession().invalidate();
-
-            Optional<Member> fineMember = memberRepository.findById(memberId);
-            Member member = fineMember.get();
-
-            member.setUserPhoneNumber(dto.getPhoneNumber());
-            member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
-            return ResponseEntity.ok().build();
+            PhoneResponseDto phoneResponseDto = authService.phoneAuth(memberId, dto);
+            return ResponseEntity.ok(phoneResponseDto);
         }
     }
 }
