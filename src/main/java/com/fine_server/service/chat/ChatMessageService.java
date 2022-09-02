@@ -40,6 +40,14 @@ public class ChatMessageService {
         chatMessage.setChatRoom(chatRoom);
         List<ChatMember> chatMemberList = chatRoom.getChatMemberList();
 
+        // test코드
+        for(ChatMember chatMember : chatMemberList) {
+            if(chatMember.getId().equals(chatMessageDto.getMemberId())) {
+                int lastReadPoint = chatRoom.getChatMessageList().size();
+                chatMember.setLastReadPoint(lastReadPoint);
+            }
+        }
+
         int unreadCount = this.getUnreadCount(chatMemberList);
 
         chatMessage.setUnreadCount(unreadCount);
