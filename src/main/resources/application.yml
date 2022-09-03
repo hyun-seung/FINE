@@ -9,7 +9,19 @@ spring:
     url: jdbc:mysql://fine.cwvwlhmmtlyg.us-east-1.rds.amazonaws.com:3306/fine_database?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: admin
     password: d4a1b2c3!
-
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: fine_service@naver.com
+    password: $$finefine
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: true
   jackson:
     serialization:
       fail-on-empty-beans: false
