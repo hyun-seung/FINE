@@ -5,6 +5,7 @@ import com.fine_server.entity.ChatMessage;
 import com.fine_server.entity.ChatRoom;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.chat.ChatMessageDto;
+import com.fine_server.entity.chat.MessageType;
 import com.fine_server.entity.chat.ReturnChatMessageDto;
 import com.fine_server.repository.ChatMessageRepository;
 import com.fine_server.repository.ChatRoomRepository;
@@ -40,7 +41,6 @@ public class ChatMessageService {
         chatMessage.setChatRoom(chatRoom);
         List<ChatMember> chatMemberList = chatRoom.getChatMemberList();
 
-        // test코드
         for(ChatMember chatMember : chatMemberList) {
             if(chatMember.getId().equals(chatMessageDto.getMemberId())) {
                 int lastReadPoint = chatRoom.getChatMessageList().size();
@@ -58,13 +58,13 @@ public class ChatMessageService {
 
         ReturnChatMessageDto message = new ReturnChatMessageDto(
                 chatMessageDto.getType(), chatMessageDto.getRoomId(),
-                chatMessageDto.getMemberId(), member.getNickname(),
+                member.getMemberInfo(),
                 chatMessageDto.getMessage(), unreadCount, createdTime);
 
         return message;
     }
 
-    public void enterRoom(Long roomId, Long memberId) {
+    public ReturnChatMessageDto enterRoom(Long roomId, Long memberId) {
         Optional<ChatRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
         ChatRoom chatRoom = optionalChatRoom.get();
 
@@ -77,9 +77,15 @@ public class ChatMessageService {
                 int lastReadPoint = chatRoom.getChatMessageList().size();
                 chatMember.setLastReadPoint(lastReadPoint);
 
-                break;
+                ReturnChatMessageDto message = new ReturnChatMessageDto(
+                        MessageType.ENTER, roomId,
+                        myChatMember.getMember().getMemberInfo(),
+                        "", 0, LocalDateTime.now());
+
+                return message;
             }
         }
+        return null;
     }
 
     public void quitRoom(Long roomId, Long memberId) {

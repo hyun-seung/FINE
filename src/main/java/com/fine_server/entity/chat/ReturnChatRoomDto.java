@@ -18,10 +18,10 @@ public class ReturnChatRoomDto {
 
     private String roomName;
 
-    private List<ChatMessage> chatMessageList;
+    private List<SmallChatMessageDto> chatMessageList;
 
     public ReturnChatRoomDto(long roomId, boolean soloCheck, int memberCount,
-                             String roomName, List<ChatMessage> chatMessageList) {
+                             String roomName, List<SmallChatMessageDto> chatMessageList) {
         this.roomId = roomId;
         this.soloCheck = soloCheck;
         this.memberCount = memberCount;

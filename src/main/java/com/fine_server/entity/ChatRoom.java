@@ -28,6 +28,8 @@ public class ChatRoom {
     @Column(columnDefinition = "VARCHAR(100)")
     private String latestMessage;
 
+    private String members;
+
     @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "chatRoom")
@@ -44,5 +46,9 @@ public class ChatRoom {
         } else {
             this.latestMessage = latestMessage.strip();
         }
+    }
+
+    public void setMembers(String members) {
+        this.members = members;
     }
 }

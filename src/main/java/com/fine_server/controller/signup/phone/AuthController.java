@@ -40,7 +40,6 @@ import java.util.UUID;
 public class AuthController {
     private AuthService authService;
     private MemberRepository memberRepository;
-    private InfraData infraData;
     private final DefaultMessageService messageService;
 
     public AuthController() {

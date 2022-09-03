@@ -7,11 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ReturnChatMessageDto {
-
-    private MessageType type;
-
-    private Long roomId;
+public class SmallChatMessageDto {
 
     private MemberSmallInfo memberInfo;
 
@@ -21,11 +17,7 @@ public class ReturnChatMessageDto {
 
     private LocalDateTime createdTime;
 
-    public ReturnChatMessageDto(MessageType type, Long roomId,
-                                MemberSmallInfo memberInfo, String message,
-                                int unreadCount, LocalDateTime createdTime) {
-        this.type = type;
-        this.roomId = roomId;
+    public SmallChatMessageDto(MemberSmallInfo memberInfo, String message, int unreadCount, LocalDateTime createdTime) {
         this.memberInfo = memberInfo;
         this.message = message;
         this.unreadCount = unreadCount;
