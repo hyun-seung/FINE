@@ -1,6 +1,7 @@
 package com.fine_server.service.chat;
 
 import com.fine_server.entity.ChatMember;
+import com.fine_server.entity.ChatMessage;
 import com.fine_server.entity.ChatRoom;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.chat.*;
@@ -41,9 +42,18 @@ public class ChatRoomService {
 
         chatMessageService.readMessage(chatRoom, myChatMember);
 
+        List<SmallChatMessageDto> returnChatMessageDtoList = new ArrayList<>();
+        for(ChatMessage chatMessage : chatRoom.getChatMessageList()) {
+            SmallChatMessageDto smallChatMessageDto = new SmallChatMessageDto(
+                    chatMessage.getSender().getMemberInfo(), chatMessage.getMessage(),
+                    chatMessage.getUnreadCount(), chatMessage.getCreatedDate()
+            );
+            returnChatMessageDtoList.add(smallChatMessageDto);
+        }
+
         ReturnChatRoomDto returnChatRoomDto = new ReturnChatRoomDto(
                 chatRoom.getRoomId(), chatRoom.isSoloCheck(), chatRoom.getChatMemberList().size(),
-                myChatMember.getRoomName(), chatRoom.getChatMessageList()
+                myChatMember.getRoomName(), returnChatMessageDtoList
         );
 
         return returnChatRoomDto;
@@ -66,6 +76,11 @@ public class ChatRoomService {
     }
 
     public ChatRoom createSoloChatRoom(CreateSoloChatRoomDto soloChatRoomDto) {
+        Long existSoloChatRoom = findExistSoloChatRoom(soloChatRoomDto.getMyId(), soloChatRoomDto.getReceiverId());
+        if(existSoloChatRoom != null) {
+            return chatRoomRepository.findById(existSoloChatRoom).get();
+        }
+
         ChatRoom chatRoom = soloChatRoomDto.toEntity();
 
         Optional<Member> optionalMember = memberRepository.findById(soloChatRoomDto.getMyId());
@@ -81,6 +96,10 @@ public class ChatRoomService {
         memberInfo.setImageNum(receiver.getUserImageNum());
         receiverInfo.setRoomName(member.getNickname());
         receiverInfo.setImageNum(member.getUserImageNum());
+
+        StringBuilder sb = new StringBuilder();
+        String twoMembers = sb.append(member.getId()).append(",").append(receiver.getId()).toString();
+        chatRoom.setMembers(twoMembers);
 
         chatMemberRepository.save(memberInfo);
         chatMemberRepository.save(receiverInfo);
@@ -105,6 +124,9 @@ public class ChatRoomService {
         chatRoom.getChatMemberList().add(memberInfo);
         chatMemberRepository.save(memberInfo);
 
+        StringBuilder sb = new StringBuilder();
+        StringBuilder manyMemberBuilder = sb.append(member.getId());
+
         for(Long receiverId : groupChatRoomDto.getReceiverList()) {
             Optional<Member> optionalReceiver = memberRepository.findById(receiverId);
             Member receiver = optionalReceiver.get();
@@ -115,7 +137,12 @@ public class ChatRoomService {
             receiverInfo.setImageNum(member.getUserImageNum());
             chatRoom.getChatMemberList().add(receiverInfo);
             chatMemberRepository.save(receiverInfo);
+
+            manyMemberBuilder.append(",").append(receiver.getId());
         }
+
+        String manyMember = manyMemberBuilder.toString();
+        chatRoom.setMembers(manyMember);
 
         chatRoomRepository.save(chatRoom);
 
@@ -180,7 +207,22 @@ public class ChatRoomService {
         return null;
     }
 
-    public void findExistRoom() {
+    public Long findExistSoloChatRoom(Long myId, Long receiverId) {
+        Member member = memberRepository.findById(myId).get();
 
+        List<ChatMember> chatMemberList = member.getChatMemberList();
+        for(ChatMember chatMember : chatMemberList) {
+            ChatRoom chatRoom = chatMember.getChatRoom();
+            if(chatRoom.getMembers().length() == 3) {
+                String[] array = chatRoom.getMembers().split(",");
+                for(String s : array) {
+                    if(s.equals(receiverId.toString())) {
+                        return chatRoom.getRoomId();
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 }

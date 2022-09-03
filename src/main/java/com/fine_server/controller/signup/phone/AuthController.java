@@ -11,6 +11,7 @@ import com.fine_server.repository.MemberRepository;
 import com.fine_server.service.mypage.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
@@ -39,7 +40,6 @@ import java.util.UUID;
 public class AuthController {
     private AuthService authService;
     private MemberRepository memberRepository;
-    private InfraData infraData;
     private final DefaultMessageService messageService;
 
     public AuthController() {
@@ -50,7 +50,7 @@ public class AuthController {
      * 지역인증
      */
     @PostMapping("/mypage/residence/{memberId}")
-    public ResponseEntity residenceVerification(@PathVariable Long memberId, @RequestBody @Valid ResidenceDto residenceDto, BindingResult bindingResult){
+    public ResponseEntity ResidenceVerification(@PathVariable Long memberId, @RequestBody @Valid ResidenceDto residenceDto, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);

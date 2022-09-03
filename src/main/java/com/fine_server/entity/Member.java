@@ -1,6 +1,7 @@
 package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fine_server.entity.chat.MemberSmallInfo;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -77,5 +78,13 @@ public class Member{
         this.password = password;
         this.nickname = nickname;
         this.intro = intro;
+    }
+
+    public MemberSmallInfo getMemberInfo() {
+        return new MemberSmallInfo(
+                this.id,
+                this.nickname,
+                this.userImageNum
+        );
     }
 }

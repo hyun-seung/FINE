@@ -43,8 +43,8 @@ public class MemberService {
     public Member saveNewAccount(MemberRequestDto memberDto) {
         Member member = memberDto.toEntity();
         member.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-        memberRepository.save(member);
-        return memberDto.toEntity();
+        Member save = memberRepository.save(member);
+        return save;
     }
 
     public Member editProfile(Long memberId, MemberRequestDto memberDto) {

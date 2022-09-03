@@ -23,6 +23,7 @@ public class ChatController {
         // 입장 시(해당 방 입장 시)
         if(MessageType.ENTER.equals(message.getType())) {
             chatMessageService.enterRoom(message.getRoomId(), message.getMemberId());
+            messageingTemplate.convertAndSend("/sub/message/" + message.getRoomId(), "ENTER : " + message.getMemberId().toString());
         }
 
         // 채팅 시
