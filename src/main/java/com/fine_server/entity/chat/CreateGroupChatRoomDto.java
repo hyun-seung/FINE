@@ -16,6 +16,8 @@ public class CreateGroupChatRoomDto {
 
     private String roomName;
 
+    private int roomImageNum;
+
     public ChatRoom toEntity() {
         return ChatRoom.builder()
                 .soloCheck(false)

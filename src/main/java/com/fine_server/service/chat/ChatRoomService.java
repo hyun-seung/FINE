@@ -34,8 +34,8 @@ public class ChatRoomService {
 
         ChatMember myChatMember = null;
 
-        for(ChatMember chatMember : chatRoom.getChatMemberList()) {
-            if(chatMember.getMember().getId().equals(memberId)) {
+        for (ChatMember chatMember : chatRoom.getChatMemberList()) {
+            if (chatMember.getMember().getId().equals(memberId)) {
                 myChatMember = chatMember;
             }
         }
@@ -43,7 +43,7 @@ public class ChatRoomService {
         chatMessageService.readMessage(chatRoom, myChatMember);
 
         List<SmallChatMessageDto> returnChatMessageDtoList = new ArrayList<>();
-        for(ChatMessage chatMessage : chatRoom.getChatMessageList()) {
+        for (ChatMessage chatMessage : chatRoom.getChatMessageList()) {
             SmallChatMessageDto smallChatMessageDto = new SmallChatMessageDto(
                     chatMessage.getSender().getMemberInfo(), chatMessage.getMessage(),
                     chatMessage.getUnreadCount(), chatMessage.getCreatedDate()
@@ -64,7 +64,7 @@ public class ChatRoomService {
         ChatRoom chatRoom = optionalChatRoom.get();
 
         ReturnChatRoomMemberDto returnChatRoomMemberDto = new ReturnChatRoomMemberDto(
-                chatRoom.getRoomId(), chatRoom.getChatMemberList()
+                chatRoom.getRoomId(), Long.parseLong(chatRoom.getMembers().split(",")[0]), chatRoom.getChatMemberList()
         );
 
         return returnChatRoomMemberDto;
@@ -77,7 +77,7 @@ public class ChatRoomService {
 
     public ChatRoom createSoloChatRoom(CreateSoloChatRoomDto soloChatRoomDto) {
         Long existSoloChatRoom = findExistSoloChatRoom(soloChatRoomDto.getMyId(), soloChatRoomDto.getReceiverId());
-        if(existSoloChatRoom != null) {
+        if (existSoloChatRoom != null) {
             return chatRoomRepository.findById(existSoloChatRoom).get();
         }
 
@@ -120,21 +120,21 @@ public class ChatRoomService {
         ChatMember memberInfo = new ChatMemberDto(chatRoom, member).toEntity();
 
         memberInfo.setRoomName(groupChatRoomDto.getRoomName());
-        memberInfo.setImageNum(member.getUserImageNum());
+        memberInfo.setImageNum(groupChatRoomDto.getRoomImageNum());
         chatRoom.getChatMemberList().add(memberInfo);
         chatMemberRepository.save(memberInfo);
 
         StringBuilder sb = new StringBuilder();
         StringBuilder manyMemberBuilder = sb.append(member.getId());
 
-        for(Long receiverId : groupChatRoomDto.getReceiverList()) {
+        for (Long receiverId : groupChatRoomDto.getReceiverList()) {
             Optional<Member> optionalReceiver = memberRepository.findById(receiverId);
             Member receiver = optionalReceiver.get();
 
             ChatMember receiverInfo = new ChatMemberDto(chatRoom, receiver).toEntity();
 
             receiverInfo.setRoomName(groupChatRoomDto.getRoomName());
-            receiverInfo.setImageNum(member.getUserImageNum());
+            receiverInfo.setImageNum(groupChatRoomDto.getRoomImageNum());
             chatRoom.getChatMemberList().add(receiverInfo);
             chatMemberRepository.save(receiverInfo);
 
@@ -156,7 +156,7 @@ public class ChatRoomService {
 
         List<ChatMember> chatMemberList = member.getChatMemberList();
         List<GetMemberChatRoomDto> returnList = new ArrayList<>();
-        for(ChatMember chatMember : chatMemberList) {
+        for (ChatMember chatMember : chatMemberList) {
             int lastReadPoint = chatMember.getLastReadPoint();
             int now = chatMember.getChatRoom().getChatMessageList().size();
 
@@ -185,7 +185,7 @@ public class ChatRoomService {
         Member member = optionalMember.get();
 
         List<Long> roomNumList = new ArrayList<>();
-        for(ChatMember chatMember : member.getChatMemberList()) {
+        for (ChatMember chatMember : member.getChatMemberList()) {
             Long roomId = chatMember.getChatRoom().getRoomId();
             roomNumList.add(roomId);
         }
@@ -197,9 +197,9 @@ public class ChatRoomService {
         Optional<Member> optionalMember = memberRepository.findById(changeRoomNameDto.getMemberId());
         Member member = optionalMember.get();
 
-        for(ChatMember chatMember : member.getChatMemberList()) {
+        for (ChatMember chatMember : member.getChatMemberList()) {
             ChatRoom chatRoom = chatMember.getChatRoom();
-            if(chatRoom.getRoomId().equals(changeRoomNameDto.getRoomId())) {
+            if (chatRoom.getRoomId().equals(changeRoomNameDto.getRoomId())) {
                 chatMember.setRoomName(changeRoomNameDto.getRoomName());
                 return chatMember;
             }
@@ -211,12 +211,12 @@ public class ChatRoomService {
         Member member = memberRepository.findById(myId).get();
 
         List<ChatMember> chatMemberList = member.getChatMemberList();
-        for(ChatMember chatMember : chatMemberList) {
+        for (ChatMember chatMember : chatMemberList) {
             ChatRoom chatRoom = chatMember.getChatRoom();
-            if(chatRoom.getMembers().length() == 3) {
+            if (chatRoom.getMembers().length() == 3) {
                 String[] array = chatRoom.getMembers().split(",");
-                for(String s : array) {
-                    if(s.equals(receiverId.toString())) {
+                for (String s : array) {
+                    if (s.equals(receiverId.toString())) {
                         return chatRoom.getRoomId();
                     }
                 }
@@ -224,5 +224,31 @@ public class ChatRoomService {
         }
 
         return null;
+    }
+
+    public ChatRoom quitChatRoom(Long roomId, Long targetId) {
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId).get();
+        ChatMember chatMember = chatMemberRepository.findByChatRoom_RoomIdAndMember_Id(roomId, targetId);
+
+        chatRoom.getChatMemberList().remove(chatMember);
+        chatMemberRepository.delete(chatMember);
+
+        String[] memberArray = chatRoom.getMembers().split(",");
+        String[] newMemberArray = removeElement(memberArray, targetId.toString());
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(newMemberArray[0]);
+        for(int i=1; i < newMemberArray.length; i++) {
+            sb.append(",").append(newMemberArray[i]);
+        }
+        chatRoom.setMembers(sb.toString());
+
+        return chatRoom;
+    }
+
+    public String[] removeElement(String[] arr, String item) {
+        List<String> list = new ArrayList<>(Arrays.asList(arr));
+        list.remove(item);
+        return list.toArray(String[]::new);
     }
 }

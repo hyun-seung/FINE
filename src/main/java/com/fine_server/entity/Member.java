@@ -80,6 +80,7 @@ public class Member{
         this.intro = intro;
     }
 
+    @JsonIgnore
     public MemberSmallInfo getMemberInfo() {
         return new MemberSmallInfo(
                 this.id,

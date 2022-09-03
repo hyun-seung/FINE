@@ -66,4 +66,10 @@ public class ChatRoomController {
         ChatMember chatMember = chatRoomService.changeRoomName(changeRoomNameDto);
         return chatMember;
     }
+
+    @DeleteMapping("/room/{roomId}/{targetId}")
+    public ChatRoom deleteMemberInChatRoom(@PathVariable Long roomId, @PathVariable Long targetId) {
+        ChatRoom chatRoom = chatRoomService.quitChatRoom(roomId, targetId);
+        return chatRoom;
+    }
 }

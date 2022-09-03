@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
+
+    ChatMember findByChatRoom_RoomIdAndMember_Id(Long chatRoomId, Long memberId);
 }
