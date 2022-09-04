@@ -56,7 +56,7 @@ public class Member extends BaseEntity{
     private Long report; //신고 당한 횟수
 
     private String keyword1; //전공
-    private String keyword2 = userResidence; //거주지역
+    private String keyword2 = splitResidence(userResidence); //거주지역
 //    private String keyword3;
 
     @Column(nullable = false)
@@ -79,5 +79,11 @@ public class Member extends BaseEntity{
     public String editKeyword1(KeywordRequestDto keywordRequestDto) {
         this.keyword1 = keywordRequestDto.getKeyword();
         return keyword1;
+    }
+
+    public String splitResidence(String s) {
+        String[] st = s.split("\\s");
+
+        return st[0];
     }
 }
