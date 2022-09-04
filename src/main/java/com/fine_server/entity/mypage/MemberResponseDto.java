@@ -24,7 +24,7 @@ public class MemberResponseDto {
     private int userImageNum;
     private String intro;
     private String keyword1;
-//    private String keyword2;
+    private String keyword2;
 //    private String keyword3;
     private int follower; //followBack으로 추후 수정
 
@@ -32,12 +32,22 @@ public class MemberResponseDto {
      * added by eunhye
      * date: 22.08.24
      */
-    public MemberResponseDto(String nickname, int userImageNum, String intro, String keyword1) {
+    public MemberResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2) {
+        this.nickname = nickname;
+        this.userImageNum = userImageNum;
+        this.intro = intro;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+//        this.keyword3 = keyword3;
+    }
+
+    public MemberResponseDto(String nickname, int userImageNum, String intro, String keyword1, int follower) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
         this.keyword1 = keyword1;
 //        this.keyword2 = keyword2;
 //        this.keyword3 = keyword3;
+        this.follower = follower;
     }
 }

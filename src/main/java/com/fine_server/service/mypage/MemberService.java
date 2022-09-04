@@ -11,9 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * written by dahae
@@ -65,4 +63,5 @@ public class MemberService {
         memberRepository.deleteById(id);
         return id;
     }
+
 }
