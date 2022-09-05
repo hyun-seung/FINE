@@ -52,10 +52,10 @@ public class KeywordService {
     public List<MemberResponseDto> keywordOfCategory(Long memberId, Integer category) {
         Member member = memberRepository.findById(memberId).get();
         List<Member> memberList = null;
-        if (category.equals(1)) { // 전공
+        if (category.equals(3)) { // 전공
             memberList = memberRepository.findByKeyword1(member.getKeyword1());
         }
-        else if (category.equals(2)) { //거주지
+        else if (category.equals(1)) { //거주지
             memberList = memberRepository.findByKeyword2(member.getKeyword2());
         }
 //        else { // 학교
@@ -66,7 +66,7 @@ public class KeywordService {
         for (Member members: memberList) {
             MemberResponseDto responseDto = new MemberResponseDto(
                     members.getNickname(), members.getUserImageNum(), members.getIntro(),
-                    members.getKeyword1(), members.getKeyword2()
+                    members.getKeyword1(), members.getKeyword2(), members.getLevel()
             );
             memberResponseDtoList.add(responseDto);
         }
@@ -82,7 +82,7 @@ public class KeywordService {
         for (Member member: memberList) {
             MemberResponseDto responseDto = new MemberResponseDto(
                     member.getNickname(), member.getUserImageNum(), member.getIntro(),
-                    member.getKeyword1(), member.getKeyword2()
+                    member.getKeyword1(), member.getKeyword2(), member.getLevel()
             );
             memberResponseDtoList.add(responseDto);
         }

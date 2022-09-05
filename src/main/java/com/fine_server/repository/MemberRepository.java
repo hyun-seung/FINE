@@ -1,6 +1,9 @@
 package com.fine_server.repository;
+import com.fine_server.entity.Keyword;
 import com.fine_server.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -16,6 +19,7 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<Member,Long> {
     Member findByUserId(String userId);
 
+    @Query("select m from Member m where m.id = :memberId")
     List<Member> findTop20ByOrderByMemberId();
 
     List<Member> findByKeyword1(String keyword);

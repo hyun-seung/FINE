@@ -82,8 +82,11 @@ public class Member extends BaseEntity{
     }
 
     public String splitResidence(String s) {
-        String[] st = s.split("\\s");
-
-        return st[0];
+        String[] st;
+        if (s != null) {
+            st = s.split("\\s");
+            return st[0];
+        }
+        else return "미인증";
     }
 }

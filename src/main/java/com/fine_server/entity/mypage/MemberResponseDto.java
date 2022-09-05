@@ -27,17 +27,19 @@ public class MemberResponseDto {
     private String keyword2;
 //    private String keyword3;
     private int follower; //followBack으로 추후 수정
+    private String level;
 
     /**
      * added by eunhye
      * date: 22.08.24
      */
-    public MemberResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2) {
+    public MemberResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2, String level) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
+        this.level = level;
 //        this.keyword3 = keyword3;
     }
 
