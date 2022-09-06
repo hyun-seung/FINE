@@ -18,6 +18,9 @@ import java.util.UUID;
 /**
  * written by dahae
  * date: 22.07.18
+ *
+ * edit by eunhye
+ * date: 22.09.07
  */
 
 @Service
@@ -58,6 +61,9 @@ public class AuthService {
         memberDetail.setUpdateDateResidence(residenceDto.getUpdateDate());
         member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
 
+        // 키워드에 거주지 넣기
+        member.setKeyword2(splitResidence(residenceDto.getUserResidence()));
+
         return residenceDto;
     }
 
@@ -69,5 +75,14 @@ public class AuthService {
 
         member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
         return phoneResponseDto;
+    }
+
+    public String splitResidence(String s) {
+        String[] st;
+        if (s != null) {
+            st = s.split("\\s");
+            return st[0];
+        }
+        else return "미인증";
     }
 }

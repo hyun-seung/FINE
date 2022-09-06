@@ -3,7 +3,7 @@ package com.fine_server.service.mypage;
 import com.fine_server.entity.Keyword;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.keyword.KeywordRequestDto;
-import com.fine_server.entity.mypage.MemberResponseDto;
+import com.fine_server.entity.posting.GetMemberDto;
 import com.fine_server.repository.KeywordRepository;
 import com.fine_server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * written by dahae
- * date: 22.06.26
+ * written by eunhye
+ * date: 22.09.07
  */
 
 @Service
@@ -27,29 +27,13 @@ public class KeywordService {
     private final KeywordRepository keywordRepository;
     private final MemberRepository memberRepository;
 
-//    public List<String> save(Member member, List<String> keywordList) {
-//
-//        List<String> KeywordList = new ArrayList<>();
-//
-//        for(String keyword: keywordList) {
-//            KeywordDto keywordDto=new KeywordDto();
-//            keywordDto.setMember(member);
-//            keywordDto.setKeyword(keyword);
-//
-//            keywordRepository.save(keywordDto.toEntity());
-//            KeywordList.add(keyword);
-//        }
-//
-//        return KeywordList;
-//    }
-
     public List<Keyword> findByMemberId(Member member) {
         return keywordRepository.findAllByMember(member);
     }
 
     
     //키워드 카테고리별 일치 멤버 리스트 - 자신 제외
-    public List<MemberResponseDto> keywordOfCategory(Long memberId, Integer category) {
+    public List<GetMemberDto> keywordOfCategory(Long memberId, Integer category) {
         Member member = memberRepository.findById(memberId).get();
         List<Member> memberList = null;
         if (category.equals(1)) { // 전공
@@ -65,12 +49,9 @@ public class KeywordService {
             memberList = memberRepository.findByKeyword1AndKeyword2(member.getKeyword1(), member.getKeyword2(), memberId);
         }
 
-        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
+        List<GetMemberDto> memberResponseDtoList = new ArrayList<>();
         for (Member members: memberList) {
-            MemberResponseDto responseDto = new MemberResponseDto(
-                    members.getNickname(), members.getUserImageNum(), members.getIntro(),
-                    members.getKeyword1(), members.getKeyword2(), members.getLevel()
-            );
+            GetMemberDto responseDto = members.getMemberInfo();
             memberResponseDtoList.add(responseDto);
         }
 

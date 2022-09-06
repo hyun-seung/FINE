@@ -1,7 +1,7 @@
 package com.fine_server.controller.friend;
 
 import com.fine_server.entity.keyword.KeywordRequestDto;
-import com.fine_server.entity.mypage.MemberResponseDto;
+import com.fine_server.entity.posting.GetMemberDto;
 import com.fine_server.service.mypage.KeywordService;
 import com.fine_server.service.mypage.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class KeywordController {
 
     /* 키워드 카테고리별 친구 목록 */
     @GetMapping("/recommend/{memberId}")
-    List<MemberResponseDto> recommendList(@PathVariable Long memberId, @RequestParam Integer category) {
+    List<GetMemberDto> recommendList(@PathVariable Long memberId, @RequestParam Integer category) {
         return keywordService.keywordOfCategory(memberId, category);
     }
 

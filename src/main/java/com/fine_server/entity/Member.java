@@ -2,6 +2,7 @@ package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fine_server.entity.keyword.KeywordRequestDto;
+import com.fine_server.entity.posting.GetMemberDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -85,12 +86,11 @@ public class Member{
         return keyword1;
     }
 
-//    public String splitResidence(String s) {
-//        String[] st;
-//        if (s != null) {
-//            st = s.split("\\s");
-//            return st[0];
-//        }
-//        else return "미인증";
-//    }
+    public GetMemberDto getMemberInfo() {
+        return new GetMemberDto(
+                this.getId(), this.getNickname(), this.getUserImageNum(),this.getIntro(),
+                this.getKeyword1(), this.getKeyword2(), this.getLevel()
+        );
+    }
+
 }

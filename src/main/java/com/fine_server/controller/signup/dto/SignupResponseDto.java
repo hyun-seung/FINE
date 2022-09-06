@@ -43,7 +43,7 @@ public class SignupResponseDto {
      * added by eunhye
      * date: 22.08.24
      */
-    public MemberResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2, String level) {
+    public SignupResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2, String level) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
@@ -53,7 +53,7 @@ public class SignupResponseDto {
 //        this.keyword3 = keyword3;
     }
 
-    public MemberResponseDto(String nickname, int userImageNum, String intro, String keyword1, int follower) {
+    public SignupResponseDto(String nickname, int userImageNum, String intro, String keyword1, int follower) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
@@ -61,5 +61,20 @@ public class SignupResponseDto {
 //        this.keyword2 = keyword2;
 //        this.keyword3 = keyword3;
         this.follower = follower;
+    }
+
+    public SignupResponseDto(String nickname, int userImageNum, String intro, String keyword1, int follower, String email, LocalDateTime updateDateEmail, String userPhoneNumber, LocalDateTime updateDatePhone, String userResidence, LocalDateTime updateDateResidence) {
+        this.nickname = nickname;
+        this.userImageNum = userImageNum;
+        this.intro = intro;
+        this.keyword1 = keyword1;
+        this.follower = follower;
+        this.level = level;
+        this.email = email;
+        this.updateDateEmail = updateDateEmail;
+        this.userPhoneNumber = userPhoneNumber;
+        this.updateDatePhone = updateDatePhone;
+        this.userResidence = userResidence;
+        this.updateDateResidence = updateDateResidence;
     }
 }

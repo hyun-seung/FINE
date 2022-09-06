@@ -7,7 +7,6 @@ import com.fine_server.controller.signup.dto.PhoneResponseDto;
 import com.fine_server.controller.signup.dto.TokenDto;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.MemberDetail;
-import com.fine_server.entity.mypage.KeywordDto;
 import com.fine_server.repository.KeywordRepository;
 import com.fine_server.repository.MemberRepository;
 import com.fine_server.service.mypage.AuthService;

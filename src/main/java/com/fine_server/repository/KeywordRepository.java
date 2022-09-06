@@ -2,7 +2,6 @@ package com.fine_server.repository;
 
 import com.fine_server.entity.Keyword;
 import com.fine_server.entity.Member;
-import com.fine_server.entity.mypage.MemberResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

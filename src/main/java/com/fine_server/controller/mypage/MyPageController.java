@@ -71,7 +71,7 @@ public class MyPageController {
             List<Follow> followList = followRepository.findFriends(memberId);
 
             //사용하는 정보가 같아 SignupResponseDto 사용
-            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack(),memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
+            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack() ,memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
             return new ResponseEntity(signupResponseDto, HttpStatus.OK);
         }
 
@@ -112,7 +112,7 @@ public class MyPageController {
             List<Follow> followList = followRepository.findFriends(memberId);
 
             //사용하는 정보가 같아 SignupResponseDto 사용
-            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFolowBack() ,memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
+            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack() ,memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
             return new ResponseEntity(signupResponseDto, HttpStatus.OK);
         }
 
