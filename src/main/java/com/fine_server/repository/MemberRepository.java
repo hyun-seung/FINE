@@ -27,4 +27,7 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 
     @Query("select m from Member m where m.id not in :memberId and m.keyword2 = :keyword2")
     List<Member> findByKeyword2(String keyword2, Long memberId);
+
+    @Query("select m from Member m where m.id not in :memberId and m.keyword1 = :keyword1 and m.keyword2 = :keyword2")
+    List<Member> findByKeyword1AndKeyword2(String keyword1, String keyword2, Long memberId);
 }

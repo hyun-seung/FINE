@@ -48,7 +48,7 @@ public class KeywordService {
     }
 
     
-    //키워드 카테고리별 일치 멤버 리스트 - 자신 제외 구현 예정
+    //키워드 카테고리별 일치 멤버 리스트 - 자신 제외
     public List<MemberResponseDto> keywordOfCategory(Long memberId, Integer category) {
         Member member = memberRepository.findById(memberId).get();
         List<Member> memberList = null;
@@ -61,9 +61,9 @@ public class KeywordService {
         else if (category.equals(4)) { // 모든 멤버
              memberList = memberRepository.findTop20ByOrderByMemberId();
         }
-//        else { //학교
-
-//        }
+        else { //전부 일치
+            memberList = memberRepository.findByKeyword1AndKeyword2(member.getKeyword1(), member.getKeyword2(), memberId);
+        }
 
         List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
         for (Member members: memberList) {
@@ -76,53 +76,6 @@ public class KeywordService {
 
         return memberResponseDtoList;
     }
-
-    //키워드 상관없이 전부 추천 리스트
-//    public List<MemberResponseDto> recommendAll() {
-//        List<Member> memberList = memberRepository.findTop20ByOrderByMemberId();
-//        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
-//
-//        for (Member member: memberList) {
-//            MemberResponseDto responseDto = new MemberResponseDto(
-//                    member.getNickname(), member.getUserImageNum(), member.getIntro(),
-//                    member.getKeyword1(), member.getKeyword2(), member.getLevel()
-//            );
-//            memberResponseDtoList.add(responseDto);
-//        }
-//
-//        return memberResponseDtoList;
-//    }
-
-
-//    키워드 전부 일치 멤버 리스트
-//    public List<MemberResponseDto> keywordAll(Long memberId) {
-//        Optional<Member> member = memberRepository.findById(memberId);
-//        List<Keyword> keywordList = keywordRepository.findAllByMember(member.get()); //사용자의 키워드 리스트
-//
-//        List<Keyword> memberList = keywordRepository.findAllByKeywordAndType(keywordList.get(i).getKeyword(), keywordList.get(i).getType());
-//        List<Keyword> memberList = keywordRepository.findAllByKeywordAndType(keywordList.get(i).getKeyword(), keywordList.get(i).getType());
-//        List<Keyword> memberList = keywordRepository.findAllByKeywordAndType(keywordList.get(i).getKeyword(), keywordList.get(i).getType());
-//
-//        for (Keyword keyword : memberList) {
-//            String key = keywordRepository.findByMemberIdAndKeyword(keyword.getMember().getId(), keyword.getType());
-//            if (key.equals(keywordList.get(0)))
-//
-//        }
-//
-//        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
-//
-//        for (Member member: memberList) {
-//            MemberResponseDto responseDto = new MemberResponseDto(
-//                    member.getNickname(), member.getUserImageNum(), member.getIntro(),
-//                    member.getKeyword1()
-//            );
-//            memberResponseDtoList.add(responseDto);
-//        }
-//
-//        return memberResponseDtoList;
-//    }
-
-
 
     //키워드 편집 - 전공
     public String editKeyword(Long memberId, KeywordRequestDto keyword) {
