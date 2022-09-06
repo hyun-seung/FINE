@@ -19,9 +19,12 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<Member,Long> {
     Member findByUserId(String userId);
 
-    @Query("select m from Member m where m.id = :memberId")
+    @Query("select m from Member m order by m.id desc")
     List<Member> findTop20ByOrderByMemberId();
 
-    List<Member> findByKeyword1(String keyword);
-    List<Member> findByKeyword2(String keyword);
+    @Query("select m from Member m where m.id not in :memberId and m.keyword1 = :keyword1")
+    List<Member> findByKeyword1(String keyword1, Long memberId);
+
+    @Query("select m from Member m where m.id not in :memberId and m.keyword2 = :keyword2")
+    List<Member> findByKeyword2(String keyword2, Long memberId);
 }

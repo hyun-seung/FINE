@@ -63,15 +63,18 @@ public class PhoneController {
         member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
 
         // 키워드에 거주지 넣기
-        KeywordDto keywordDto = new KeywordDto();
-        keywordDto.setMember(member);
-        keywordDto.setKeyword(residenceDto.getUserResidence());
-        keywordDto.setType(1); //거주지는 type 1
-
-        keywordRepository.save(keywordDto.toEntity());
+        member.setKeyword2(splitResidence(residenceDto.getUserResidence()));
 
         return ResponseEntity.ok().build();
+    }
 
+    public String splitResidence(String s) {
+        String[] st;
+        if (s != null) {
+            st = s.split("\\s");
+            return st[0];
+        }
+        else return "미인증";
     }
 
 

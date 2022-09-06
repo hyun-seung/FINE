@@ -56,7 +56,7 @@ public class Member extends BaseEntity{
     private Long report; //신고 당한 횟수
 
     private String keyword1; //전공
-    private String keyword2 = splitResidence(userResidence); //거주지역
+    private String keyword2; //거주지역
 //    private String keyword3;
 
     @Column(nullable = false)
@@ -81,12 +81,12 @@ public class Member extends BaseEntity{
         return keyword1;
     }
 
-    public String splitResidence(String s) {
-        String[] st;
-        if (s != null) {
-            st = s.split("\\s");
-            return st[0];
-        }
-        else return "미인증";
-    }
+//    public String splitResidence(String s) {
+//        String[] st;
+//        if (s != null) {
+//            st = s.split("\\s");
+//            return st[0];
+//        }
+//        else return "미인증";
+//    }
 }

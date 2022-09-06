@@ -28,10 +28,10 @@ public class KeywordController {
         return keywordService.keywordOfCategory(memberId, category);
     }
 
-    @GetMapping("/recommend/all")
-    List<MemberResponseDto> recommendAll() {
-        return keywordService.recommendAll();
-    }
+//    @GetMapping("/recommend/all")
+//    List<MemberResponseDto> recommendAll() {
+//        return keywordService.recommendAll();
+//    }
 
     /* 키워드 편집 (생성, 변경) */
     @PostMapping("/keyword/edit/{memberId}")

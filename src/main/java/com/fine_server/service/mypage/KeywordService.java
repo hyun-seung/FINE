@@ -52,14 +52,17 @@ public class KeywordService {
     public List<MemberResponseDto> keywordOfCategory(Long memberId, Integer category) {
         Member member = memberRepository.findById(memberId).get();
         List<Member> memberList = null;
-        if (category.equals(3)) { // 전공
-            memberList = memberRepository.findByKeyword1(member.getKeyword1());
+        if (category.equals(1)) { // 전공
+            memberList = memberRepository.findByKeyword1(member.getKeyword1(), memberId);
         }
-        else if (category.equals(1)) { //거주지
-            memberList = memberRepository.findByKeyword2(member.getKeyword2());
+        else if (category.equals(2)) { //거주지
+            memberList = memberRepository.findByKeyword2(member.getKeyword2(), memberId);
         }
-//        else { // 학교
-//            memberList = memberRepository.
+        else if (category.equals(4)) { // 모든 멤버
+             memberList = memberRepository.findTop20ByOrderByMemberId();
+        }
+//        else { //학교
+
 //        }
 
         List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
@@ -75,20 +78,20 @@ public class KeywordService {
     }
 
     //키워드 상관없이 전부 추천 리스트
-    public List<MemberResponseDto> recommendAll() {
-        List<Member> memberList = memberRepository.findTop20ByOrderByMemberId();
-        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
-
-        for (Member member: memberList) {
-            MemberResponseDto responseDto = new MemberResponseDto(
-                    member.getNickname(), member.getUserImageNum(), member.getIntro(),
-                    member.getKeyword1(), member.getKeyword2(), member.getLevel()
-            );
-            memberResponseDtoList.add(responseDto);
-        }
-
-        return memberResponseDtoList;
-    }
+//    public List<MemberResponseDto> recommendAll() {
+//        List<Member> memberList = memberRepository.findTop20ByOrderByMemberId();
+//        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
+//
+//        for (Member member: memberList) {
+//            MemberResponseDto responseDto = new MemberResponseDto(
+//                    member.getNickname(), member.getUserImageNum(), member.getIntro(),
+//                    member.getKeyword1(), member.getKeyword2(), member.getLevel()
+//            );
+//            memberResponseDtoList.add(responseDto);
+//        }
+//
+//        return memberResponseDtoList;
+//    }
 
 
 //    키워드 전부 일치 멤버 리스트
