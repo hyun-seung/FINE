@@ -2,7 +2,7 @@ package com.fine_server.controller.mypage;
 
 import com.fine_server.controller.mypage.errors.UserException;
 import com.fine_server.entity.*;
-import com.fine_server.entity.mypage.MemberResponseDto;
+import com.fine_server.controller.signup.dto.SignupResponseDto;
 import com.fine_server.repository.BookmarkRepository;
 import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.MemberRepository;
@@ -55,15 +55,24 @@ public class MyPageController {
     /**
      * edit. 22.06.26
      * 마이페이지 접속 화면
+     *
+     * edit. 22.08.20
+     * 수정 이유 : Member Entity 정규화
+     *           인증 날짜 정보 추가
      */
     @ResponseBody
     @GetMapping("/mypage/{memberId}")
     public ResponseEntity<Member> myProfile(@PathVariable Long memberId){
         Optional<Member> findMember = memberService.findMember(memberId);
+
         if (!findMember.isEmpty()){
             Member member = findMember.get();
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack());
-            return new ResponseEntity(memberResponseDto, HttpStatus.OK);
+            MemberDetail memberDetail = member.getMemberDetail();
+            List<Follow> followList = followRepository.findFriends(memberId);
+
+            //사용하는 정보가 같아 SignupResponseDto 사용
+            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack(),memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
+            return new ResponseEntity(signupResponseDto, HttpStatus.OK);
         }
 
         else{
@@ -87,8 +96,10 @@ public class MyPageController {
     }
 
     /**
-     * edit. 22.06.26
+     * edit. 22.08.20
      * 친구 프로필 조회
+     * 수정 이유 : Member Entity 정규화
+     *           인증 날짜 정보 추가
      */
 
     @GetMapping("/profile/{memberId}")
@@ -97,8 +108,12 @@ public class MyPageController {
 
         if (!findMember.isEmpty()){
             Member member = findMember.get();
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack());
-            return new ResponseEntity(memberResponseDto, HttpStatus.OK);
+            MemberDetail memberDetail = member.getMemberDetail();
+            List<Follow> followList = followRepository.findFriends(memberId);
+
+            //사용하는 정보가 같아 SignupResponseDto 사용
+            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFolowBack() ,memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
+            return new ResponseEntity(signupResponseDto, HttpStatus.OK);
         }
 
         else{
@@ -115,7 +130,6 @@ public class MyPageController {
         List<Posting> posts = myPageService.getMyPost(memberId);
         return ResponseEntity.ok(posts);
     }
-
 
     /**
      * add. 22.07.27
@@ -147,7 +161,10 @@ public class MyPageController {
         return new ResponseEntity(bookMarkList,HttpStatus.OK);
     }
 
-
+    /**
+     * edit. 22.07.19
+     * 멤버 탈퇴
+     */
     @DeleteMapping("/mypage/{memberId}")
     public Long deleteMember(@PathVariable Long memberId) {
         return memberService.deleteAccount(memberId);

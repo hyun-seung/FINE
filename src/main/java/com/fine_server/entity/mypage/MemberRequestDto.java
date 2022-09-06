@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotBlank;
+
 
 /**
  * written by dahae
@@ -20,18 +22,18 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 public class MemberRequestDto {
 
-    //@NotBlank(message = "아이디 값은 필수 입력 값입니다.")
+    @NotBlank(message = "아이디 값은 필수 입력 값입니다.")
     private String userId;
-    //@NotBlank
+
+    @NotBlank
     @Length(min = 8,max = 40)
     private String password;
 
     private int userImageNum;
-    //@NotBlank(message = "닉네임 값은 필수 입력 값입니다.")
 
+    @NotBlank(message = "닉네임 값은 필수 입력 값입니다.")
     private String nickname; //닉네임 값이 없으면 그냥 id 값으로 넣어주기
     private String intro;
-    //private List<String> keyword; //키워드
 
     private String keyword1;
 //    private String keyword2;

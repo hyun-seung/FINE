@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 /**
@@ -27,7 +28,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
-public class Member extends BaseEntity{
+public class Member{
 
     @Id
     @GeneratedValue
@@ -43,12 +44,11 @@ public class Member extends BaseEntity{
     private int userImageNum;
 
     private String nickname;
-    private String email;
+    //private String email;
     private String intro; //자기소개
 
-    private String userIntroduction;
-    private String userPhoneNumber;
-    private String userResidence;//거주지
+    //private String userPhoneNumber;
+    //private String userResidence;//거주지
 
     @Column(nullable = false)
     @ColumnDefault("1")
@@ -58,6 +58,10 @@ public class Member extends BaseEntity{
     private String keyword1; //전공
     private String keyword2; //거주지역
 //    private String keyword3;
+
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name="memberDetail_id")
+    private MemberDetail memberDetail;
 
     @Column(nullable = false)
     @ColumnDefault("0")

@@ -1,13 +1,10 @@
 package com.fine_server.service.follow;
 
-import com.fine_server.entity.mypage.MemberResponseDto;
 import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * written by eunhye
