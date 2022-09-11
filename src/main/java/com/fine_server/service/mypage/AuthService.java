@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.UUID;
 
 /**
@@ -36,7 +37,7 @@ public class AuthService {
         session.setAttribute("phoneVerified", true);
     }
 
-    public PhoneResponseDto phoneVerification(HttpSession session, String token, TokenDto tokenDto){
+    public PhoneResponseDto phoneVerification(HttpSession session, String token, @Valid PhoneResponseDto tokenDto){
         if (!isValidToken(session,token)) {
             return null; 
         }

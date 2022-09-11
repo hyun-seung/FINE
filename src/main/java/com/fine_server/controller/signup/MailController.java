@@ -18,10 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -73,6 +70,32 @@ public class MailController {
             //인증이 완료 -> 세션 초기화
             request.getSession().invalidate();
             UniversityDto universityAuth = authService.universityAuth(memberId, universityDto);
+            return ResponseEntity.ok(universityAuth);
+        }
+    }
+
+    /**
+     * 대학인증 업데이트
+     */
+
+    //대학인증과 이메일 인증을 한번에
+    @PutMapping("/emailVerification/{memberId}")
+    public ResponseEntity universityUpdate(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid UniversityDto universityDto, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        AccountResponseDto dto = mailService.emailVerification(request.getSession(), universityDto.getToken());
+
+        //인증번호 맞지 않음
+        if(dto == null){
+            throw new UserException("인증번호가 맞지 않습니다.");
+        } else{
+            //인증이 완료 -> 세션 초기화
+            request.getSession().invalidate();
+            UniversityDto universityAuth = authService.updateUniversityAuth(memberId, universityDto);
             return ResponseEntity.ok(universityAuth);
         }
     }

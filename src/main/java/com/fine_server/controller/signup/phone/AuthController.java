@@ -102,38 +102,44 @@ public class AuthController {
     }
 
     @PostMapping("/mypage/phone/token/{memberId}")
-    public ResponseEntity phoneVerification(HttpServletRequest request, @RequestBody @Valid TokenDto tokenDto, @PathVariable Long memberId, BindingResult bindingResult){
+    public ResponseEntity phoneVerification(HttpServletRequest request, @RequestBody @Valid PhoneResponseDto phoneResponseDto, @PathVariable Long memberId, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
         }
 
-        PhoneResponseDto dto = authService.phoneVerification(request.getSession(), tokenDto.getToken(),tokenDto);
+        PhoneResponseDto dto = authService.phoneVerification(request.getSession(), phoneResponseDto.getToken(),phoneResponseDto);
 
         if(dto == null){
             throw new UserException("인증번호가 맞지 않습니다.");
         } else{
             request.getSession().invalidate();
-            PhoneResponseDto phoneResponseDto = authService.phoneAuth(memberId, dto);
-            return ResponseEntity.ok(phoneResponseDto);
+            PhoneResponseDto phoneAuth = authService.phoneAuth(memberId, dto);
+            return ResponseEntity.ok(phoneAuth);
         }
     }
 
     /**
      * 휴대폰인증 업데이트
      */
-    @PutMapping("/mypage/phone/{memberId}")
-    public ResponseEntity phoneUpdate(@PathVariable Long memberId, @RequestBody @Valid  PhoneResponseDto phoneResponseDto, BindingResult bindingResult){
+    @PutMapping("/mypage/phone/token/{memberId}")
+    public ResponseEntity phoneUpdate(HttpServletRequest request, @RequestBody @Valid PhoneResponseDto phoneResponseDto, @PathVariable Long memberId, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
         }
 
-        PhoneResponseDto updatePhoneAuth = authService.updatePhoneAuth(memberId, phoneResponseDto);
-        return ResponseEntity.ok(updatePhoneAuth);
+        PhoneResponseDto dto = authService.phoneVerification(request.getSession(), phoneResponseDto.getToken(),phoneResponseDto);
 
+        if(dto == null){
+            throw new UserException("인증번호가 맞지 않습니다.");
+        } else{
+            request.getSession().invalidate();
+            PhoneResponseDto phoneAuth = authService.phoneAuth(memberId, dto);
+            return ResponseEntity.ok(phoneAuth);
+        }
     }
 
     @PostMapping("/mypage/university/{memberId}")
@@ -149,7 +155,7 @@ public class AuthController {
     }
 
     /**
-     * 대학인증 업데이트
+     * 대학인증 업데이트 -사용 x
      */
     @PutMapping("/mypage/university/{memberId}")
     public ResponseEntity universityUpdate(@PathVariable Long memberId, @RequestBody @Valid  UniversityDto universityDto, BindingResult bindingResult){
