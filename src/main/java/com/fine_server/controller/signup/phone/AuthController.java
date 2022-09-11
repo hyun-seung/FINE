@@ -1,10 +1,7 @@
 package com.fine_server.controller.signup.phone;
 
 import com.fine_server.controller.mypage.errors.UserException;
-import com.fine_server.controller.signup.dto.ResidenceDto;
-import com.fine_server.controller.signup.dto.PhoneRequestDto;
-import com.fine_server.controller.signup.dto.PhoneResponseDto;
-import com.fine_server.controller.signup.dto.TokenDto;
+import com.fine_server.controller.signup.dto.*;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.MemberDetail;
 import com.fine_server.repository.MemberRepository;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +60,25 @@ public class AuthController {
 
     }
 
+    /**
+     * 지역인증 업데이트
+     */
+    @PutMapping("/mypage/residence/{memberId}")
+    public ResponseEntity residenceUpdate(@PathVariable Long memberId, @RequestBody @Valid ResidenceDto residenceDto, BindingResult bindingResult){
 
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        ResidenceDto residenceResponseDto = authService.updateResidenceAuth(memberId, residenceDto);
+        return ResponseEntity.ok(residenceResponseDto);
+
+    }
+
+    /**
+     * 휴대폰 인증
+     */
     @PostMapping("/mypage/phone/{memberId}")
     public ResponseEntity<PhoneRequestDto> sendMessage(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid PhoneRequestDto phoneRequestDto) {
         Message message = new Message();
@@ -103,4 +119,49 @@ public class AuthController {
             return ResponseEntity.ok(phoneResponseDto);
         }
     }
+
+    /**
+     * 휴대폰인증 업데이트
+     */
+    @PutMapping("/mypage/phone/{memberId}")
+    public ResponseEntity phoneUpdate(@PathVariable Long memberId, @RequestBody @Valid  PhoneResponseDto phoneResponseDto, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        PhoneResponseDto updatePhoneAuth = authService.updatePhoneAuth(memberId, phoneResponseDto);
+        return ResponseEntity.ok(updatePhoneAuth);
+
+    }
+
+    @PostMapping("/mypage/university/{memberId}")
+    public ResponseEntity universityVerification(HttpServletRequest request, @RequestBody @Valid UniversityDto universityDto, @PathVariable Long memberId, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        UniversityDto universityAuth = authService.universityAuth(memberId, universityDto);
+        return ResponseEntity.ok(universityAuth);
+
+    }
+
+    /**
+     * 대학인증 업데이트
+     */
+    @PutMapping("/mypage/university/{memberId}")
+    public ResponseEntity universityUpdate(@PathVariable Long memberId, @RequestBody @Valid  UniversityDto universityDto, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        UniversityDto universityAuth = authService.updateUniversityAuth(memberId, universityDto);
+        return ResponseEntity.ok(universityAuth);
+
+    }
+
 }
