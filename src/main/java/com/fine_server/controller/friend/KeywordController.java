@@ -24,8 +24,8 @@ public class KeywordController {
 
     /* 키워드 카테고리별 친구 목록 */
     @GetMapping("/recommend/{memberId}")
-    List<GetMemberDto> recommendList(@PathVariable Long memberId, @RequestParam Integer category) {
-        return keywordService.keywordOfCategory(memberId, category);
+    List<GetMemberDto> recommendList(@PathVariable Long memberId, @RequestParam Integer category, @RequestParam String select) {
+        return keywordService.keywordOfCategory(memberId, category, select);
     }
 
 //    @GetMapping("/recommend/all")

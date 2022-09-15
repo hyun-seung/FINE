@@ -22,6 +22,8 @@ public class GetPostingDto {
     private Boolean groupCheck;
     private Integer maxMember;
 
+    private String keyword;
+
     private Integer joinCount;
     private Long checkRecruitingId;
     private Long checkBookmarkId;
@@ -34,7 +36,7 @@ public class GetPostingDto {
 //    private List<GetBookmarkDto> bookmarks;
 
     public GetPostingDto(Long postingId, Long writerId, String writerNickname, int userImageNum, String title, String content, Boolean closingCheck,
-                         Boolean groupCheck, Integer maxMember, Integer joinCount, Long recruitingId, Long bookmarkId,
+                         Boolean groupCheck, Integer maxMember, String keyword, Integer joinCount, Long recruitingId, Long bookmarkId,
                          LocalDateTime createdDate, LocalDateTime lastModifiedDate,
                          List<RecruitingDto> recruitingList, List<CommentMemberDto> comments) {
         this.postingId = postingId;
@@ -47,6 +49,8 @@ public class GetPostingDto {
         this.closingCheck = closingCheck;
         this.groupCheck = groupCheck;
         this.maxMember = maxMember;
+
+        this.keyword = keyword;
 
         this.joinCount = joinCount;
         this.checkRecruitingId = recruitingId;

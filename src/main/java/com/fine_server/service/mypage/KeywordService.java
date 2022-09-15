@@ -33,20 +33,34 @@ public class KeywordService {
 
     
     //키워드 카테고리별 일치 멤버 리스트 - 자신 제외
-    public List<GetMemberDto> keywordOfCategory(Long memberId, Integer category) {
+    public List<GetMemberDto> keywordOfCategory(Long memberId, Integer category, String select) {
         Member member = memberRepository.findById(memberId).get();
         List<Member> memberList = null;
         if (category.equals(1)) { // 전공
-            memberList = memberRepository.findByKeyword1(member.getKeyword1(), memberId);
+            if (select.equals("level"))
+                memberList = memberRepository.findByKeyword1OrderByLevel(member.getKeyword1(), memberId);
+            else
+                memberList = memberRepository.findByKeyword1OrderByMemberId(member.getKeyword1(), memberId);
         }
         else if (category.equals(2)) { //거주지
-            memberList = memberRepository.findByKeyword2(member.getKeyword2(), memberId);
+            if (select.equals("level"))
+                memberList = memberRepository.findByKeyword2OrderByLevel(member.getKeyword2(), memberId);
+            else
+                memberList = memberRepository.findByKeyword2OrderByMemberId(member.getKeyword2(), memberId);
         }
         else if (category.equals(4)) { // 모든 멤버
-             memberList = memberRepository.findTop20ByOrderByMemberId();
+            if (select.equals("level"))
+                memberList = memberRepository.findTop20ByOrderByLevel();
+            else
+                memberList = memberRepository.findTop20ByOrderByMemberId();
+
         }
-        else { //전부 일치
-            memberList = memberRepository.findByKeyword1AndKeyword2(member.getKeyword1(), member.getKeyword2(), memberId);
+        else { //전부 일치 - 정렬 수정
+            if (select.equals("level"))
+                memberList = memberRepository.findByKeyword1AndKeyword2(member.getKeyword1(), member.getKeyword2(), memberId);
+            else
+                memberList = memberRepository.findByKeyword1AndKeyword2(member.getKeyword1(), member.getKeyword2(), memberId);
+
         }
 
         List<GetMemberDto> memberResponseDtoList = new ArrayList<>();
