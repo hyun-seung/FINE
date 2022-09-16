@@ -4,6 +4,7 @@ import com.fine_server.controller.mypage.errors.UserException;
 import com.fine_server.entity.Member;
 import com.fine_server.service.login.LoginService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 public class LoginController {
     private final LoginService loginService;

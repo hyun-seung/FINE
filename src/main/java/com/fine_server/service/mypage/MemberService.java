@@ -1,5 +1,8 @@
 package com.fine_server.service.mypage;
 
+import com.fine_server.controller.mypage.errors.UserException;
+import com.fine_server.controller.signup.dto.UserIdDto;
+import com.fine_server.controller.signup.dto.UserNickNameDto;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.mypage.MemberRequestDto;
 import com.fine_server.repository.MemberRepository;
@@ -45,6 +48,20 @@ public class MemberService {
         member.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         Member save = memberRepository.save(member);
         return save;
+    }
+
+    public UserIdDto vaildCheckUserId(UserIdDto userIdDto){
+        if(memberRepository.existsByUserId(userIdDto.getUserId())){
+            throw new UserException("이미 존재하는 아이디입니다.");
+        }
+        return userIdDto;
+    }
+
+    public UserNickNameDto vaildCheckNickName(UserNickNameDto userNickNameDto){
+        if(memberRepository.existsByUserId(userNickNameDto.getUserNickName())){
+            throw new UserException("이미 존재하는 닉네임입니다.");
+        }
+        return userNickNameDto;
     }
 
     public Member editProfile(Long memberId, MemberRequestDto memberDto) {
