@@ -18,7 +18,6 @@ public class MailDto {
 
     public Member toEntity(){
         return Member.builder()
-                .email(address)
                 .build();
     }
 }

@@ -36,12 +36,26 @@ import java.util.UUID;
 @Controller
 public class AuthController {
     private AuthService authService;
-    private MemberRepository memberRepository;
-    private InfraData infraData;
     private final DefaultMessageService messageService;
 
     public AuthController() {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
+    }
+
+    /**
+     * 인증정보 가져오기
+     */
+    @PostMapping("/mypage/auth/{memberId}")
+    public ResponseEntity myAuth(@PathVariable Long memberId, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        AuthDto authDto = authService.verification(memberId);
+        return ResponseEntity.ok(authDto);
+
     }
 
     /**
