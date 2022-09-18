@@ -1,9 +1,6 @@
 package com.fine_server.service.mypage;
 
-import com.fine_server.controller.signup.dto.PhoneResponseDto;
-import com.fine_server.controller.signup.dto.ResidenceDto;
-import com.fine_server.controller.signup.dto.TokenDto;
-import com.fine_server.controller.signup.dto.UniversityDto;
+import com.fine_server.controller.signup.dto.*;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.MemberDetail;
 import com.fine_server.repository.MemberRepository;
@@ -37,6 +34,21 @@ public class AuthService {
         session.setAttribute("phoneVerified", true);
     }
 
+    public AuthDto verification(Long memberId){
+        Member member = memberRepository.findById(memberId).get();
+        MemberDetail memberDetail = member.getMemberDetail();
+        AuthDto dto = new AuthDto();
+        dto.setUniversity(memberDetail.getUserUniversity());
+        dto.setUpdateDateUniver(memberDetail.getUpdateDateUniversity());
+
+        dto.setUserResidence(memberDetail.getUserResidence());
+        dto.setUpdateDateResiden(memberDetail.getUpdateDateResidence());
+
+        dto.setPhoneNumber(memberDetail.getUserPhoneNumber());
+        dto.setUpdateDatePhone(memberDetail.getUpdateDatePhone());
+        return dto;
+    }
+
     public PhoneResponseDto phoneVerification(HttpSession session, String token, @Valid PhoneResponseDto tokenDto){
         if (!isValidToken(session,token)) {
             return null; 
@@ -45,7 +57,7 @@ public class AuthService {
         return createAccountResponseDto(session, tokenDto);
     }
 
-    public PhoneResponseDto createAccountResponseDto(HttpSession session, TokenDto tokenDto){
+    public PhoneResponseDto createAccountResponseDto(HttpSession session, @Valid PhoneResponseDto tokenDto){
         PhoneResponseDto dto = new PhoneResponseDto();
         dto.setPhoneNumber((String) session.getAttribute("phone"));
         dto.setPhoneVerified((Boolean)session.getAttribute("phoneVerified"));
@@ -112,4 +124,5 @@ public class AuthService {
 
         return universityDto;
     }
+
 }

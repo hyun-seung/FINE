@@ -37,7 +37,6 @@ import java.util.UUID;
 @Controller
 public class AuthController {
     private AuthService authService;
-    private MemberRepository memberRepository;
     private final DefaultMessageService messageService;
 
     public AuthController() {
@@ -45,10 +44,26 @@ public class AuthController {
     }
 
     /**
+     * 인증정보 가져오기
+     */
+    @PostMapping("/mypage/auth/{memberId}")
+    public ResponseEntity myAuth(@PathVariable Long memberId, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        AuthDto authDto = authService.verification(memberId);
+        return ResponseEntity.ok(authDto);
+
+    }
+
+    /**
      * 지역인증
      */
     @PostMapping("/mypage/residence/{memberId}")
-    public ResponseEntity ResidenceVerification(@PathVariable Long memberId, @RequestBody @Valid ResidenceDto residenceDto, BindingResult bindingResult){
+    public ResponseEntity residenceVerification(@PathVariable Long memberId, @RequestBody @Valid ResidenceDto residenceDto, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
