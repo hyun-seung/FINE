@@ -54,6 +54,7 @@ public class Posting extends BaseEntity {
     private Boolean group_check;    // false -> 일반 글(General), true -> 단체 글(Group)
 
     private Integer maxMember;
+    private String keyword; //키워드
 
     @ColumnDefault("0")
     private Integer totalViews; //누적조회수

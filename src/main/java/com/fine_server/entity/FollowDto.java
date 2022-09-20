@@ -22,7 +22,7 @@ public class FollowDto {
     private String nickname;
     private Integer imageNum;
     private String intro;
-    private String level;
+    private Integer level;
 
     public Follow toEntity() {
         return Follow.builder()
@@ -32,7 +32,7 @@ public class FollowDto {
     }
 
     //getMemberDto 사용해서 리팩토링 (getMemberDto에는 intro 없으므로 이를 논의 후 추가)
-    public FollowDto(Long friendId, String nickname, Integer userImageNum, String intro, String level) {
+    public FollowDto(Long friendId, String nickname, Integer userImageNum, String intro, int level) {
         this.friendId = friendId;
         this.nickname = nickname;
         this.imageNum = userImageNum;

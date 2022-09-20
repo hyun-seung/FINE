@@ -38,7 +38,7 @@ public class GroupService {
             group.getGroupCollectionList().add(groupCollection);
         }
 
-        posting.updateClosingCheck(true);
+//        posting.updateClosingCheck(true);
 
         return group;
     }

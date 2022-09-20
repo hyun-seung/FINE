@@ -1,6 +1,8 @@
 package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fine_server.entity.keyword.KeywordRequestDto;
+import com.fine_server.entity.posting.GetMemberDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -51,12 +53,12 @@ public class Member{
 
     @Column(nullable = false)
     @ColumnDefault("1")
-    private String level;//프로필 레벨
+    private Integer level;//프로필 레벨
     private Long report; //신고 당한 횟수
 
-    private String keyword1;
-    private String keyword2;
-    private String keyword3;
+    private String keyword1; //전공
+    private String keyword2; //거주지역
+//    private String keyword3;
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name="memberDetail_id")
@@ -78,4 +80,17 @@ public class Member{
         this.nickname = nickname;
         this.intro = intro;
     }
+
+    public String editKeyword1(KeywordRequestDto keywordRequestDto) {
+        this.keyword1 = keywordRequestDto.getKeyword();
+        return keyword1;
+    }
+
+    public GetMemberDto getMemberInfo() {
+        return new GetMemberDto(
+                this.getId(), this.getNickname(), this.getUserImageNum(),this.getIntro(),
+                this.getKeyword1(), this.getKeyword2(), this.getLevel()
+        );
+    }
+
 }

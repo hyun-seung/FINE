@@ -36,8 +36,8 @@ public class MemberRequestDto {
     private String intro;
 
     private String keyword1;
-    private String keyword2;
-    private String keyword3;
+//    private String keyword2;
+//    private String keyword3;
 
     public Member toEntity(){
         return Member.builder()
@@ -46,8 +46,6 @@ public class MemberRequestDto {
                 .nickname(nickname)
                 .intro(intro)
                 .keyword1(keyword1)
-                .keyword2(keyword2)
-                .keyword3(keyword3)
                 .build();
     }
 }
