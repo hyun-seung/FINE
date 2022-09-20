@@ -1,10 +1,7 @@
 package com.fine_server.controller.signup.phone;
 
 import com.fine_server.controller.mypage.errors.UserException;
-import com.fine_server.controller.signup.dto.ResidenceDto;
-import com.fine_server.controller.signup.dto.PhoneRequestDto;
-import com.fine_server.controller.signup.dto.PhoneResponseDto;
-import com.fine_server.controller.signup.dto.TokenDto;
+import com.fine_server.controller.signup.dto.*;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.MemberDetail;
 import com.fine_server.repository.KeywordRepository;
@@ -22,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,13 +37,27 @@ import java.util.UUID;
 @Controller
 public class AuthController {
     private AuthService authService;
-    private MemberRepository memberRepository;
-    private InfraData infraData;
     private final DefaultMessageService messageService;
     private KeywordRepository keywordRepository;
 
     public AuthController() {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");
+    }
+
+    /**
+     * 인증정보 가져오기
+     */
+    @PostMapping("/mypage/auth/{memberId}")
+    public ResponseEntity myAuth(@PathVariable Long memberId, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        AuthDto authDto = authService.verification(memberId);
+        return ResponseEntity.ok(authDto);
+
     }
 
     /**
@@ -64,7 +76,25 @@ public class AuthController {
 
     }
 
+    /**
+     * 지역인증 업데이트
+     */
+    @PutMapping("/mypage/residence/{memberId}")
+    public ResponseEntity residenceUpdate(@PathVariable Long memberId, @RequestBody @Valid ResidenceDto residenceDto, BindingResult bindingResult){
 
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        ResidenceDto residenceResponseDto = authService.updateResidenceAuth(memberId, residenceDto);
+        return ResponseEntity.ok(residenceResponseDto);
+
+    }
+
+    /**
+     * 휴대폰 인증
+     */
     @PostMapping("/mypage/phone/{memberId}")
     public ResponseEntity<PhoneRequestDto> sendMessage(HttpServletRequest request, @PathVariable Long memberId, @RequestBody @Valid PhoneRequestDto phoneRequestDto) {
         Message message = new Message();
@@ -88,21 +118,72 @@ public class AuthController {
     }
 
     @PostMapping("/mypage/phone/token/{memberId}")
-    public ResponseEntity phoneVerification(HttpServletRequest request, @RequestBody @Valid TokenDto tokenDto, @PathVariable Long memberId, BindingResult bindingResult){
+    public ResponseEntity phoneVerification(HttpServletRequest request, @RequestBody @Valid PhoneResponseDto phoneResponseDto, @PathVariable Long memberId, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
         }
 
-        PhoneResponseDto dto = authService.phoneVerification(request.getSession(), tokenDto.getToken(),tokenDto);
+        PhoneResponseDto dto = authService.phoneVerification(request.getSession(), phoneResponseDto.getToken(),phoneResponseDto);
 
         if(dto == null){
             throw new UserException("인증번호가 맞지 않습니다.");
         } else{
             request.getSession().invalidate();
-            PhoneResponseDto phoneResponseDto = authService.phoneAuth(memberId, dto);
-            return ResponseEntity.ok(phoneResponseDto);
+            PhoneResponseDto phoneAuth = authService.phoneAuth(memberId, dto);
+            return ResponseEntity.ok(phoneAuth);
         }
     }
+
+    /**
+     * 휴대폰인증 업데이트
+     */
+    @PutMapping("/mypage/phone/token/{memberId}")
+    public ResponseEntity phoneUpdate(HttpServletRequest request, @RequestBody @Valid PhoneResponseDto phoneResponseDto, @PathVariable Long memberId, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        PhoneResponseDto dto = authService.phoneVerification(request.getSession(), phoneResponseDto.getToken(),phoneResponseDto);
+
+        if(dto == null){
+            throw new UserException("인증번호가 맞지 않습니다.");
+        } else{
+            request.getSession().invalidate();
+            PhoneResponseDto phoneAuth = authService.phoneAuth(memberId, dto);
+            return ResponseEntity.ok(phoneAuth);
+        }
+    }
+
+    @PostMapping("/mypage/university/{memberId}")
+    public ResponseEntity universityVerification(HttpServletRequest request, @RequestBody @Valid UniversityDto universityDto, @PathVariable Long memberId, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        UniversityDto universityAuth = authService.universityAuth(memberId, universityDto);
+        return ResponseEntity.ok(universityAuth);
+
+    }
+
+    /**
+     * 대학인증 업데이트 -사용 x
+     */
+    @PutMapping("/mypage/university/{memberId}")
+    public ResponseEntity universityUpdate(@PathVariable Long memberId, @RequestBody @Valid  UniversityDto universityDto, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+
+        UniversityDto universityAuth = authService.updateUniversityAuth(memberId, universityDto);
+        return ResponseEntity.ok(universityAuth);
+
+    }
+
 }

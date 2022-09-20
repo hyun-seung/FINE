@@ -1,12 +1,9 @@
 package com.fine_server.repository;
-import com.fine_server.entity.Keyword;
 import com.fine_server.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
 /**
  * written by dahae
  * date: 22.05.27
@@ -46,4 +43,8 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 
     @Query("select m from Member m where m.id not in :memberId and m.keyword1 = :keyword1 and m.keyword2 = :keyword2 order by m.level desc")
     List<Member> findByKeyword1AndKeyword2OrderByLevel(String keyword1, String keyword2, Long memberId);
+
+
+    boolean existsByNickname(String nickname);
+    boolean existsByUserId(String userId);
 }

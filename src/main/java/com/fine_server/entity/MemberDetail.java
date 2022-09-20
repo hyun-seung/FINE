@@ -38,4 +38,6 @@ public class MemberDetail extends BaseEntity{
     private LocalDateTime updateDatePhone;
     private String userResidence;//거주지
     private LocalDateTime updateDateResidence;
+    private String userUniversity;
+    private LocalDateTime updateDateUniversity;
 }

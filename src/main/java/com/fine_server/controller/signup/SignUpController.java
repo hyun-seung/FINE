@@ -1,6 +1,8 @@
 package com.fine_server.controller.signup;
 
 import com.fine_server.controller.mypage.errors.UserException;
+import com.fine_server.controller.signup.dto.UserIdDto;
+import com.fine_server.controller.signup.dto.UserNickNameDto;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.mypage.MemberRequestDto;
 import com.fine_server.repository.MemberRepository;
@@ -28,6 +30,27 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class SignUpController {
     private final MemberService memberService;
+
+    @PostMapping("/idVerification")
+    public ResponseEntity<Member> idVerification(@RequestBody UserIdDto userIdDto, BindingResult bindingResult, Errors errors) {
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+        UserIdDto checkUserId = memberService.vaildCheckUserId(userIdDto);
+        return new ResponseEntity(checkUserId, HttpStatus.OK);
+    }
+
+    @PostMapping("/nickNameVerification")
+    public ResponseEntity<Member> nickNameVerification(@RequestBody UserNickNameDto userNickNameDto, BindingResult bindingResult, Errors errors) {
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
+        UserNickNameDto checkNickName = memberService.vaildCheckNickName(userNickNameDto);
+        return new ResponseEntity(checkNickName, HttpStatus.OK);
+    }
+
 
     @PostMapping("/signup")
     public ResponseEntity<Member> signUp(@RequestBody MemberRequestDto memberDto, BindingResult bindingResult, Errors errors) {
