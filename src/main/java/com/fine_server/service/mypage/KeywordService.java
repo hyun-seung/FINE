@@ -57,7 +57,7 @@ public class KeywordService {
         }
         else { //전부 일치 - 정렬 수정
             if (select.equals("level"))
-                memberList = memberRepository.findByKeyword1AndKeyword2(member.getKeyword1(), member.getKeyword2(), memberId);
+                memberList = memberRepository.findByKeyword1AndKeyword2OrderByLevel(member.getKeyword1(), member.getKeyword2(), memberId);
             else
                 memberList = memberRepository.findByKeyword1AndKeyword2(member.getKeyword1(), member.getKeyword2(), memberId);
 

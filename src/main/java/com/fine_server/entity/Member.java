@@ -53,7 +53,7 @@ public class Member{
 
     @Column(nullable = false)
     @ColumnDefault("1")
-    private String level;//프로필 레벨
+    private Integer level;//프로필 레벨
     private Long report; //신고 당한 횟수
 
     private String keyword1; //전공

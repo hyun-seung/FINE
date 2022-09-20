@@ -17,16 +17,16 @@ public class GetMemberDto {
     private String keyword2;
     //    private String keyword3;
     private int follower; //followBack으로 추후 수정
-    private String level;
+    private Integer level;
 
-    public GetMemberDto(Long memberId, String nickname, String level, int userImageNum) {
+    public GetMemberDto(Long memberId, String nickname, int level, int userImageNum) {
         this.memberId = memberId;
         this.nickname = nickname;
         this.level = level;
         this.userImageNum = userImageNum;
     }
 
-    public GetMemberDto(Long memberId, String nickname, int userImageNum, String intro, String keyword1, String keyword2, String level) {
+    public GetMemberDto(Long memberId, String nickname, int userImageNum, String intro, String keyword1, String keyword2, int level) {
         this.memberId = memberId;
         this.nickname = nickname;
         this.userImageNum = userImageNum;

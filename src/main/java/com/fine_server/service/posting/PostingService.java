@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -182,9 +183,8 @@ public class PostingService {
 
         Optional<Posting> posting = postingRepository.findById(postingId);
         // 현재 수락 인원이 max면 포스팅 마감 결정
-        if(joinCount(postingId) == posting.get().getMaxMember()) {
-            posting.get().updateClosingCheck(true);
-
+        if(Objects.equals(joinCount(postingId), posting.get().getMaxMember())) {
+//            posting.get().updateClosingCheck(true);
             groupService.makeGroup(postingId);
         }
         return save;
