@@ -27,6 +27,8 @@ public class PostingCreateDto {
     private Boolean closingCheck;
     private Boolean groupCheck;
 
+    private String keyword;
+
     public Posting toEntity() {
 
         if(groupCheck.equals(false)) {  // 일반 글로 생성했을 때 maxMember를 2로 설정해준다.
@@ -39,6 +41,7 @@ public class PostingCreateDto {
                 .closing_check(false)
                 .group_check(groupCheck)
                 .maxMember(maxMember)
+                .keyword(keyword)
                 .totalViews(0)
                 .views(0)
                 .build();

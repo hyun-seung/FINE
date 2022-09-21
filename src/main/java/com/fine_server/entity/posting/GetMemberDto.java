@@ -7,22 +7,32 @@ import lombok.Setter;
 @Setter
 public class GetMemberDto {
 
-//    MemberResponseDto와 통합
+    private Long memberId;
+    private String nickname;
 
-    Long memberId;
+    private int userImageNum;
 
-    String nickname;
+    private String intro;
+    private String keyword1;
+    private String keyword2;
+    //    private String keyword3;
+    private int follower; //followBack으로 추후 수정
+    private Integer level;
 
-    String level;
-
-    int userImageNum;
-
-//    Integer profileIamgeNum;
-
-    public GetMemberDto(Long memberId, String nickname, String level, int userImageNum) {
+    public GetMemberDto(Long memberId, String nickname, int level, int userImageNum) {
         this.memberId = memberId;
         this.nickname = nickname;
         this.level = level;
         this.userImageNum = userImageNum;
+    }
+
+    public GetMemberDto(Long memberId, String nickname, int userImageNum, String intro, String keyword1, String keyword2, int level) {
+        this.memberId = memberId;
+        this.nickname = nickname;
+        this.userImageNum = userImageNum;
+        this.intro = intro;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.level = level;
     }
 }

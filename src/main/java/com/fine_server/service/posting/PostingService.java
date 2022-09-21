@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -84,7 +85,7 @@ public class PostingService {
 
         GetPostingDto postingDto = new GetPostingDto(posting.getId(), posting.getMember().getId(),
                 posting.getMember().getNickname(), posting.getMember().getUserImageNum(), posting.getTitle(), posting.getContent(),
-                posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(),
+                posting.getClosing_check(), posting.getGroup_check(), posting.getMaxMember(), posting.getKeyword(),
                 joinCount(posting.getId()), checkRecruitingId, bookmarkCheck(postingId, memberId),
                 posting.getCreatedDate(), posting.getLastModifiedDate(), newRecruiting, newCommentList);
         return postingDto;
@@ -182,9 +183,8 @@ public class PostingService {
 
         Optional<Posting> posting = postingRepository.findById(postingId);
         // 현재 수락 인원이 max면 포스팅 마감 결정
-        if(joinCount(postingId) == posting.get().getMaxMember()) {
-            posting.get().updateClosingCheck(true);
-
+        if(Objects.equals(joinCount(postingId), posting.get().getMaxMember())) {
+//            posting.get().updateClosingCheck(true);
             groupService.makeGroup(postingId);
         }
         return save;
@@ -222,12 +222,10 @@ public class PostingService {
     @Transactional
     public void initViews() {
         List<Posting> postingList = postingRepository.findAll();
-        //시간 조회수 전부 초기화 for문 돌지 않고 하도록 리팩토링
         for (Posting posting : postingList) {
             posting.initViews();
         }
     }
-
     // 조회수 인기글 - 메인
     @Transactional (readOnly = true)
     public List<FindPostingsDto> popularPostings() {
@@ -236,8 +234,9 @@ public class PostingService {
 
         for(Posting posting : postingList) {
             FindPostingsDto findPostingsDto = new FindPostingsDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getGroup_check(),
-                    posting.getComments().size(), posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
+                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(),
+                    posting.getGroup_check(), posting.getComments().size(), posting.getCreatedDate(),
+                    posting.getLastModifiedDate(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check()
             );
             postingsDtos.add(findPostingsDto);
         }

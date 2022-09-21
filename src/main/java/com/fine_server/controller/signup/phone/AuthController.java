@@ -4,6 +4,7 @@ import com.fine_server.controller.mypage.errors.UserException;
 import com.fine_server.controller.signup.dto.*;
 import com.fine_server.entity.Member;
 import com.fine_server.entity.MemberDetail;
+import com.fine_server.repository.KeywordRepository;
 import com.fine_server.repository.MemberRepository;
 import com.fine_server.service.mypage.AuthService;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,7 @@ import java.util.UUID;
 public class AuthController {
     private AuthService authService;
     private final DefaultMessageService messageService;
+    private KeywordRepository keywordRepository;
 
     public AuthController() {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS3GI6MWOPFXKTB", "AP3FMR4GFEPHD0DIM1DUXBOTZPGPWV6A", "https://api.coolsms.co.kr");

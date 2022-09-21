@@ -6,6 +6,8 @@ import com.fine_server.controller.signup.dto.SignupResponseDto;
 import com.fine_server.repository.BookmarkRepository;
 import com.fine_server.repository.FollowRepository;
 import com.fine_server.repository.MemberRepository;
+import com.fine_server.service.follow.FollowService;
+import com.fine_server.service.mypage.KeywordService;
 import com.fine_server.service.mypage.MemberService;
 import com.fine_server.controller.mypage.errors.ErrorResult;
 import com.fine_server.entity.mypage.MemberRequestDto;
@@ -67,9 +69,9 @@ public class MyPageController {
             Member member = findMember.get();
             MemberDetail memberDetail = member.getMemberDetail();
             List<Follow> followList = followRepository.findFriends(memberId);
-            
+
             //사용하는 정보가 같아 SignupResponseDto 사용
-            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),followList.size(),memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
+            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack() ,memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
             return new ResponseEntity(signupResponseDto, HttpStatus.OK);
         }
 
@@ -93,7 +95,6 @@ public class MyPageController {
         return new ResponseEntity(memberRequestDto,HttpStatus.OK);
     }
 
-
     /**
      * edit. 22.08.20
      * 친구 프로필 조회
@@ -111,7 +112,7 @@ public class MyPageController {
             List<Follow> followList = followRepository.findFriends(memberId);
 
             //사용하는 정보가 같아 SignupResponseDto 사용
-            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getKeyword2(),member.getKeyword3(),followList.size(),memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
+            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(),member.getUserImageNum(),member.getIntro(), member.getKeyword1(), member.getFollowBack() ,memberDetail.getEmail(),memberDetail.getUpdateDateEmail(),memberDetail.getUserPhoneNumber(),memberDetail.getUpdateDatePhone(),memberDetail.getUserResidence(),memberDetail.getUpdateDateResidence());
             return new ResponseEntity(signupResponseDto, HttpStatus.OK);
         }
 

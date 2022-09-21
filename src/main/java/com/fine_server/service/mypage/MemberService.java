@@ -14,9 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * written by dahae
@@ -70,8 +68,8 @@ public class MemberService {
        member.setNickname(memberDto.getNickname());
        member.setUserImageNum(memberDto.getUserImageNum());
        member.setKeyword1(memberDto.getKeyword1());
-       member.setKeyword2(memberDto.getKeyword2());
-       member.setKeyword3(memberDto.getKeyword3());
+//       member.setKeyword2(memberDto.getKeyword2());
+//       member.setKeyword3(memberDto.getKeyword3());
 
        memberRepository.save(member);
 
@@ -82,4 +80,5 @@ public class MemberService {
         memberRepository.deleteById(id);
         return id;
     }
+
 }
