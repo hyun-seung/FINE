@@ -58,7 +58,7 @@ public class ChatMessageService {
 
         ReturnChatMessageDto message = new ReturnChatMessageDto(
                 chatMessageDto.getType(), chatMessageDto.getRoomId(),
-                member.getMemberInfo(),
+                member.getMemberIdAndNicknameAndUserImageNumInfo(),
                 chatMessageDto.getMessage(), unreadCount, createdTime);
 
         return message;
@@ -79,7 +79,7 @@ public class ChatMessageService {
 
                 ReturnChatMessageDto message = new ReturnChatMessageDto(
                         MessageType.ENTER, roomId,
-                        myChatMember.getMember().getMemberInfo(),
+                        myChatMember.getMember().getMemberIdAndNicknameAndUserImageNumInfo(),
                         "", 0, LocalDateTime.now());
 
                 return message;

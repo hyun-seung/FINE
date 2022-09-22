@@ -45,7 +45,7 @@ public class ChatRoomService {
         List<SmallChatMessageDto> returnChatMessageDtoList = new ArrayList<>();
         for (ChatMessage chatMessage : chatRoom.getChatMessageList()) {
             SmallChatMessageDto smallChatMessageDto = new SmallChatMessageDto(
-                    chatMessage.getSender().getMemberInfo(), chatMessage.getMessage(),
+                    chatMessage.getSender().getMemberIdAndNicknameAndUserImageNumInfo(), chatMessage.getMessage(),
                     chatMessage.getUnreadCount(), chatMessage.getCreatedDate()
             );
             returnChatMessageDtoList.add(smallChatMessageDto);

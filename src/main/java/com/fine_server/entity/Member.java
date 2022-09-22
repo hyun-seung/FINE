@@ -1,13 +1,14 @@
 package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fine_server.entity.chat.MemberSmallInfo;
 import com.fine_server.entity.keyword.KeywordRequestDto;
 import com.fine_server.entity.posting.GetMemberDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import javax.persistence.*;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,9 +94,8 @@ public class Member{
         );
     }
 
-
     @JsonIgnore
-    public MemberSmallInfo getMemberInfo() {
+    public MemberSmallInfo getMemberIdAndNicknameAndUserImageNumInfo() {
         return new MemberSmallInfo(
                 this.id,
                 this.nickname,
