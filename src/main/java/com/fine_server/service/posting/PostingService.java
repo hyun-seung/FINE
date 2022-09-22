@@ -183,10 +183,10 @@ public class PostingService {
 
         Optional<Posting> posting = postingRepository.findById(postingId);
         // 현재 수락 인원이 max면 포스팅 마감 결정
-        if(Objects.equals(joinCount(postingId), posting.get().getMaxMember())) {
+//        if(Objects.equals(joinCount(postingId), posting.get().getMaxMember())) {
 //            posting.get().updateClosingCheck(true);
-            groupService.makeGroup(postingId);
-        }
+//            groupService.makeGroup(postingId);
+//        }
         return save;
     }
 

@@ -88,6 +88,9 @@ public class AuthService {
         memberDetail.setUpdateDateUniversity(universityDto.getUpdateDate());
         member.setLevel((member.getLevel() + 1)); //신뢰도 + 1
 
+        // 키워드에 대학 넣기
+        member.setKeyword3(splitResidence(universityDto.getUniversity()));
+
         return universityDto;
     }
 
@@ -117,6 +120,9 @@ public class AuthService {
         memberDetail.setUpdateDateResidence(residenceDto.getUpdateDate());
         memberRepository.save(member);
 
+        // 키워드에 거주지 넣기
+        member.setKeyword2(splitResidence(residenceDto.getUserResidence()));
+
         return residenceDto;
     }
 
@@ -136,6 +142,9 @@ public class AuthService {
         memberDetail.setUserResidence(universityDto.getUniversity());
         memberDetail.setUpdateDateUniversity(universityDto.getUpdateDate());
         memberRepository.save(member);
+
+        // 키워드에 대학 넣기
+        member.setKeyword3(splitResidence(universityDto.getUniversity()));
 
         return universityDto;
     }

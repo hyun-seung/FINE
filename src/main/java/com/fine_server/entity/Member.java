@@ -58,7 +58,7 @@ public class Member{
 
     private String keyword1; //전공
     private String keyword2; //거주지역
-//    private String keyword3;
+    private String keyword3; //대학
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name="memberDetail_id")
@@ -89,7 +89,7 @@ public class Member{
     public GetMemberDto getMemberInfo() {
         return new GetMemberDto(
                 this.getId(), this.getNickname(), this.getUserImageNum(),this.getIntro(),
-                this.getKeyword1(), this.getKeyword2(), this.getLevel()
+                this.getKeyword1(), this.getKeyword2(), this.getKeyword3(), this.getLevel()
         );
     }
 

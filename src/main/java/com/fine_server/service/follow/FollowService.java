@@ -72,9 +72,9 @@ public class FollowService {
         return count;
     }
 
-    //팔로우 검색 - 풀네임 검색만 가능 추후 수정
-    public List<Member> searchFollow(Long memberId, String nickname) {
-        List<Member> followList = followRepository.findByNickname(memberId, nickname); //검색 결과
+    //팔로우 검색 (키워드 3개, 닉네임) - 풀네임 검색만 가능 추후 수정
+    public List<Member> searchFollow(Long memberId, String search) {
+        List<Member> followList = followRepository.findByNicknameOrKeywordContaining(memberId, search); //검색 결과
 
         return followList;
     }

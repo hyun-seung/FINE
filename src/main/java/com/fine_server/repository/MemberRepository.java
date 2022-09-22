@@ -23,24 +23,30 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     @Query("select m from Member m order by m.level")
     List<Member> findTop20ByOrderByLevel();
 
-
+//키워드1
     @Query("select m from Member m where m.id not in :memberId and m.keyword1 = :keyword1 order by m.level desc")
     List<Member> findByKeyword1OrderByLevel(String keyword1, Long memberId);
 
     @Query("select m from Member m where m.id not in :memberId and m.keyword1 = :keyword1 order by m.id desc")
     List<Member> findByKeyword1OrderByMemberId(String keyword1, Long memberId);
 
-
+//키워드2
     @Query("select m from Member m where m.id not in :memberId and m.keyword2 = :keyword2 order by m.level desc")
     List<Member> findByKeyword2OrderByLevel(String keyword2, Long memberId);
 
     @Query("select m from Member m where m.id not in :memberId and m.keyword2 = :keyword2 order by m.id desc")
     List<Member> findByKeyword2OrderByMemberId(String keyword2, Long memberId);
 
+//키워드3
+    @Query("select m from Member m where m.id not in :memberId and m.keyword3 = :keyword3 order by m.level desc")
+    List<Member> findByKeyword3OrderByLevel(String keyword3, Long memberId);
 
+    @Query("select m from Member m where m.id not in :memberId and m.keyword3 = :keyword3 order by m.id desc")
+    List<Member> findByKeyword3OrderByMemberId(String keyword3, Long memberId);
+
+//전체일치
     @Query("select m from Member m where m.id not in :memberId and m.keyword1 = :keyword1 and m.keyword2 = :keyword2")
     List<Member> findByKeyword1AndKeyword2(String keyword1, String keyword2, Long memberId);
-
 
     @Query("select m from Member m where m.id not in :memberId and m.keyword1 = :keyword1 and m.keyword2 = :keyword2 order by m.level desc")
     List<Member> findByKeyword1AndKeyword2OrderByLevel(String keyword1, String keyword2, Long memberId);
