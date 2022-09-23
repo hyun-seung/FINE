@@ -2,6 +2,8 @@ package com.fine_server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fine_server.entity.posting.FindPostingsDto;
+import com.fine_server.entity.posting.GetPostingDto;
 import com.fine_server.entity.posting.TextDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

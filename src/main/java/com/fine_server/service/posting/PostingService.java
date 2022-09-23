@@ -104,33 +104,19 @@ public class PostingService {
         return 0L;
     }
 
-    // 일반 포스팅 전체 불러오기
-    @Transactional(readOnly = true)
-    public List<FindGeneralPostingDto> findGeneralPostings(Boolean groupCheck) {
-        List<Posting> postings = postingRepository.findPostings(groupCheck);
-        List<FindGeneralPostingDto> postingDtos = new ArrayList<>();
-        for(Posting posting : postings) {
-            FindGeneralPostingDto findGeneralPostingDto = new FindGeneralPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(),
-                    posting.getTitle(), posting.getContent(), posting.getComments().size(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
-            );
-            postingDtos.add(findGeneralPostingDto);
-        }
-        return postingDtos;
-    }
 
-    // 그룹 포스팅 전체 불러오기
+    // 일반, 그룹 포스팅 전체 불러오기
     @Transactional(readOnly = true)
-    public List<FindGroupPostingDto> findGroupPostings(Boolean groupCheck) {
+    public List<FindPostingsDto> getPostings(Boolean groupCheck) {
         List<Posting> postings = postingRepository.findPostings(groupCheck);
-        List<FindGroupPostingDto> postingDtos = new ArrayList<>();
+
+        List<FindPostingsDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
-            FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check()
-            );
-            postingDtos.add(findGroupPostingDto);
+//            FindPostingsDto findGroupPostingDto = new FindPostingsDto(
+//                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getGroup_check(),
+//                    posting.getComments().size(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check(), posting.getKeyword()
+//            );
+            postingDtos.add(findPostings(posting));
         }
         return postingDtos;
     }
@@ -138,15 +124,17 @@ public class PostingService {
 
     // 그룹 포스팅 모집 여부에 따라 불러오기
     @Transactional(readOnly = true)
-    public List<FindGroupPostingDto> findGroupClosingPostings(Boolean closingCheck) {
+    public List<FindPostingsDto> findGroupClosingPostings(Boolean closingCheck) {
         List<Posting> postings = postingRepository.findGroupClosingPosting(closingCheck);
-        List<FindGroupPostingDto> postingDtos = new ArrayList<>();
+
+        List<FindPostingsDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
-            FindGroupPostingDto findGroupPostingDto = new FindGroupPostingDto(
-                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(), posting.getTitle(), posting.getContent(),
-                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check()
-            );
-            postingDtos.add(findGroupPostingDto);
+//            FindPostingsDto findGroupPostingDto = new FindPostingsDto(
+//                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(), posting.getGroup_check(),
+//                    posting.getComments().size(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check(), posting.getKeyword()
+//            );
+            postingDtos.add(findPostings(posting));
+//            postingDtos.add(findGroupPostingDto);
         }
         return postingDtos;
     }
@@ -209,11 +197,7 @@ public class PostingService {
         List<Posting> postings = postingRepository.findByTitleContaining(title);
         List<FindPostingsDto> postingDtos = new ArrayList<>();
         for(Posting posting : postings) {
-            FindPostingsDto findPostingsDto = new FindPostingsDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getGroup_check(),
-                    posting.getComments().size(), posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
-            );
-            postingDtos.add(findPostingsDto);
+            postingDtos.add(findPostings(posting));
         }
         return postingDtos;
     }
@@ -233,13 +217,21 @@ public class PostingService {
         List<FindPostingsDto> postingsDtos = new ArrayList<>();
 
         for(Posting posting : postingList) {
-            FindPostingsDto findPostingsDto = new FindPostingsDto(
-                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(),
-                    posting.getGroup_check(), posting.getComments().size(), posting.getCreatedDate(),
-                    posting.getLastModifiedDate(), posting.getMaxMember(), joinCount(posting.getId()), posting.getClosing_check()
-            );
-            postingsDtos.add(findPostingsDto);
+//            FindPostingsDto findPostingsDto = new FindPostingsDto(
+//                    posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(),
+//                    posting.getGroup_check(), posting.getComments().size(), posting.getMaxMember(), joinCount(posting.getId()),
+//                    posting.getClosing_check(), posting.getKeyword()
+//            );
+            postingsDtos.add(findPostings(posting));
         }
         return postingsDtos;
+    }
+
+    public FindPostingsDto findPostings(Posting posting) {
+        return new FindPostingsDto(
+                posting.getId(), posting.getMember().getId(), posting.getTitle(), posting.getContent(),
+                posting.getGroup_check(), posting.getComments().size(), posting.getMaxMember(), joinCount(posting.getId()),
+                posting.getClosing_check(), posting.getKeyword()
+        );
     }
 }
