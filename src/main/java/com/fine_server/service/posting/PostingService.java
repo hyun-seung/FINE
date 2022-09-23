@@ -104,25 +104,10 @@ public class PostingService {
         return 0L;
     }
 
-    // 일반 포스팅 전체 불러오기
-//    @Transactional(readOnly = true)
-//    public List<FindPostingsDto> findGeneralPostings(Boolean groupCheck) {
-//        List<Posting> postings = postingRepository.findPostings(groupCheck);
-//        List<FindGeneralPostingDto> postingDtos = new ArrayList<>();
-//        for(Posting posting : postings) {
-//            FindGeneralPostingDto findGeneralPostingDto = new FindGeneralPostingDto(
-//                    posting.getId(), posting.getMember().getId(), posting.getMember().getNickname(),
-//                    posting.getTitle(), posting.getContent(), posting.getComments().size(),
-//                    posting.getCreatedDate(), posting.getLastModifiedDate(), posting.getClosing_check()
-//            );
-//            postingDtos.add(findGeneralPostingDto);
-//        }
-//        return postingDtos;
-//    }
 
-    // 그룹 포스팅 전체 불러오기
+    // 일반, 그룹 포스팅 전체 불러오기
     @Transactional(readOnly = true)
-    public List<FindPostingsDto> findGroupPostings(Boolean groupCheck) {
+    public List<FindPostingsDto> getPostings(Boolean groupCheck) {
         List<Posting> postings = postingRepository.findPostings(groupCheck);
 
         List<FindPostingsDto> postingDtos = new ArrayList<>();

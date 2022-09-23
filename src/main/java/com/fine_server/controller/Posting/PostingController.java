@@ -61,14 +61,14 @@ public class PostingController {
     // 일반 글 목록 조회
     @GetMapping("/post/general")
     public List<FindPostingsDto> getGeneralPostings() {
-        List<FindPostingsDto> postings = postingService.findGroupPostings(false);
+        List<FindPostingsDto> postings = postingService.getPostings(false);
         return postings;
     }
 
     // 단체 글 목록 조회
     @GetMapping("/post/group")
     public List<FindPostingsDto> getGroupPostings() {
-        List<FindPostingsDto> postings = postingService.findGroupPostings(true);
+        List<FindPostingsDto> postings = postingService.getPostings(true);
         return postings;
     }
 
