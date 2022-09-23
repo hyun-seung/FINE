@@ -3,6 +3,7 @@ package com.fine_server.controller.friend;
 import com.fine_server.entity.Follow;
 import com.fine_server.entity.FollowDto;
 import com.fine_server.entity.Member;
+import com.fine_server.entity.posting.GetMemberDto;
 import com.fine_server.service.follow.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,9 @@ public class FollowController {
 
     // 친구 팔로잉
     @PostMapping("/follow/{friendId}/{memberId}")
-    public Follow createFollow(@PathVariable Long friendId, @PathVariable Long memberId) {
+    public GetMemberDto createFollow(@PathVariable Long friendId, @PathVariable Long memberId) {
         Follow save = followService.make(friendId, memberId);
-        return save;
+        return save.getFriend().getMemberInfo();
     }
 
     // 팔로우 취소
@@ -45,8 +46,8 @@ public class FollowController {
 
     // 팔로우 목록에서 검색 - 닉네임만 됨, 키워드 추후 수정
     @GetMapping("followList/search/{memberId}")
-    public List<Member> searchFollow(@RequestParam String search, @PathVariable Long memberId) {
-        List<Member> followDtoList = followService.searchFollow(memberId, search);
+    public List<GetMemberDto> searchFollow(@RequestParam String search, @PathVariable Long memberId) {
+        List<GetMemberDto> followDtoList = followService.searchFollow(memberId, search);
         return followDtoList;
     }
 }

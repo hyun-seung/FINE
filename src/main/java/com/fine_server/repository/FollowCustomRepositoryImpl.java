@@ -34,10 +34,11 @@ public class FollowCustomRepositoryImpl implements FollowCustomRepository{
 
     //키워드 포함으로 수정 필요- 멤버 엔티티에 키워드 리스트 추가
     @Override
-    public List<Member> findByNickname(Long memberId, String nickname) {
-        return em.createQuery("select f.friend from Follow f where f.member.id = :memberId and f.friend.nickname like :nickname")
+    public List<Member> findByNicknameContainingOrKeywordContaining(Long memberId, String search) {
+        return em.createQuery("select f.friend from Follow f where f.member.id = :memberId and f.friend.nickname like :search " +
+                        "or f.friend.keyword1 like :search or f.friend.keyword2 like :search or f.friend.keyword3 like :search")
                 .setParameter("memberId", memberId)
-                .setParameter("nickname", nickname)
+                .setParameter("search", search)
                 .getResultList();
     }
 }
