@@ -12,4 +12,6 @@ public class ChangeRoomNameDto {
     Long roomId;
 
     String roomName;
+
+    int roomImageNum;
 }

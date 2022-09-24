@@ -193,7 +193,7 @@ public class ChatRoomService {
         return roomNumList;
     }
 
-    public ChatMember changeRoomName(ChangeRoomNameDto changeRoomNameDto) {
+    public ChatMember changeRoomNameAndImageNum(ChangeRoomNameDto changeRoomNameDto) {
         Optional<Member> optionalMember = memberRepository.findById(changeRoomNameDto.getMemberId());
         Member member = optionalMember.get();
 
@@ -201,6 +201,7 @@ public class ChatRoomService {
             ChatRoom chatRoom = chatMember.getChatRoom();
             if (chatRoom.getRoomId().equals(changeRoomNameDto.getRoomId())) {
                 chatMember.setRoomName(changeRoomNameDto.getRoomName());
+                chatMember.setImageNum(changeRoomNameDto.getRoomImageNum());
                 return chatMember;
             }
         }

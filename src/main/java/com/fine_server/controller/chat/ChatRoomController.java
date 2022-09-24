@@ -63,7 +63,7 @@ public class ChatRoomController {
 
     @PutMapping("/room/name")
     public ChatMember changeRoomName(@RequestBody ChangeRoomNameDto changeRoomNameDto) {
-        ChatMember chatMember = chatRoomService.changeRoomName(changeRoomNameDto);
+        ChatMember chatMember = chatRoomService.changeRoomNameAndImageNum(changeRoomNameDto);
         return chatMember;
     }
 
