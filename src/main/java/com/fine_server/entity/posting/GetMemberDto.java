@@ -15,7 +15,7 @@ public class GetMemberDto {
     private String intro;
     private String keyword1;
     private String keyword2;
-    //    private String keyword3;
+        private String keyword3;
     private int follower; //followBack으로 추후 수정
     private Integer level;
 
@@ -26,13 +26,14 @@ public class GetMemberDto {
         this.userImageNum = userImageNum;
     }
 
-    public GetMemberDto(Long memberId, String nickname, int userImageNum, String intro, String keyword1, String keyword2, int level) {
+    public GetMemberDto(Long memberId, String nickname, int userImageNum, String intro, String keyword1, String keyword2, String keyword3, int level) {
         this.memberId = memberId;
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
         this.level = level;
     }
 }

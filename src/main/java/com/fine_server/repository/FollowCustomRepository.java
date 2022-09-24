@@ -13,6 +13,6 @@ public interface FollowCustomRepository {
 
     Long findByMemberIdAndFriendId(Long memberId, Long friendId);
 
-    List<Member> findByNickname(Long memberId, String nickname);
+    List<Member> findByNicknameContainingOrKeywordContaining(Long memberId, String search); //닉네임 & 키워드로 검색
 }
 

@@ -48,6 +48,12 @@ public class KeywordService {
             else
                 memberList = memberRepository.findByKeyword2OrderByMemberId(member.getKeyword2(), memberId);
         }
+        else if (category.equals(3)) { //대학
+            if (select.equals("level"))
+                memberList = memberRepository.findByKeyword3OrderByLevel(member.getKeyword3(), memberId);
+            else
+                memberList = memberRepository.findByKeyword3OrderByMemberId(member.getKeyword3(), memberId);
+        }
         else if (category.equals(4)) { // 모든 멤버
             if (select.equals("level"))
                 memberList = memberRepository.findTop20ByOrderByLevel();
