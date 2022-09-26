@@ -1,12 +1,10 @@
 package com.fine_server.controller.signup.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 /**
@@ -17,7 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class SignupResponseDto {
 
 //    level 추가 및 GetMemberDto와 통합
@@ -26,9 +23,9 @@ public class SignupResponseDto {
     private String intro;
     private String keyword1;
     private String keyword2;
-//    private String keyword3;
+    private String keyword3;
     private int follower; //followBack으로 추후 수정
-    private String level;
+    private int level;
 
 
     private String email;
@@ -43,7 +40,7 @@ public class SignupResponseDto {
      * added by eunhye
      * date: 22.08.24
      */
-    public SignupResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2, String level) {
+    public SignupResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2, int level) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
@@ -63,11 +60,17 @@ public class SignupResponseDto {
         this.follower = follower;
     }
 
-    public SignupResponseDto(String nickname, int userImageNum, String intro, String keyword1, int follower, String email, LocalDateTime updateDateEmail, String userPhoneNumber, LocalDateTime updateDatePhone, String userResidence, LocalDateTime updateDateResidence) {
+    public SignupResponseDto(String nickname, int userImageNum, String intro,
+                             String keyword1, String keyword2, String keyword3, int follower, int level,
+                             String email, LocalDateTime updateDateEmail,
+                             String userPhoneNumber, LocalDateTime updateDatePhone,
+                             String userResidence, LocalDateTime updateDateResidence) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
         this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
         this.follower = follower;
         this.level = level;
         this.email = email;
