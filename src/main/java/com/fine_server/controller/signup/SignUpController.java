@@ -1,6 +1,8 @@
 package com.fine_server.controller.signup;
 
 import com.fine_server.controller.mypage.errors.UserException;
+import com.fine_server.controller.signup.dto.MypageDataDto;
+import com.fine_server.controller.signup.dto.SignUpDto;
 import com.fine_server.controller.signup.dto.UserIdDto;
 import com.fine_server.controller.signup.dto.UserNickNameDto;
 import com.fine_server.entity.Member;
@@ -59,6 +61,8 @@ public class SignUpController {
             throw new UserException("입력값이 잘못 되었습니다.");
         }
         Member member = memberService.saveNewAccount(memberDto);
-        return new ResponseEntity(member, HttpStatus.OK);
+        SignUpDto signUpDto = new SignUpDto(member.getNickname(), member.getUserImageNum(), member.getIntro(),
+                member.getKeyword1(), member.getKeyword2(), member.getKeyword3(),1);
+        return new ResponseEntity(signUpDto, HttpStatus.OK);
     }
 }

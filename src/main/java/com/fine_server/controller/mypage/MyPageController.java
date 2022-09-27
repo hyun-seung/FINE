@@ -2,7 +2,7 @@ package com.fine_server.controller.mypage;
 
 import com.fine_server.controller.mypage.errors.ErrorResult;
 import com.fine_server.controller.mypage.errors.UserException;
-import com.fine_server.controller.signup.dto.SignupResponseDto;
+import com.fine_server.controller.signup.dto.MypageDataDto;
 import com.fine_server.entity.*;
 import com.fine_server.entity.mypage.MemberRequestDto;
 import com.fine_server.repository.BookmarkRepository;
@@ -69,14 +69,14 @@ public class MyPageController {
             List<Follow> followList = followRepository.findFriends(memberId);
 
             //사용하는 정보가 같아 SignupResponseDto 사용
-            SignupResponseDto signupResponseDto = new SignupResponseDto(
+            MypageDataDto mypageDataDto = new MypageDataDto(
                     member.getNickname(), member.getUserImageNum(), member.getIntro(),
                     member.getKeyword1(), member.getKeyword2(), member.getKeyword3(),
                     member.getFollowBack(), member.getLevel(),
                     memberDetail.getEmail(), memberDetail.getUpdateDateEmail(),
                     memberDetail.getUserPhoneNumber(), memberDetail.getUpdateDatePhone(),
                     memberDetail.getUserResidence(), memberDetail.getUpdateDateResidence());
-            return new ResponseEntity(signupResponseDto, HttpStatus.OK);
+            return new ResponseEntity(mypageDataDto, HttpStatus.OK);
         } else {
             throw new UserException("사용자를 찾지 못하였습니다.");
         }
@@ -114,13 +114,13 @@ public class MyPageController {
             List<Follow> followList = followRepository.findFriends(memberId);
 
             //사용하는 정보가 같아 SignupResponseDto 사용
-            SignupResponseDto signupResponseDto = new SignupResponseDto(member.getNickname(), member.getUserImageNum(), member.getIntro(),
+            MypageDataDto mypageDataDto = new MypageDataDto(member.getNickname(), member.getUserImageNum(), member.getIntro(),
                     member.getKeyword1(), member.getKeyword2(), member.getKeyword3(),
                     member.getFollowBack(), member.getLevel(),
                     memberDetail.getEmail(), memberDetail.getUpdateDateEmail(),
                     memberDetail.getUserPhoneNumber(), memberDetail.getUpdateDatePhone(),
                     memberDetail.getUserResidence(), memberDetail.getUpdateDateResidence());
-            return new ResponseEntity(signupResponseDto, HttpStatus.OK);
+            return new ResponseEntity(mypageDataDto, HttpStatus.OK);
         } else {
             throw new UserException("사용자를 찾지 못하였습니다.");
         }

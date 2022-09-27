@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SignupResponseDto {
+public class MypageDataDto {
 
 //    level 추가 및 GetMemberDto와 통합
     private String nickname;
@@ -40,7 +40,7 @@ public class SignupResponseDto {
      * added by eunhye
      * date: 22.08.24
      */
-    public SignupResponseDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2, int level) {
+    public MypageDataDto(String nickname, int userImageNum, String intro, String keyword1, String keyword2, int level) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
@@ -50,7 +50,7 @@ public class SignupResponseDto {
 //        this.keyword3 = keyword3;
     }
 
-    public SignupResponseDto(String nickname, int userImageNum, String intro, String keyword1, int follower) {
+    public MypageDataDto(String nickname, int userImageNum, String intro, String keyword1, int follower) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
@@ -60,11 +60,11 @@ public class SignupResponseDto {
         this.follower = follower;
     }
 
-    public SignupResponseDto(String nickname, int userImageNum, String intro,
-                             String keyword1, String keyword2, String keyword3, int follower, int level,
-                             String email, LocalDateTime updateDateEmail,
-                             String userPhoneNumber, LocalDateTime updateDatePhone,
-                             String userResidence, LocalDateTime updateDateResidence) {
+    public MypageDataDto(String nickname, int userImageNum, String intro,
+                         String keyword1, String keyword2, String keyword3, int follower, int level,
+                         String email, LocalDateTime updateDateEmail,
+                         String userPhoneNumber, LocalDateTime updateDatePhone,
+                         String userResidence, LocalDateTime updateDateResidence) {
         this.nickname = nickname;
         this.userImageNum = userImageNum;
         this.intro = intro;
